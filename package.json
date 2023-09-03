@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon build/server.js"
+    "server": "nodemon build/server.js",
+    "watch": "tsc -w"
   },
   "author": "Farham Zaker",
   "license": "ISC",
