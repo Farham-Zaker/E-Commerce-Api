@@ -4,7 +4,11 @@ const server: Express = express();
 import projectConfigs from './middlewares/projectConfigs';
 projectConfigs(server)
 
-const port: Number = 7000;
+server.get('/', () =>{
+console.log("first")
+})
+
+const port: string | undefined = process.env.PORT;
 server.listen(port, (): void => {
   console.log(`The server is listening on port ${port}`);
 });
