@@ -1,1 +1,3 @@
-interface configInt {}
+interface configInt {
+  port: 7000;
+}
