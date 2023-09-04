@@ -10,7 +10,7 @@ console.log("first")
 
 import config from './config/config';
 
-const port: string | undefined = process.env.PORT;
+const port: number = config.port;
 server.listen(port, (): void => {
   console.log(`The server is listening on port ${port}`);
 });
