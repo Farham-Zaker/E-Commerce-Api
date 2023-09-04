@@ -17,5 +17,8 @@
     "nodemon": "^3.0.1",
     "prisma": "^5.2.0",
     "typescript": "^5.2.2"
+  },
+  "prisma":{
+    "schema": "src/prisma/schema.prisma"
   }
 }
