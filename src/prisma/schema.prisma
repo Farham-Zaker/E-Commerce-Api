@@ -6,3 +6,145 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model users {
+  userId    String       @id @default(uuid()) @db.VarChar(355)
+  firstName String       @db.VarChar(55)
+  lastName  String       @db.VarChar(85)
+  phone     String       @db.VarChar(15)
+  email     String       @db.VarChar(195)
+  image     String       @db.VarChar(355)
+  auth      auth?
+  addresses addreesses[]
+  users     user_carts[]
+  likes     user_likes[]
+  comments  comments[]
+  orders    orders[]
+}
+
+model user_likes {
+  id        String   @id @default(uuid()) @db.VarChar(355)
+  user      users    @relation(fields: [userId], references: [userId])
+  userId    String   @db.VarChar(355)
+  product   products @relation(fields: [productId], references: [productId])
+  productId String   @db.VarChar(355)
+}
+
+model user_carts {
+  id        String   @id @default(uuid()) @db.VarChar(355)
+  user      users    @relation(fields: [userId], references: [userId])
+  userId    String   @db.VarChar(355)
+  product   products @relation(fields: [productId], references: [productId])
+  productId String   @db.VarChar(355)
+}
+
+model comments {
+  commentId String     @id @default(uuid()) @db.VarChar(355)
+  comment   String     @db.Text
+  role      String     @db.VarChar(6)
+  comments  comments[] @relation("CommentToReply")
+  reply     comments?  @relation("CommentToReply", fields: [replyId], references: [commentId])
+  replyId   String?    @default(uuid()) @db.VarChar(355)
+  users     users      @relation(fields: [userId], references: [userId])
+  userId    String     @db.VarChar(355)
+  product   products   @relation(fields: [productId], references: [productId])
+  productId String     @db.VarChar(355)
+}
+
+model products {
+  productId           String        @id @default(uuid()) @db.VarChar(355)
+  title               String        @db.VarChar(155)
+  price               Int
+  image               String        @db.VarChar(355)
+  discountStatus      String        @db.Char(1)
+  discountPercent     Int?          @db.SmallInt
+  DicountEndTime      DateTime?
+  prisceAfterDiscount Int?
+  createdAt           DateTime
+  category            categories    @relation(fields: [categoryId], references: [categoryId])
+  categoryId          String        @db.VarChar(355)
+  user_carts          user_carts[]
+  usersLikes          user_likes[]
+  inventories         inventories[]
+  comments            comments[]
+  orderItems          order_items[]
+}
+
+model categories {
+  categoryId String     @id @default(uuid()) @db.VarChar(355)
+  name       String     @db.VarChar(55)
+  createdAt  DateTime
+  product    products[]
+}
+
+model inventories {
+  inventoryId String   @id @default(uuid()) @db.VarChar(355)
+  quantity    Int      @db.SmallInt
+  products    products @relation(fields: [productId], references: [productId])
+  productId   String   @db.VarChar(355)
+  colors      colors   @relation(fields: [colorId], references: [colorId])
+  colorId     String   @db.VarChar(355)
+}
+
+model colors {
+  colorId     String        @id @default(uuid()) @db.VarChar(355)
+  name        String        @db.VarChar(35)
+  hexCode     String        @db.VarChar(10)
+  inventories inventories[]
+  orderItemId order_items[]
+}
+
+model auth {
+  authId  String @id @default(uuid()) @db.VarChar(355)
+  token   String @db.VarChar(255)
+  isAdmin String @db.Char(1)
+
+  users  users  @relation(fields: [userId], references: [userId])
+  userId String @unique @db.VarChar(255)
+}
+
+model addreesses {
+  addressId      String   @id @default(uuid()) @db.VarChar(355)
+  country        String   @db.VarChar(155)
+  state          String   @db.VarChar(155)
+  city           String   @db.VarChar(155)
+  zone           String   @db.VarChar(155)
+  houseIlate     Int      @db.SmallInt
+  apartmentInite Int      @db.SmallInt
+  postalIard     String   @db.VarChar(20)
+  users          users?   @relation(fields: [userId], references: [userId])
+  userId         String   @db.VarChar(255)
+  createdAt      DateTime
+}
+
+model orders {
+  orderId    String        @id @default(uuid()) @db.VarChar(355)
+  users      users         @relation(fields: [userId], references: [userId])
+  userId     String        @db.VarChar(355)
+  orderItems order_items[]
+  totalPrice Int
+  status     String        @db.VarChar(10)
+  createdAt  DateTime
+  payments   payments?
+}
+
+model order_items {
+  orderItemId String   @id @default(uuid()) @db.VarChar(355)
+  orders      orders   @relation(fields: [orderId], references: [orderId])
+  orderId     String   @db.VarChar(355)
+  products    products @relation(fields: [productId], references: [productId])
+  productId   String   @db.VarChar(355)
+  quantity    Int      @db.SmallInt
+  color       colors   @relation(fields: [colorId], references: [colorId])
+  colorId     String   @db.VarChar(355)
+}
+
+model payments {
+  paymentId   String @id @db.VarChar(355)
+  authorityId String @db.VarChar(55)
+  amount      Int
+  status      String @db.VarChar(10)
+  orders      orders @relation(fields: [orderId], references: [orderId])
+  orderId     String @unique @db.VarChar(355)
+  createdAt  DateTime
+}
