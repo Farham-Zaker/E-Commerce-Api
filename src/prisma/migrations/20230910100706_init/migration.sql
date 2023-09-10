@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `users` (
-    `userId` VARCHAR(355) NOT NULL,
+    `userId` VARCHAR(55) NOT NULL,
     `firstName` VARCHAR(55) NOT NULL,
     `lastName` VARCHAR(85) NOT NULL,
     `phone` VARCHAR(15) NOT NULL,
@@ -12,37 +12,37 @@ CREATE TABLE `users` (
 
 -- CreateTable
 CREATE TABLE `user_likes` (
-    `id` VARCHAR(355) NOT NULL,
-    `userId` VARCHAR(355) NOT NULL,
-    `productId` VARCHAR(355) NOT NULL,
+    `id` VARCHAR(55) NOT NULL,
+    `userId` VARCHAR(55) NOT NULL,
+    `productId` VARCHAR(55) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `user_carts` (
-    `id` VARCHAR(355) NOT NULL,
-    `userId` VARCHAR(355) NOT NULL,
-    `productId` VARCHAR(355) NOT NULL,
+    `id` VARCHAR(55) NOT NULL,
+    `userId` VARCHAR(55) NOT NULL,
+    `productId` VARCHAR(55) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `comments` (
-    `commentId` VARCHAR(355) NOT NULL,
+    `commentId` VARCHAR(55) NOT NULL,
     `comment` TEXT NOT NULL,
     `role` VARCHAR(6) NOT NULL,
-    `replyId` VARCHAR(355) NULL,
-    `userId` VARCHAR(355) NOT NULL,
-    `productId` VARCHAR(355) NOT NULL,
+    `replyId` VARCHAR(55) NULL,
+    `userId` VARCHAR(55) NOT NULL,
+    `productId` VARCHAR(55) NOT NULL,
 
     PRIMARY KEY (`commentId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `products` (
-    `productId` VARCHAR(355) NOT NULL,
+    `productId` VARCHAR(55) NOT NULL,
     `title` VARCHAR(155) NOT NULL,
     `price` INTEGER NOT NULL,
     `image` VARCHAR(355) NOT NULL,
@@ -51,14 +51,14 @@ CREATE TABLE `products` (
     `DicountEndTime` DATETIME(3) NULL,
     `prisceAfterDiscount` INTEGER NULL,
     `createdAt` DATETIME(3) NOT NULL,
-    `categoryId` VARCHAR(355) NOT NULL,
+    `categoryId` VARCHAR(55) NOT NULL,
 
     PRIMARY KEY (`productId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `categories` (
-    `categoryId` VARCHAR(355) NOT NULL,
+    `categoryId` VARCHAR(55) NOT NULL,
     `name` VARCHAR(55) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL,
 
@@ -67,17 +67,17 @@ CREATE TABLE `categories` (
 
 -- CreateTable
 CREATE TABLE `inventories` (
-    `inventoryId` VARCHAR(355) NOT NULL,
+    `inventoryId` VARCHAR(55) NOT NULL,
     `quantity` SMALLINT NOT NULL,
-    `productId` VARCHAR(355) NOT NULL,
-    `colorId` VARCHAR(355) NOT NULL,
+    `productId` VARCHAR(55) NOT NULL,
+    `colorId` VARCHAR(55) NOT NULL,
 
     PRIMARY KEY (`inventoryId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `colors` (
-    `colorId` VARCHAR(355) NOT NULL,
+    `colorId` VARCHAR(55) NOT NULL,
     `name` VARCHAR(35) NOT NULL,
     `hexCode` VARCHAR(10) NOT NULL,
 
@@ -86,8 +86,9 @@ CREATE TABLE `colors` (
 
 -- CreateTable
 CREATE TABLE `auth` (
-    `authId` VARCHAR(355) NOT NULL,
+    `authId` VARCHAR(55) NOT NULL,
     `token` VARCHAR(255) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
     `isAdmin` CHAR(1) NOT NULL,
     `userId` VARCHAR(255) NOT NULL,
 
@@ -97,7 +98,7 @@ CREATE TABLE `auth` (
 
 -- CreateTable
 CREATE TABLE `addreesses` (
-    `addressId` VARCHAR(355) NOT NULL,
+    `addressId` VARCHAR(55) NOT NULL,
     `country` VARCHAR(155) NOT NULL,
     `state` VARCHAR(155) NOT NULL,
     `city` VARCHAR(155) NOT NULL,
@@ -113,8 +114,8 @@ CREATE TABLE `addreesses` (
 
 -- CreateTable
 CREATE TABLE `orders` (
-    `orderId` VARCHAR(355) NOT NULL,
-    `userId` VARCHAR(355) NOT NULL,
+    `orderId` VARCHAR(55) NOT NULL,
+    `userId` VARCHAR(55) NOT NULL,
     `totalPrice` INTEGER NOT NULL,
     `status` VARCHAR(10) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL,
@@ -124,22 +125,23 @@ CREATE TABLE `orders` (
 
 -- CreateTable
 CREATE TABLE `order_items` (
-    `orderItemId` VARCHAR(355) NOT NULL,
-    `orderId` VARCHAR(355) NOT NULL,
-    `productId` VARCHAR(355) NOT NULL,
+    `orderItemId` VARCHAR(55) NOT NULL,
+    `orderId` VARCHAR(55) NOT NULL,
+    `productId` VARCHAR(55) NOT NULL,
     `quantity` SMALLINT NOT NULL,
-    `colorId` VARCHAR(355) NOT NULL,
+    `colorId` VARCHAR(55) NOT NULL,
 
     PRIMARY KEY (`orderItemId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `payments` (
-    `paymentId` VARCHAR(355) NOT NULL,
+    `paymentId` VARCHAR(55) NOT NULL,
     `authorityId` VARCHAR(55) NOT NULL,
     `amount` INTEGER NOT NULL,
     `status` VARCHAR(10) NOT NULL,
-    `orderId` VARCHAR(355) NOT NULL,
+    `orderId` VARCHAR(55) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `payments_orderId_key`(`orderId`),
     PRIMARY KEY (`paymentId`)
