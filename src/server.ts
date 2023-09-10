@@ -1,14 +1,13 @@
-import express, { Express } from 'express';
+import express, { Express } from "express";
 const server: Express = express();
 
-import projectConfigs from './middlewares/projectConfigs';
-projectConfigs(server)
+import projectConfigs from "./middlewares/projectConfigs";
+projectConfigs(server);
 
-server.get('/', () =>{
-console.log("first")
-})
+import api from "./api/api";
+server.use(api);
 
-import config from './config/config';
+import config from "./config/config";
 
 const port: number = config.port;
 server.listen(port, (): void => {
