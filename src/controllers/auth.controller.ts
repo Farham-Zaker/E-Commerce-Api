@@ -27,7 +27,7 @@ export default new (class Controller {
             firstName: firstName,
             lastName: lastName,
             email: email,
-            image: "ksn",
+            image: "",
             phone: phone,
             auth: {
               create: {
@@ -47,7 +47,7 @@ export default new (class Controller {
       } else {
       }
     } catch (error) {
-      throw new Error("There is an error in registeration." + error)
+      throw new Error("There is an error in registeration process." + error)
     }
   }
 })();
