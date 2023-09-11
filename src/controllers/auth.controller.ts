@@ -8,5 +8,17 @@ export default new (class Controller {
 
     const { firstName, lastName, email, phone, password } = req.body;
 
+    try {
+      const user = await prismaService.users.findFirst({
+        where: {
+          OR: [
+            {
+              email,
+            },
+            { phone },
+          ],
+        },
+      });
+    } catch (error) {}
   }
 })();
