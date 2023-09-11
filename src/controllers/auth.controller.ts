@@ -46,6 +46,8 @@ export default new (class Controller {
         });
       } else {
       }
-    } catch (error) {}
+    } catch (error) {
+      throw new Error("There is an error in registeration." + error)
+    }
   }
 })();
