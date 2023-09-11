@@ -5,7 +5,6 @@ import hashPassword from "./../middlewares/hashPassword";
 
 export default new (class Controller {
   async registerRoute(req: Request, res: Response): Promise<void> {
-
     const { firstName, lastName, email, phone, password } = req.body;
 
     try {
@@ -38,6 +37,12 @@ export default new (class Controller {
               },
             },
           },
+        });
+        res.status(201).json({
+          message: "ok",
+          statusCode: 201,
+          response: "The account was created.",
+          data: newUser,
         });
       } else {
       }
