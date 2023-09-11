@@ -19,7 +19,26 @@ export default new (class Controller {
           ],
         },
       });
+
       if (!user) {
+        const hashedPassword: string = await hashPassword(password);
+
+        const newUser = await prismaService.users.create({
+          data: {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            image: "ksn",
+            phone: phone,
+            auth: {
+              create: {
+                isAdmin: "T",
+                password: hashedPassword,
+                token: "",
+              },
+            },
+          },
+        });
       } else {
       }
     } catch (error) {}
