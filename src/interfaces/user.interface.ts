@@ -13,3 +13,9 @@ export interface RegistrationUserDataInt {
   phone: string;
   image: string;
 }
+export interface RegistrationSuccessResponseInt {
+  message: string;
+  statusCode: number;
+  response: string;
+  data: RegistrationUserDataInt;
+}
