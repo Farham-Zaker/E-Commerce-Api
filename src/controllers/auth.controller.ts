@@ -19,6 +19,9 @@ export default new (class Controller {
           ],
         },
       });
+      if (!user) {
+      } else {
+      }
     } catch (error) {}
   }
 })();
