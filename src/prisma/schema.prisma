@@ -14,6 +14,7 @@ model users {
   phone     String       @db.VarChar(15)
   email     String       @db.VarChar(195)
   image     String       @db.VarChar(355)
+  createdAt DateTime     @default(now())
   auth      auth?
   addresses addreesses[]
   users     user_carts[]
@@ -28,6 +29,7 @@ model user_likes {
   userId    String   @db.VarChar(55)
   product   products @relation(fields: [productId], references: [productId])
   productId String   @db.VarChar(55)
+  createdAt DateTime @default(now())
 }
 
 model user_carts {
@@ -36,6 +38,7 @@ model user_carts {
   userId    String   @db.VarChar(55)
   product   products @relation(fields: [productId], references: [productId])
   productId String   @db.VarChar(55)
+  createdAt DateTime @default(now())
 }
 
 model comments {
@@ -49,6 +52,7 @@ model comments {
   userId    String     @db.VarChar(55)
   product   products   @relation(fields: [productId], references: [productId])
   productId String     @db.VarChar(55)
+  createdAt DateTime   @default(now())
 }
 
 model products {
@@ -60,7 +64,7 @@ model products {
   discountPercent     Int?          @db.SmallInt
   DicountEndTime      DateTime?
   prisceAfterDiscount Int?
-  createdAt           DateTime
+  createdAt           DateTime      @default(now())
   category            categories    @relation(fields: [categoryId], references: [categoryId])
   categoryId          String        @db.VarChar(55)
   user_carts          user_carts[]
@@ -73,7 +77,6 @@ model products {
 model categories {
   categoryId String     @id @default(uuid()) @db.VarChar(55)
   name       String     @db.VarChar(55)
-  createdAt  DateTime
   product    products[]
 }
 
@@ -95,12 +98,12 @@ model colors {
 }
 
 model auth {
-  authId  String @id @default(uuid()) @db.VarChar(55)
-  token   String @db.VarChar(255)
-  password  String @db.VarChar(255)
-  isAdmin Int @db.TinyInt @default(0)
-  users  users  @relation(fields: [userId], references: [userId])
-  userId String @unique @db.VarChar(255)
+  authId   String @id @default(uuid()) @db.VarChar(55)
+  token    String @db.VarChar(255)
+  password String @db.VarChar(255)
+  isAdmin  Int    @default(0) @db.TinyInt
+  users    users  @relation(fields: [userId], references: [userId])
+  userId   String @unique @db.VarChar(255)
 }
 
 model addreesses {
@@ -114,7 +117,7 @@ model addreesses {
   postalIard     String   @db.VarChar(20)
   users          users?   @relation(fields: [userId], references: [userId])
   userId         String   @db.VarChar(255)
-  createdAt      DateTime
+  createdAt      DateTime @default(now())
 }
 
 model orders {
@@ -124,7 +127,7 @@ model orders {
   orderItems order_items[]
   totalPrice Int
   status     String        @db.VarChar(10)
-  createdAt  DateTime
+  createdAt  DateTime      @default(now())
   payments   payments?
 }
 
@@ -140,11 +143,11 @@ model order_items {
 }
 
 model payments {
-  paymentId   String @id @db.VarChar(55)
-  authorityId String @db.VarChar(55)
+  paymentId   String   @id @db.VarChar(55)
+  authorityId String   @db.VarChar(55)
   amount      Int
-  status      String @db.VarChar(10)
-  orders      orders @relation(fields: [orderId], references: [orderId])
-  orderId     String @unique @db.VarChar(55)
-  createdAt  DateTime
+  status      String   @db.VarChar(10)
+  orders      orders   @relation(fields: [orderId], references: [orderId])
+  orderId     String   @unique @db.VarChar(55)
+  createdAt   DateTime @default(now())
 }
