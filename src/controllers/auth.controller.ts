@@ -45,9 +45,15 @@ export default new (class Controller {
           data: newUser,
         });
       } else {
+        const response = {
+          message: "Conflict",
+          statusCode: 409,
+          response: "An account with similar information already exists.",
+        };
+        res.status(409).json(response);
       }
     } catch (error) {
-      throw new Error("There is an error in registeration process." + error)
+      throw new Error("There is an error in registeration process." + error);
     }
   }
 })();
