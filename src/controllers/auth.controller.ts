@@ -38,12 +38,13 @@ export default new (class Controller {
             },
           },
         });
-        res.status(201).json({
-          message: "ok",
+        const response = {
+          message: "Created",
           statusCode: 201,
-          response: "The account was created.",
+          response: "The account has been successfully created.",
           data: newUser,
-        });
+        };
+        res.status(201).json(response);
       } else {
         const response = {
           message: "Conflict",
