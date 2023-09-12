@@ -31,7 +31,6 @@ export default new (class Controller {
             phone: phone,
             auth: {
               create: {
-                isAdmin: "T",
                 password: hashedPassword,
                 token: "",
               },
