@@ -6,6 +6,7 @@ CREATE TABLE `users` (
     `phone` VARCHAR(15) NOT NULL,
     `email` VARCHAR(195) NOT NULL,
     `image` VARCHAR(355) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`userId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -15,6 +16,7 @@ CREATE TABLE `user_likes` (
     `id` VARCHAR(55) NOT NULL,
     `userId` VARCHAR(55) NOT NULL,
     `productId` VARCHAR(55) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -24,6 +26,7 @@ CREATE TABLE `user_carts` (
     `id` VARCHAR(55) NOT NULL,
     `userId` VARCHAR(55) NOT NULL,
     `productId` VARCHAR(55) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -36,6 +39,7 @@ CREATE TABLE `comments` (
     `replyId` VARCHAR(55) NULL,
     `userId` VARCHAR(55) NOT NULL,
     `productId` VARCHAR(55) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`commentId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -50,7 +54,7 @@ CREATE TABLE `products` (
     `discountPercent` SMALLINT NULL,
     `DicountEndTime` DATETIME(3) NULL,
     `prisceAfterDiscount` INTEGER NULL,
-    `createdAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `categoryId` VARCHAR(55) NOT NULL,
 
     PRIMARY KEY (`productId`)
@@ -60,7 +64,6 @@ CREATE TABLE `products` (
 CREATE TABLE `categories` (
     `categoryId` VARCHAR(55) NOT NULL,
     `name` VARCHAR(55) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`categoryId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -89,7 +92,7 @@ CREATE TABLE `auth` (
     `authId` VARCHAR(55) NOT NULL,
     `token` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
-    `isAdmin` CHAR(1) NOT NULL,
+    `isAdmin` TINYINT NOT NULL DEFAULT 0,
     `userId` VARCHAR(255) NOT NULL,
 
     UNIQUE INDEX `auth_userId_key`(`userId`),
@@ -107,7 +110,7 @@ CREATE TABLE `addreesses` (
     `apartmentInite` SMALLINT NOT NULL,
     `postalIard` VARCHAR(20) NOT NULL,
     `userId` VARCHAR(255) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`addressId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -118,7 +121,7 @@ CREATE TABLE `orders` (
     `userId` VARCHAR(55) NOT NULL,
     `totalPrice` INTEGER NOT NULL,
     `status` VARCHAR(10) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`orderId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -141,7 +144,7 @@ CREATE TABLE `payments` (
     `amount` INTEGER NOT NULL,
     `status` VARCHAR(10) NOT NULL,
     `orderId` VARCHAR(55) NOT NULL,
-    `createdAt` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `payments_orderId_key`(`orderId`),
     PRIMARY KEY (`paymentId`)
