@@ -19,7 +19,7 @@ export interface RegistrationSuccessResponseInt {
   response: string;
   data: RegistrationUserDataInt;
 }
-interface RegistrationّFailedResponseInt {
+export interface RegistrationّFailedResponseInt {
   message: string;
   statusCode: number;
   response: string;
