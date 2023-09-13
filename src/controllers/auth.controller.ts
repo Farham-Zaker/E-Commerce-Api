@@ -70,6 +70,6 @@ export default new (class Controller {
     }
   }
   async loginRoute(req: Request, res: Response): Promise<void> {
-    
+    const { phoneOrEmail, password } = req.body;
   }
 })();
