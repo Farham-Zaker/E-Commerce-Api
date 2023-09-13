@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import prismaService from "./../prisma/prismaService";
 
 import hashPassword from "./../middlewares/hashPassword";
-import { RegistrationUserInputInt } from "./../interfaces/auth.interface";
+import { RegistrationUserInputInt,RegistrationUserDataInt } from "./../interfaces/auth.interface";
 
 export default new (class Controller {
   async registerRoute(req: Request, res: Response): Promise<void> {
@@ -23,7 +23,7 @@ export default new (class Controller {
       if (!user) {
         const hashedPassword: string = await hashPassword(password);
 
-        const newUser = await prismaService.users.create({
+        const newUser:RegistrationUserDataInt = await prismaService.users.create({
           data: {
             firstName: firstName,
             lastName: lastName,
