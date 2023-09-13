@@ -5,19 +5,20 @@ export interface RegistrationUserInputInt {
   phone: string;
   password: string;
 }
-export interface RegistrationUserDataInt {
+export interface UserDataInt {
   userId: string;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   image: string;
+  createdAt: Date;
 }
 export interface RegistrationSuccessResponseInt {
   message: string;
   statusCode: number;
   response: string;
-  data: RegistrationUserDataInt;
+  data: UserDataInt;
 }
 export interface RegistrationّFailedResponseInt {
   message: string;

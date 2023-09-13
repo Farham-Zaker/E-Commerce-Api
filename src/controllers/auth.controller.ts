@@ -4,7 +4,7 @@ import prismaService from "./../prisma/prismaService";
 import hashPassword from "./../middlewares/hashPassword";
 import {
   RegistrationUserInputInt,
-  RegistrationUserDataInt,
+  UserDataInt,
   RegistrationSuccessResponseInt,
   RegistrationّFailedResponseInt,
 } from "./../interfaces/auth.interface";
@@ -34,7 +34,7 @@ export default new (class Controller {
       if (!user) {
         const hashedPassword: string = await hashPassword(password);
 
-        const newUser: RegistrationUserDataInt =
+        const newUser: UserDataInt =
           await prismaService.users.create({
             data: {
               firstName: firstName,
