@@ -9,6 +9,8 @@ import {
   RegistrationّFailedResponseInt,
 } from "./../interfaces/auth.interface";
 
+import validator from "validator";
+
 export default new (class Controller {
   async registerRoute(req: Request, res: Response): Promise<void> {
     const {
@@ -71,5 +73,16 @@ export default new (class Controller {
   }
   async loginRoute(req: Request, res: Response): Promise<void> {
     const { phoneOrEmail, password } = req.body;
+    
+    let user;
+    if (validator.isEmail(phoneOrEmail)) {
+      user = await prismaService.users.findFirst({
+        where: { email: phoneOrEmail },
+      });
+    } else {
+      user = await prismaService.users.findFirst({
+        where: { phone: phoneOrEmail },
+      });
+    }
   }
 })();
