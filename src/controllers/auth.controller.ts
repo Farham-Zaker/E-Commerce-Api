@@ -84,5 +84,11 @@ export default new (class Controller {
         where: { phone: phoneOrEmail },
       });
     }
+
+    if(user){
+
+    } else {
+      
+    }
   }
 })();
