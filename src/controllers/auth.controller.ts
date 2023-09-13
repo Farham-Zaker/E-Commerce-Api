@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import prismaService from "./../prisma/prismaService";
 
 import hashPassword from "./../middlewares/hashPassword";
-import { RegistrationUserInputInt,RegistrationUserDataInt,RegistrationSuccessResponseInt } from "./../interfaces/auth.interface";
+import { RegistrationUserInputInt,RegistrationUserDataInt,RegistrationSuccessResponseInt,RegistrationّFailedResponseInt } from "./../interfaces/auth.interface";
 
 export default new (class Controller {
   async registerRoute(req: Request, res: Response): Promise<void> {
@@ -46,7 +46,7 @@ export default new (class Controller {
         };
         res.status(201).json(response);
       } else {
-        const response = {
+        const response:RegistrationّFailedResponseInt = {
           message: "Conflict",
           statusCode: 409,
           response: "An account with similar information already exists.",
