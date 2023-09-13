@@ -10,6 +10,7 @@ import {
 } from "./../interfaces/auth.interface";
 
 import validator from "validator";
+import generateToken from "../middlewares/generateToken";
 
 export default new (class Controller {
   async registerRoute(req: Request, res: Response): Promise<void> {
@@ -86,7 +87,7 @@ export default new (class Controller {
     }
 
     if(user){
-
+      const token = generateToken(user.userId)
     } else {
       
     }
