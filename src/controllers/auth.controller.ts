@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import prismaService from "./../prisma/prismaService";
-
 import hashPassword from "./../middlewares/hashPassword";
 import {
   RegistrationUserInputInt,
@@ -88,6 +87,14 @@ export default new (class Controller {
 
     if(user){
       const token = generateToken(user.userId)
+
+      const successResponse = {
+        message: "ok",
+        statusCode: 200,
+        response: "Login successful.",
+        token
+      }
+      res.status(200).json(successResponse)
     } else {
       
     }
