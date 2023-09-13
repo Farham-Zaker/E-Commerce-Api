@@ -69,4 +69,7 @@ export default new (class Controller {
       throw new Error("There is an error in registeration process." + error);
     }
   }
+  async loginRoute(req: Request, res: Response): Promise<void> {
+    
+  }
 })();
