@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import prismaService from "./../prisma/prismaService";
 
 import hashPassword from "./../middlewares/hashPassword";
-import { RegistrationUserInputInt,RegistrationUserDataInt } from "./../interfaces/auth.interface";
+import { RegistrationUserInputInt,RegistrationUserDataInt,RegistrationSuccessResponseInt } from "./../interfaces/auth.interface";
 
 export default new (class Controller {
   async registerRoute(req: Request, res: Response): Promise<void> {
@@ -38,7 +38,7 @@ export default new (class Controller {
             },
           },
         });
-        const response = {
+        const response:RegistrationSuccessResponseInt = {
           message: "Created",
           statusCode: 201,
           response: "The account has been successfully created.",
