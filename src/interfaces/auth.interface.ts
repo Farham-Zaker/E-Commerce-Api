@@ -11,7 +11,7 @@ export interface UserDataTypes {
   lastName: string;
   email: string;
   phone: string;
-  image: string;
+  image: string | null;
   createdAt: Date;
 }
 export interface RegistrationSuccessResponseTypes {
