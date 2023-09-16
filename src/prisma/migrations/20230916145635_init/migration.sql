@@ -5,7 +5,7 @@ CREATE TABLE `users` (
     `lastName` VARCHAR(85) NOT NULL,
     `phone` VARCHAR(15) NOT NULL,
     `email` VARCHAR(195) NOT NULL,
-    `image` VARCHAR(355) NULL,
+    `image` VARCHAR(1500) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`userId`)

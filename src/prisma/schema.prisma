@@ -13,7 +13,7 @@ model users {
   lastName  String       @db.VarChar(85)
   phone     String       @db.VarChar(15)
   email     String       @db.VarChar(195)
-  image     String?       @db.VarChar(355)
+  image     String       @db.VarChar(1500)
   createdAt DateTime     @default(now())
   auth      auth?
   addresses addreesses[]
