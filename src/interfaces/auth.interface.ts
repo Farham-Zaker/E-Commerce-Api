@@ -5,7 +5,7 @@ export interface RegistrationBodyRequestTypes {
   phone: string;
   password: string;
 }
-export interface UserDataTypes {
+export interface RegisterUserDataTypes {
   userId: string;
   firstName: string;
   lastName: string;
@@ -18,7 +18,7 @@ export interface RegistrationSuccessResponseTypes {
   message: string;
   statusCode: number;
   response: string;
-  data: UserDataTypes;
+  data: RegisterUserDataTypes;
 }
 export interface RegistrationّFailedResponseTypes {
   message: string;

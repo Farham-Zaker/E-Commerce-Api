@@ -5,7 +5,7 @@ import {
   RegistrationBodyRequestTypes,
   RegistrationSuccessResponseTypes,
   RegistrationّFailedResponseTypes,
-  UserDataTypes,
+  RegisterUserDataTypes,
   LoginUserInputTypes,
   LoginUserDataTypes,
   LoginSuccessfulMessageTypes,
@@ -41,7 +41,7 @@ export default new (class Controller {
       if (!user) {
         const hashedPassword: string = await hashPassword(password);
 
-        const newUser: UserDataTypes = await prismaService.users.create({
+        const newUser: RegisterUserDataTypes = await prismaService.users.create({
           data: {
             firstName: firstName,
             lastName: lastName,
@@ -86,7 +86,7 @@ export default new (class Controller {
           password,
           user.auth?.password
         );
-        if (isPasswordValid) {
+        if (isPasswordValid && user.auth.password) {
           const token: string = generateToken(user.auth?.password);
           const successfulResponse: LoginSuccessfulMessageTypes = {
             message: "Login successfully",
