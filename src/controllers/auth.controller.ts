@@ -114,4 +114,8 @@ export default new (class Controller {
       throw new Error("There is an error in logining process." + error);
     }
   }
+  googleCallbackRoute(req: Request, res: Response) {
+    const response = req.user;
+    res.status(200).json(response);
+  }
 })();
