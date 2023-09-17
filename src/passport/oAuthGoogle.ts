@@ -71,7 +71,9 @@ export default async function oAuthGoogle() {
             return done(null, successMessage);
           }
         } catch (error) {
-          return done(error);
+          throw new Error(
+            "An error occurred during Google OAuth authentication:" + error
+          );
         }
       }
     )
