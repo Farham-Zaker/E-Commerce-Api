@@ -4,14 +4,15 @@ const bcryptSalt: string | undefined = process.env.BCRYPT_SALT;
 export default async function passwordValidator(
   userInputPassword: string,
   userPassword: string
-) {
+): Promise<boolean> {
   try {
     if (typeof bcryptSalt === "string") {
       const validate = await bcrypt.compare(userInputPassword, userPassword);
-      return validate
+      return validate;
     } else {
       throw new Error("Bcrypt salt is not a valid string.");
     }
   } catch (error) {
+    throw new Error("" + error);
   }
 }
