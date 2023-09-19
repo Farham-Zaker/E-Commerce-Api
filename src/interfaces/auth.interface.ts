@@ -55,9 +55,9 @@ export interface LoginFailedMessageMessageTypes {
   statusCode: number;
   response: string;
 }
-export interface GoogleAuthSuccessResponseTypes{
-  message: string,
-  statusCode: number,
-  response: string,
-  token:string
+export interface GoogleAuthSuccessResponseTypes {
+  message: string;
+  statusCode: number;
+  response: string;
+  token: string;
 }
