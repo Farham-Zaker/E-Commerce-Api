@@ -15,6 +15,7 @@ import {
 import userFinder from "../middlewares/userFinder";
 import passwordValidator from "../middlewares/passwordValidator";
 import generateToken from "../middlewares/generateToken";
+import decodeToken from "../middlewares/decodeToekn";
 
 export default new (class Controller {
   async registerRoute(req: Request, res: Response): Promise<void> {
@@ -41,21 +42,23 @@ export default new (class Controller {
       if (!user) {
         const hashedPassword: string = await hashPassword(password);
 
-        const newUser: RegisterUserDataTypes = await prismaService.users.create({
-          data: {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            image: "",
-            phone: phone,
-            auth: {
-              create: {
-                password: hashedPassword,
-                token: "",
+        const newUser: RegisterUserDataTypes = await prismaService.users.create(
+          {
+            data: {
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              image: "",
+              phone: phone,
+              auth: {
+                create: {
+                  password: hashedPassword,
+                  token: "",
+                },
               },
             },
-          },
-        });
+          }
+        );
         const response: RegistrationSuccessResponseTypes = {
           message: "Created",
           statusCode: 201,
@@ -82,12 +85,12 @@ export default new (class Controller {
       const user: LoginUserDataTypes | null = await userFinder(phoneOrEmail);
 
       if (user && user?.auth) {
-        const isPasswordValid: boolean | undefined = await passwordValidator(
+        const isPasswordValid: boolean = await passwordValidator(
           password,
           user.auth?.password
         );
         if (isPasswordValid && user.auth.password) {
-          const token: string = generateToken(user.auth?.password);
+          const token: string = generateToken(user.userId);
           const successfulResponse: LoginSuccessfulMessageTypes = {
             message: "Login successfully",
             statusCode: 200,
