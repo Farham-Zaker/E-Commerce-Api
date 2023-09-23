@@ -3,5 +3,6 @@ import accountController from "../controllers/account.controller";
 const router = Router();
 
 router.put("/update-info", accountController.updateInfoRoute);
+router.put('/set-password')
 
 export default router;
