@@ -8,18 +8,8 @@ interface NewData {
   phone: string;
   email: string;
 }
-export interface AccountRouteFaileResponseType {
-  message: string;
-  statusCode: number;
-  response: string;
-}
-export interface UpdateInfoRouteSuccessResponseTyepe {
-  message: string;
-  statusCode: number;
-  response: string;
-  user: User;
-}
-interface User {
+
+export interface SetPasswordRouteUpdatedUserTypes {
   userId: string;
   firstName: string;
   lastName: string;

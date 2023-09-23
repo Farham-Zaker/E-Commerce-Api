@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import prismaService from "../prisma/prismaService";
 import {
   UpdateInfoRouteUserInputTypes,
-  UpdateInfoRouteSuccessResponseTyepe,
+  SetPasswordRouteUpdatedUserTypes,
   SetPasswordRouteRequestBodyTypes,
   UserAuthInfoTypes,
 } from "./../interfaces/account.interface";
@@ -13,25 +13,23 @@ export default new (class accountController {
   async updateInfoRoute(req: Request, res: Response): Promise<void> {
     const { userId, newData }: UpdateInfoRouteUserInputTypes = req.body;
     try {
-      const updatedUser = await prismaService.users.update({
-        data: newData,
-        where: { userId },
-      });
-      const sucessMessage: UpdateInfoRouteSuccessResponseTyepe = {
+      const updatedUser: SetPasswordRouteUpdatedUserTypes =
+        await prismaService.users.update({
+          data: newData,
+          where: { userId },
+        });
+      res.status(200).json({
         message: "Updated",
         statusCode: 200,
         response: "User data successfully was updated.",
         user: updatedUser,
-      };
-      res.status(200).json(sucessMessage);
+      });
     } catch (error) {
-      const failedResponse: PasswordRoutesResponseType = {
+      res.status(400).json({
         message: "bad",
         statusCode: 400,
-        response:
-          "The data that you sent is incorrect.You can just update 'firstName', 'lastName', 'phone', 'email, 'email' and 'image'.",
-      };
-      res.status(400).json(failedResponse);
+        response: "The input data is incorrect.",
+      });
     }
   }
   async setPasswordRoute(req: Request, res: Response) {
@@ -78,7 +76,7 @@ export default new (class accountController {
       res.status(404).json({
         message: "bad",
         statusCode: 404,
-        response: "Unexpectetd error.",
+        response: "The input data is incorrect.",
       });
     }
   }
