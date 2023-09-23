@@ -20,4 +20,22 @@ export default new (class accountValidators {
       check("newData.email").isEmail().withMessage("Your email is invalid."),
     ];
   }
+  setPasswordValidator(): ValidationChain[] {
+    return [
+      check("newPassword")
+        .isLength({ min: 8 })
+        .withMessage(
+          "The password must be more than 8 character and contain alphatic character."
+        ),
+      check("newPassword").custom((value: string) => {
+        const lettersCount: number = value
+          .split("")
+          .filter((char: string) => char.match(/[a-zA-Z]/)).length;
+        if (lettersCount >= 2) {
+          return true;
+        }
+        throw "The password must contain at lest 2 alphatic character.";
+      }),
+    ];
+  }
 })();
