@@ -28,3 +28,14 @@ interface User {
   image: string;
   createdAt: Date;
 }
+export interface SetPasswordRouteRequestBodyTypes {
+  newPassword: string;
+  confirmPassword: string;
+}
+export interface UserAuthInfoTypes {
+  authId: string;
+  token: string;
+  password: string;
+  isAdmin: number;
+  userId: string;
+}
