@@ -61,3 +61,12 @@ export interface GoogleAuthSuccessResponseTypes {
   response: string;
   token: string;
 }
+export interface AuthValidationResponseTypes {
+  message: string;
+  statusCode: number;
+  response: AuthValidationErrorTypes[];
+}
+export interface AuthValidationErrorTypes {
+  field: string;
+  error: string;
+}
