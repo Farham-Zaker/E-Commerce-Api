@@ -16,5 +16,10 @@ router.put(
   validationResults,
   accountController.setPasswordRoute
 );
-router.put("/change-password", accountController.changePasswordRoute);
+router.put(
+  "/change-password",
+  accountValidator.changePasswordValidator(),
+  validationResults,
+  accountController.changePasswordRoute
+);
 export default router;

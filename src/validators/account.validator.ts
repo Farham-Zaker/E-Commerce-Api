@@ -38,4 +38,22 @@ export default new (class accountValidators {
       }),
     ];
   }
+  changePasswordValidator(): ValidationChain[] {
+    return [
+      check("newPassword")
+        .isLength({ min: 8 })
+        .withMessage(
+          "The new password must be more than 8 character and contain alphatic character."
+        ),
+      check("newPassword").custom((value: string) => {
+        const lettersCount: number = value
+          .split("")
+          .filter((char: string) => char.match(/[a-zA-Z]/)).length;
+        if (lettersCount >= 2) {
+          return true;
+        }
+        throw "The new password must contain at lest 2 alphatic character.";
+      }),
+    ];
+  }
 })();
