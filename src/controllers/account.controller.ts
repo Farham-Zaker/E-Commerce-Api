@@ -5,9 +5,11 @@ import {
   SetPasswordRouteUpdatedUserTypes,
   SetPasswordRouteRequestBodyTypes,
   UserAuthInfoTypes,
+  ChangePasswordRequestBodyTypes,
 } from "./../interfaces/account.interface";
 import decodeToken from "../middlewares/decodeToekn";
 import hashPassword from "../middlewares/hashPassword";
+import passwordValidator from "../middlewares/passwordValidator";
 
 export default new (class accountController {
   async updateInfoRoute(req: Request, res: Response): Promise<void> {
@@ -78,6 +80,65 @@ export default new (class accountController {
         statusCode: 404,
         response: "The input data is incorrect.",
       });
+    }
+  }
+  async changePasswordRoute(req: Request, res: Response) {
+    const {
+      currentPassword,
+      newPassword,
+      confirmNewPassword,
+    }: ChangePasswordRequestBodyTypes = req.body;
+    try {
+      if (newPassword === confirmNewPassword) {
+        const token: string = req.header("token")!;
+        const decodedToken = decodeToken(token);
+        const userAuth: UserAuthInfoTypes | null =
+          await prismaService.auth.findFirst({
+            where: { userId: decodedToken?.userId },
+          });
+        if (userAuth?.password) {
+          const isPasswordValid: boolean = await passwordValidator(
+            currentPassword,
+            userAuth?.password
+          );
+          if (isPasswordValid) {
+            const hashedPassword: string = await hashPassword(newPassword);
+            await prismaService.auth.update({
+              data: {
+                password: hashedPassword,
+              },
+              where: {
+                userId: userAuth.userId,
+              },
+            });
+            res.status(200).json({
+              message: "Updated",
+              statusCode: 200,
+              response: "Your password was successfully changed.",
+            });
+          } else
+            res.status(401).json({
+              message: "bad",
+              statusCode: 401,
+              response: "Your current password is incorrect",
+            });
+        } else {
+          res.status(400).json({
+            message: "bad",
+            statusCode: 400,
+            response:
+              "Your current password is not set. Please set a new password to continue.",
+          });
+        }
+      } else {
+        res.status(400).json({
+          message: "bad",
+          statusCode: 400,
+          response: "The new password does not match.",
+        });
+      }
+    } catch (error) {
+      throw new Error(error as string);
     }
   }
 })();
