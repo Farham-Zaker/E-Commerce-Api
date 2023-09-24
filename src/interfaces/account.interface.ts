@@ -29,3 +29,8 @@ export interface UserAuthInfoTypes {
   isAdmin: number;
   userId: string;
 }
+export interface ChangePasswordRequestBodyTypes {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
