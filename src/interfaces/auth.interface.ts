@@ -14,17 +14,6 @@ export interface RegisterUserDataTypes {
   image: string | null;
   createdAt: Date;
 }
-export interface RegistrationSuccessResponseTypes {
-  message: string;
-  statusCode: number;
-  response: string;
-  data: RegisterUserDataTypes;
-}
-export interface RegistrationّFailedResponseTypes {
-  message: string;
-  statusCode: number;
-  response: string;
-}
 export interface LoginUserInputTypes {
   phoneOrEmail: string;
   password: string;
@@ -45,16 +34,6 @@ interface LoginUserAuthInfoTypes {
   password: string;
   isAdmin: number;
 }
-export interface LoginSuccessfulMessageTypes {
-  message: string;
-  statusCode: number;
-  token: string;
-}
-export interface LoginFailedMessageMessageTypes {
-  message: string;
-  statusCode: number;
-  response: string;
-}
 export interface GoogleAuthSuccessResponseTypes {
   message: string;
   statusCode: number;
@@ -66,7 +45,7 @@ export interface AuthValidationResponseTypes {
   statusCode: number;
   response: AuthValidationErrorTypes[];
 }
-export interface AuthValidationErrorTypes {
+interface AuthValidationErrorTypes {
   field: string;
   error: string;
 }
