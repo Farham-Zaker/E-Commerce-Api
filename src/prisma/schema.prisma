@@ -59,10 +59,10 @@ model products {
   productId           String        @id @default(uuid()) @db.VarChar(55)
   title               String        @db.VarChar(155)
   price               Int
-  image               String        @db.VarChar(355)
-  discountStatus      String        @db.Char(1)
+  image               String?       @db.VarChar(355)
+  discountStatus      Int?          @default(0) @db.SmallInt
   discountPercent     Int?          @db.SmallInt
-  DicountEndTime      DateTime?
+  dicountEndTime      DateTime?
   prisceAfterDiscount Int?
   createdAt           DateTime      @default(now())
   category            categories    @relation(fields: [categoryId], references: [categoryId])
@@ -98,12 +98,12 @@ model colors {
 }
 
 model auth {
-  authId   String @id @default(uuid()) @db.VarChar(55)
-  token    String @db.VarChar(255)
-  password String @db.VarChar(255)
-  isAdmin  Int    @default(0) @db.TinyInt
-  users    users  @relation(fields: [userId], references: [userId])
-  userId   String @unique @db.VarChar(255)
+  authId   String  @id @default(uuid()) @db.VarChar(55)
+  token    String? @db.VarChar(255)
+  password String? @db.VarChar(255)
+  isAdmin  Int     @default(0) @db.TinyInt
+  users    users   @relation(fields: [userId], references: [userId])
+  userId   String  @unique @db.VarChar(255)
 }
 
 model addreesses {
@@ -111,10 +111,9 @@ model addreesses {
   country        String   @db.VarChar(155)
   state          String   @db.VarChar(155)
   city           String   @db.VarChar(155)
-  zone           String   @db.VarChar(155)
-  houseIlate     Int      @db.SmallInt
-  apartmentInite Int      @db.SmallInt
-  postalIard     String   @db.VarChar(20)
+  zone           String?  @db.VarChar(155)
+  apartmentUnite Int?     @db.SmallInt
+  postalCode     String   @db.VarChar(20)
   users          users?   @relation(fields: [userId], references: [userId])
   userId         String   @db.VarChar(255)
   createdAt      DateTime @default(now())
