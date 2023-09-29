@@ -28,3 +28,14 @@ interface InventoryTypes {
     hexCode: string;
   };
 }
+export interface FilterProductRquestBodyTypes {
+  colorIds?: string[];
+  minPrice?: number;
+  maxPrice?: number;
+  categoryIds?: string[];
+  extence?: boolean;
+  hasDiscount?: boolean;
+  orderBy: string;
+  take: number;
+  skip: number;
+}
