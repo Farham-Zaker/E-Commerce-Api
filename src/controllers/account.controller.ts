@@ -1,11 +1,8 @@
 import { Request, Response } from "express";
 import prismaService from "../prisma/prismaService";
 import {
-  UpdateInfoRouteUserInputTypes,
   SetPasswordRouteUpdatedUserTypes,
-  SetPasswordRouteRequestBodyTypes,
   UserAuthInfoTypes,
-  ChangePasswordRequestBodyTypes,
 } from "./../interfaces/account.interface";
 import decodeToken from "../middlewares/decodeToekn";
 import hashPassword from "../middlewares/hashPassword";
@@ -13,7 +10,7 @@ import passwordValidator from "../middlewares/passwordValidator";
 
 export default new (class accountController {
   async updateInfoRoute(req: Request, res: Response): Promise<void> {
-    const { userId, newData }: UpdateInfoRouteUserInputTypes = req.body;
+    const { userId, newData } = req.body;
     try {
       const updatedUser: SetPasswordRouteUpdatedUserTypes =
         await prismaService.users.update({
@@ -36,7 +33,7 @@ export default new (class accountController {
   }
   async setPasswordRoute(req: Request, res: Response) {
     const token: string = req.header("token")!;
-    const { newPassword, confirmPassword }: SetPasswordRouteRequestBodyTypes =
+    const { newPassword, confirmPassword } =
       req.body;
     const decodedToken: { userId: string } = decodeToken(token)!;
     try {
@@ -44,7 +41,7 @@ export default new (class accountController {
         await prismaService.auth.findFirst({
           where: { userId: decodedToken.userId },
         });
-      if (userAuthInfo?.password.length === 0) {
+      if (userAuthInfo?.password?.length === 0) {
         if (newPassword === confirmPassword) {
           const hashedPassword: string = await hashPassword(newPassword);
           await prismaService.auth.update({
@@ -75,11 +72,7 @@ export default new (class accountController {
         });
       }
     } catch (error) {
-      res.status(404).json({
-        message: "bad",
-        statusCode: 404,
-        response: "The input data is incorrect.",
-      });
+      throw new Error(error as string);
     }
   }
   async changePasswordRoute(req: Request, res: Response) {
@@ -87,7 +80,7 @@ export default new (class accountController {
       currentPassword,
       newPassword,
       confirmNewPassword,
-    }: ChangePasswordRequestBodyTypes = req.body;
+    } = req.body;
     try {
       if (newPassword === confirmNewPassword) {
         const token: string = req.header("token")!;

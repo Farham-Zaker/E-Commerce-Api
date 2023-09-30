@@ -8,7 +8,6 @@ interface NewData {
   phone: string;
   email: string;
 }
-
 export interface SetPasswordRouteUpdatedUserTypes {
   userId: string;
   firstName: string;
@@ -18,19 +17,10 @@ export interface SetPasswordRouteUpdatedUserTypes {
   image: string;
   createdAt: Date;
 }
-export interface SetPasswordRouteRequestBodyTypes {
-  newPassword: string;
-  confirmPassword: string;
-}
 export interface UserAuthInfoTypes {
   authId: string;
-  token: string;
-  password: string;
+  token: string | null;
+  password: string | null;
   isAdmin: number;
   userId: string;
-}
-export interface ChangePasswordRequestBodyTypes {
-  currentPassword: string;
-  newPassword: string;
-  confirmNewPassword: string;
 }

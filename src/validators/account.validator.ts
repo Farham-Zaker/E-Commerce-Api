@@ -3,20 +3,37 @@ import { check, ValidationChain } from "express-validator";
 export default new (class accountValidators {
   updateInfoValidator(): ValidationChain[] {
     return [
-      check("userId").notEmpty().withMessage("Enter userId."),
+      check("userId")
+        .notEmpty()
+        .withMessage("'userId' field can not be empty.")
+        .isUUID()
+        .withMessage("'userId' field must be a uuid."),
       check("newData")
         .notEmpty()
-        .withMessage("Enter the data that you want to update."),
+        .withMessage("Provide the data that you want to update.")
+        .isObject()
+        .withMessage(
+          "Provide a object contain 'firstName', 'lastName', 'phone', 'email'."
+        ),
       check("newData.firstName")
         .notEmpty()
-        .withMessage("Enter your first name."),
+        .withMessage("'firstName' field can not be empty.")
+        .isString()
+        .withMessage("'firstName' field must be string.")
+        .isLength({ min: 2 })
+        .withMessage("'firstName' field must be at lest two charachter."),
       check("newData.lastName")
         .notEmpty()
-        .withMessage("Enter your first name."),
-      check("newData.phone").notEmpty().withMessage("Enter your phone number."),
+        .withMessage("'lastName' field can not be empty.")
+        .isString()
+        .withMessage("'lastName' field must be string.")
+        .isLength({ min: 2 })
+        .withMessage("'lastName' field must be at lest two charachter."),
       check("newData.phone")
+        .notEmpty()
+        .withMessage("'phonr' field can not be empty.")
         .isLength({ min: 11, max: 11 })
-        .withMessage("Your phone number is invalid."),
+        .withMessage("phone number is invalid."),
       check("newData.email").isEmail().withMessage("Your email is invalid."),
     ];
   }
@@ -26,16 +43,16 @@ export default new (class accountValidators {
         .isLength({ min: 8 })
         .withMessage(
           "The password must be more than 8 character and contain alphatic character."
-        ),
-      check("newPassword").custom((value: string) => {
-        const lettersCount: number = value
-          .split("")
-          .filter((char: string) => char.match(/[a-zA-Z]/)).length;
-        if (lettersCount >= 2) {
-          return true;
-        }
-        throw "The password must contain at lest 2 alphatic character.";
-      }),
+        )
+        .custom((value: string) => {
+          const lettersCount: number = value
+            .split("")
+            .filter((char: string) => char.match(/[a-zA-Z]/)).length;
+          if (lettersCount >= 2) {
+            return true;
+          }
+          throw "The password must contain at lest 2 alphatic character.";
+        }),
     ];
   }
   changePasswordValidator(): ValidationChain[] {
@@ -44,16 +61,16 @@ export default new (class accountValidators {
         .isLength({ min: 8 })
         .withMessage(
           "The new password must be more than 8 character and contain alphatic character."
-        ),
-      check("newPassword").custom((value: string) => {
-        const lettersCount: number = value
-          .split("")
-          .filter((char: string) => char.match(/[a-zA-Z]/)).length;
-        if (lettersCount >= 2) {
-          return true;
-        }
-        throw "The new password must contain at lest 2 alphatic character.";
-      }),
+        )
+        .custom((value: string) => {
+          const lettersCount: number = value
+            .split("")
+            .filter((char: string) => char.match(/[a-zA-Z]/)).length;
+          if (lettersCount >= 2) {
+            return true;
+          }
+          throw "The new password must contain at lest 2 alphatic character.";
+        }),
     ];
   }
 })();
