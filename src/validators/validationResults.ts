@@ -1,9 +1,4 @@
 import { validationResult } from "express-validator";
-import {
-  AuthValidationErrorTypes,
-  AuthValidationResponseTypes,
-} from "../interfaces/auth.interface";
-
 import { NextFunction, Request, Response } from "express";
 
 export default function validationResults(
@@ -18,18 +13,21 @@ export default function validationResults(
     errors.forEach((err: any) => {
       errorMessage.push(err);
     });
-    const filteredMessage: AuthValidationErrorTypes[] = errorMessage.map(
+    const filteredMessage: FilterMessageTypes = errorMessage.map(
       (error: any) => {
-        return { field: error.path, erroror: error.msg };
+        return { field: error.path, message: error.msg };
       }
     );
-    const response: AuthValidationResponseTypes = {
+    res.status(400).json({
       message: "Validaion error!",
       statusCode: 400,
       response: filteredMessage,
-    };
-    res.status(400).json(response);
+    });
   } else {
     next();
   }
+}
+interface FilterMessageTypes {
+  field: string;
+  message: string;
 }
