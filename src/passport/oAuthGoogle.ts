@@ -2,10 +2,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import config from "../config/config";
 import prismaService from "../prisma/prismaService";
-import {
-  RegisterUserDataTypes,
-  GoogleAuthSuccessResponseTypes,
-} from "./../interfaces/auth.interface";
+import { RegisterUserDataTypes } from "./../interfaces/auth.interface";
 import generateToken from "../middlewares/generateToken";
 export default async function oAuthGoogle() {
   passport.use(
@@ -33,7 +30,7 @@ export default async function oAuthGoogle() {
 
           if (user) {
             const token = generateToken(user.userId);
-            const successMessage: GoogleAuthSuccessResponseTypes = {
+            const successMessage = {
               message: "ok",
               statusCode: 200,
               response: "Login successfully.",
@@ -62,7 +59,7 @@ export default async function oAuthGoogle() {
               data: { token },
               where: { userId: createdUser.userId },
             });
-            const successMessage: GoogleAuthSuccessResponseTypes = {
+            const successMessage = {
               message: "Created",
               statusCode: 201,
               response: "The account has been successfully created.",

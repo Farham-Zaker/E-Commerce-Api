@@ -2,9 +2,7 @@ import { Request, Response } from "express";
 import prismaService from "./../prisma/prismaService";
 import hashPassword from "./../middlewares/hashPassword";
 import {
-  RegistrationBodyRequestTypes,
   RegisterUserDataTypes,
-  LoginUserInputTypes,
   LoginUserDataTypes,
 } from "./../interfaces/auth.interface";
 
@@ -20,7 +18,7 @@ export default new (class Controller {
       email,
       phone,
       password,
-    }: RegistrationBodyRequestTypes = req.body;
+    } = req.body;
 
     try {
       const user = await prismaService.users.findFirst({
@@ -72,7 +70,7 @@ export default new (class Controller {
     }
   }
   async loginRoute(req: Request, res: Response): Promise<void> {
-    const { phoneOrEmail, password }: LoginUserInputTypes = req.body;
+    const { phoneOrEmail, password } = req.body;
 
     try {
       const user: LoginUserDataTypes | null = (await userFinder(
