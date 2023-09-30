@@ -12,5 +12,6 @@ router.get(
   validationResults,
   productController.getByFilterRoute
 );
+router.get('/search', )
 
 export default router;
