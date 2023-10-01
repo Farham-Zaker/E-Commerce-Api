@@ -9,13 +9,31 @@ import {
 export default new (class {
   async getAllProduct(req: Request, res: Response): Promise<void> {
     try {
-      const allProducts: ProductTypes[] =
-        (await prismaService.products.findMany({
-          include: {
-            category: true,
-            inventories: { include: { colors: true } },
+      const allProducts: ProductTypes[] = await prismaService.products.findMany(
+        {
+          select: {
+            productId: true,
+            title: true,
+            price: true,
+            image: true,
+            discountStatus: true,
+            discountedPrice: true,
+            dicountEndTime: true,
+            discountPercent: true,
+            inventories: {
+              select: {
+                quantity: true,
+                colors: {
+                  select: {
+                    name: true,
+                    hexCode: true,
+                  },
+                },
+              },
+            },
           },
-        })) as ProductTypes[];
+        }
+      );
 
       res
         .status(200)
@@ -28,13 +46,32 @@ export default new (class {
     const productId: string = req.params.productId;
     try {
       const product: ProductTypes | null =
-        (await prismaService.products.findFirst({
-          include: {
+        await prismaService.products.findFirst({
+          select: {
+            productId: true,
+            title: true,
+            price: true,
+            image: true,
             category: true,
-            inventories: { include: { colors: true } },
+            discountStatus: true,
+            discountedPrice: true,
+            dicountEndTime: true,
+            discountPercent: true,
+            inventories: {
+              select: {
+                quantity: true,
+                colors: {
+                  select: {
+                    name: true,
+                    hexCode: true,
+                  },
+                },
+              },
+            },
+            createdAt: true,
           },
           where: { productId },
-        })) as ProductTypes;
+        });
 
       if (product)
         res.status(200).json({
@@ -58,16 +95,34 @@ export default new (class {
       const filterConditions = getFilterProductOption(req.body);
       const orderCondition = getOrderProductOption(req.body);
 
-      const products: ProductTypes[] = (await prismaService.products.findMany({
-        where: filterConditions,
-        take: Number(take),
-        skip: Number(skip),
-        include: {
-          category: true,
-          inventories: { include: { colors: true } },
-        },
-        orderBy: orderCondition,
-      })) as ProductTypes[];
+      const products: ProductTypes[] | [] =
+        await prismaService.products.findMany({
+          where: filterConditions,
+          take: Number(take),
+          skip: Number(skip),
+          select: {
+            productId: true,
+            title: true,
+            price: true,
+            image: true,
+            discountStatus: true,
+            discountedPrice: true,
+            dicountEndTime: true,
+            discountPercent: true,
+            inventories: {
+              select: {
+                quantity: true,
+                colors: {
+                  select: {
+                    name: true,
+                    hexCode: true,
+                  },
+                },
+              },
+            },
+          },
+          orderBy: orderCondition,
+        });
 
       res.status(200).json({
         message: "ok",
