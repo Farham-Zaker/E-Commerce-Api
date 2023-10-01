@@ -54,4 +54,20 @@ export default new (class {
         .withMessage("'skip' field must be a number."),
     ];
   }
+  searchProductValidator(): ValidationChain[] {
+    return [
+      check("searchTerm")
+        .notEmpty()
+        .withMessage(
+          "Provide a search term in the 'searchTerm' query parameter."
+        ),
+      check("take")
+        .notEmpty()
+        .withMessage(
+          "Provide a number in the 'take' query parameter witch how many product do you want to get."
+        )
+        .isNumeric()
+        .withMessage("'take' query must be a number."),
+    ];
+  }
 })();
