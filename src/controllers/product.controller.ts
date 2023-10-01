@@ -133,4 +133,38 @@ export default new (class {
       throw new Error(error as string);
     }
   }
+
+  async searchProductRoute(req: Request, res: Response): Promise<void> {
+    const searchTerm: string = req.query.searchTerm as string;
+    const take: number = Number(req.query.take);
+
+    try {
+      const products: ProductTypes[] | [] =
+        await prismaService.products.findMany({
+          take,
+          where: {
+            title: {
+              contains: searchTerm,
+            },
+          },
+          select: {
+            productId: true,
+            title: true,
+            price: true,
+            image: true,
+          },
+          orderBy: { createdAt: "desc" },
+        });
+      const categories = await prismaService.categories.findMany({
+        where: {
+          name: {
+            contains: searchTerm,
+          },
+        },
+      });
+      res.send({ message: "ok", statusCode: 200, products, categories });
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }
 })();
