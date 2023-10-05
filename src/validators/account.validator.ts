@@ -73,4 +73,50 @@ export default new (class accountValidators {
         }),
     ];
   }
+  getUserInfoValidator(): ValidationChain[] {
+    return [
+      check("userId")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'userId' field in query."
+        ),
+      check("firstName")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'firstName' field in query."
+        ),
+      check("lastName")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'lastName' field in query."
+        ),
+      check("image")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'image' field in query."
+        ),
+      check("email")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'email' field in query."
+        ),
+      check("phone")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'phone' field in query."
+        ),
+      check("createdAt")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'createdAt' field in query."
+        ),
+    ];
+  }
 })();
