@@ -22,4 +22,6 @@ router.put(
   validationResults,
   accountController.changePasswordRoute
 );
+router.get('/get', )
+
 export default router;
