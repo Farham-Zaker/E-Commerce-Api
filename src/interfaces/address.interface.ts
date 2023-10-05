@@ -9,3 +9,13 @@ export interface AddedUserAddressTypes {
   userId: string;
   createdAt: Date;
 }
+export interface ReceivedUserAddressTypes {
+  addressId?: string;
+  country?: string;
+  state?: string;
+  city?: string;
+  zone?: string;
+  apartmentUnite?: number;
+  userId?: string;
+  createdAt?: Date;
+}
