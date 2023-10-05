@@ -10,6 +10,7 @@ router.post(
   isLogged,
   addressValidator.addUserAddressValidator(),
   validationResults,
+  addressController.addUserAddress
 );
 
 export default router;
