@@ -80,4 +80,28 @@ export default new (class {
       res.status(500).send("Internal Server Error");
     }
   }
+  async getAddressById(req: Request, res: Response): Promise<void> {
+    try {
+      const addressId: string = req.params.addressId;
+      const address: ReceivedUserAddressTypes | null =
+        await prismaService.addreesses.findFirst({
+          where: {
+            addressId,
+          },
+        });
+      if (address) {
+        res.status(200).json({ message: "ok", statusCode: 200, address });
+      } else {
+        res.status(404).json({
+          message: "Not Found",
+          statusCode: 404,
+          response: "The requested address was not found.",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+  
 })();
