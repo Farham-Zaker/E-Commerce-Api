@@ -130,4 +130,22 @@ export default new (class {
       console.error(error);
     }
   }
+  async deleteUserAddress(req: Request, res: Response): Promise<void> {
+    try {
+      const addressId: string = req.params.addressId;
+      await prismaService.addreesses.delete({ where: { addressId } });
+      res.status(200).json({
+        message: "Deleted",
+        statusCode: 201,
+        response: `The address successfully deleted base on '${addressId}' id.`,
+      });
+    } catch (error) {
+      res.status(404).json({
+        message: "Not found.",
+        statusCode: 404,
+        response:
+          "Check data that you send in body of request.Probaby addressId is incorrect.",
+      });
+    }
+  }
 })();

@@ -30,6 +30,7 @@ router.put(
 router.delete(
   "/delete/:addressId",
   isLogged,
+  addressController.deleteUserAddress
 );
 
 export default router;
