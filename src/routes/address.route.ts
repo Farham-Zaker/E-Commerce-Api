@@ -24,7 +24,8 @@ router.put(
   "/update",
   isLogged,
   addressValidator.updateUserAddressValidator(),
-  validationResults
+  validationResults,
+  addressController.updateUserAddresses
 );
 
 export default router;

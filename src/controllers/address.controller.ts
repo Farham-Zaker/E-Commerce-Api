@@ -4,6 +4,7 @@ import decodeToken from "../middlewares/decodeToekn";
 import {
   AddedUserAddressTypes,
   ReceivedUserAddressTypes,
+  UpdatedUserAddressType,
 } from "../interfaces/address.interface";
 
 export default new (class {
@@ -103,5 +104,30 @@ export default new (class {
       res.status(500).send("Internal Server Error");
     }
   }
-  
+  async updateUserAddresses(req: Request, res: Response): Promise<void> {
+    try {
+      const { addressId, newAddress } = req.body;
+      const updatedAddress: UpdatedUserAddressType =
+        await prismaService.addreesses.update({
+          data: newAddress,
+          where: {
+            addressId,
+          },
+        });
+      res.status(200).json({
+        message: "Updated",
+        statusCode: 200,
+        response: "The user 's address was successfully updated.",
+        updatedAddress,
+      });
+    } catch (error) {
+      res.status(404).json({
+        message: "Error",
+        statusCode: 404,
+        response:
+          "Check data that you send in body of request.Probaby addressId is incorrect.",
+      });
+      console.error(error);
+    }
+  }
 })();
