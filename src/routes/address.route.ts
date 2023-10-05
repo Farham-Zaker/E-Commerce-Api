@@ -27,5 +27,9 @@ router.put(
   validationResults,
   addressController.updateUserAddresses
 );
+router.delete(
+  "/delete/:addressId",
+  isLogged,
+);
 
 export default router;
