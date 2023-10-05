@@ -3,6 +3,7 @@ import prismaService from "../prisma/prismaService";
 import {
   SetPasswordRouteUpdatedUserTypes,
   UserAuthInfoTypes,
+  UserInfoTypes,
 } from "./../interfaces/account.interface";
 import decodeToken from "../middlewares/decodeToekn";
 import hashPassword from "../middlewares/hashPassword";
@@ -33,8 +34,7 @@ export default new (class accountController {
   }
   async setPasswordRoute(req: Request, res: Response) {
     const token: string = req.header("token")!;
-    const { newPassword, confirmPassword } =
-      req.body;
+    const { newPassword, confirmPassword } = req.body;
     const decodedToken: { userId: string } = decodeToken(token)!;
     try {
       const userAuthInfo: UserAuthInfoTypes | null =
@@ -76,11 +76,7 @@ export default new (class accountController {
     }
   }
   async changePasswordRoute(req: Request, res: Response) {
-    const {
-      currentPassword,
-      newPassword,
-      confirmNewPassword,
-    } = req.body;
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
     try {
       if (newPassword === confirmNewPassword) {
         const token: string = req.header("token")!;
@@ -132,6 +128,49 @@ export default new (class accountController {
       }
     } catch (error) {
       throw new Error(error as string);
+    }
+  }
+  async getUserInfo(req: Request, res: Response): Promise<void> {
+    const query = req.query;
+
+    let filteroption: { [key: string]: boolean } = {};
+
+    for (let key in query) {
+      if (query[key] === "true") {
+        filteroption[key] = true;
+      } else {
+        filteroption = {};
+      }
+    }
+
+    if (Object.keys(filteroption).length === 0) {
+      filteroption = {
+        userId: true,
+        firstName: true,
+        lastName: true,
+        image: true,
+        email: true,
+        phone: true,
+        createdAt: true,
+      };
+    }
+
+    try {
+      const token: string = req.header("token") as string;
+      const decodedToken: { userId: string } = decodeToken(token)!;
+
+      const user: UserInfoTypes | null = await prismaService.users.findUnique({
+        where: { userId: decodedToken.userId },
+        select: filteroption,
+      });
+
+      res.status(200).json({ message: "ok", statusCode: 200, user });
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      } else {
+        console.error(error);
+      }
     }
   }
 })();

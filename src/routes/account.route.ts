@@ -22,6 +22,11 @@ router.put(
   validationResults,
   accountController.changePasswordRoute
 );
-router.get('/info',accountValidator.getUserInfoValidator(),validationResults)
+router.get(
+  "/info",
+  accountValidator.getUserInfoValidator(),
+  validationResults,
+  accountController.getUserInfo
+);
 
 export default router;
