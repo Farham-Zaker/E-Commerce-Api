@@ -14,8 +14,8 @@ export interface ReceivedUserAddressTypes {
   country?: string;
   state?: string;
   city?: string;
-  zone?: string;
-  apartmentUnite?: number;
+  zone?: string | null;
+  apartmentUnite?: number | null;
   userId?: string;
   createdAt?: Date;
 }
