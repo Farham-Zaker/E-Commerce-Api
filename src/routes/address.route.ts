@@ -20,6 +20,6 @@ router.get(
   addressController.getUserAddresses
 );
 router.get("/get/:addressId", isLogged, addressController.getAddressById);
-
+router.put("/update", isLogged);
 
 export default router;
