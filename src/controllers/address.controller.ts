@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import prismaService from "../prisma/prismaService";
 import decodeToken from "../middlewares/decodeToekn";
-import { AddedUserAddressTypes } from "../interfaces/address.interface";
+import {
+  AddedUserAddressTypes,
+  ReceivedUserAddressTypes,
+} from "../interfaces/address.interface";
 
 export default new (class {
   async addUserAddress(req: Request, res: Response): Promise<void> {
@@ -29,6 +32,49 @@ export default new (class {
         statusCode: 201,
         newAddress: addedUserAddress,
       });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+  async getUserAddresses(req: Request, res: Response): Promise<void> {
+    const query = req.query;
+
+    let filterOptions: { [key: string]: boolean } = {};
+
+    for (let key in query) {
+      if (query[key] === "true") {
+        filterOptions[key] = true;
+      } else {
+        filterOptions[key] = false;
+      }
+    }
+
+    if (Object.keys(filterOptions).length === 0) {
+      filterOptions = {
+        addressId: true,
+        country: true,
+        state: true,
+        city: true,
+        zone: true,
+        apartmentUnite: true,
+        userId: true,
+        createdAt: true,
+      };
+    }
+
+    try {
+      const token: string = req.header("token") as string;
+      const decodedToken: { userId: string } = decodeToken(token) as {
+        userId: string;
+      };
+
+      const userAdresses: ReceivedUserAddressTypes[] | [] =
+        await prismaService.addreesses.findMany({
+          where: { userId: decodedToken.userId },
+          select: filterOptions,
+        });
+      res.send({ message: "ok", statusCode: 200, userAdresses });
     } catch (error) {
       console.error(error);
       res.status(500).send("Internal Server Error");

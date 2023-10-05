@@ -16,7 +16,8 @@ router.get(
   "/get",
   isLogged,
   addressValidator.getUserAddressesValidator(),
-  validationResults
+  validationResults,
+  addressController.getUserAddresses
 );
 
 export default router;
