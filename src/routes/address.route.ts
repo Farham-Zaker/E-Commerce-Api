@@ -12,6 +12,11 @@ router.post(
   validationResults,
   addressController.addUserAddress
 );
-router.get("/get", isLogged);
+router.get(
+  "/get",
+  isLogged,
+  addressValidator.getUserAddressesValidator(),
+  validationResults
+);
 
 export default router;

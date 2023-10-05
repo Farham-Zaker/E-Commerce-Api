@@ -39,4 +39,56 @@ export default new (class {
         .withMessage("'postalCode' field must be 10 character."),
     ];
   }
+  getUserAddressesValidator(): ValidationChain[] {
+    return [
+      check("addressId")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'addressId' field in query."
+        ),
+      check("country")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'country' field in query."
+        ),
+      check("state")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'state' field in query."
+        ),
+      check("city")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'city' field in query."
+        ),
+      check("zone")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'zone' field in query."
+        ),
+      check("apartmentUnite")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'apartmentUnite' field in query."
+        ),
+      check("userId")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'userId' field in query."
+        ),
+      check("createdAt")
+        .optional()
+        .isIn(["true", "false"])
+        .withMessage(
+          "Provide 'true' or 'false' value for 'createdAt' field in query."
+        ),
+    ];
+  }
 })();
