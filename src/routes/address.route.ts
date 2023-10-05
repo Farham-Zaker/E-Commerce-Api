@@ -20,6 +20,11 @@ router.get(
   addressController.getUserAddresses
 );
 router.get("/get/:addressId", isLogged, addressController.getAddressById);
-router.put("/update", isLogged);
+router.put(
+  "/update",
+  isLogged,
+  addressValidator.updateUserAddressValidator(),
+  validationResults
+);
 
 export default router;

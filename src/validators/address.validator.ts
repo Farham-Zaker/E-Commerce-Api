@@ -91,4 +91,55 @@ export default new (class {
         ),
     ];
   }
+  updateUserAddressValidator(): ValidationChain[] {
+    return [
+      check("addressId")
+        .notEmpty()
+        .withMessage("'addressId' can not be empty."),
+      check("newAddress")
+        .isObject()
+        .withMessage(
+          "Provide a object contain 'country', 'state', 'zone', 'apartmentUnite', 'postalCode'."
+        ),
+      check("newAddress.country")
+        .notEmpty()
+        .withMessage("'country' field can not be empty.")
+        .isString()
+        .withMessage("'country' field must be a string."),
+      check("newAddress.state")
+        .notEmpty()
+        .withMessage("'state' field can not be empty.")
+        .isString()
+        .withMessage("'state' field must be a string."),
+      check("newAddress.city")
+        .notEmpty()
+        .withMessage("'city' field can not be empty.")
+        .isString()
+        .withMessage("'city' field must be a string."),
+      check("newAddress.zone")
+        .optional()
+        .notEmpty()
+        .withMessage("'zone' field can not be empty.")
+        .isString()
+        .withMessage("'zone' field must be a string."),
+      check("newAddress.apartmentUnite")
+        .optional()
+        .notEmpty()
+        .withMessage("'apartmentUnite' field can not be empty.")
+        .custom((value) => {
+          if (typeof value === "string") {
+            return false;
+          }
+          return true;
+        })
+        .withMessage("'apartmentUnite' field must be a number."),
+      check("newAddress.postalCode")
+        .notEmpty()
+        .withMessage("'postalCode' field can not be empty.")
+        .isString()
+        .withMessage("'postalCode' field must be a string.")
+        .isLength({ min: 10, max: 10 })
+        .withMessage("'postalCode' field must be 10 character."),
+    ];
+  }
 })();
