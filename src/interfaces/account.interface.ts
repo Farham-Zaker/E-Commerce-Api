@@ -24,3 +24,12 @@ export interface UserAuthInfoTypes {
   isAdmin: number;
   userId: string;
 }
+export interface UserInfoTypes {
+  userId?: string;
+  firstName?: string;
+  lastName?: string;
+  image?: string;
+  email?: string;
+  phone?: string;
+  createdAt?: Date;
+}
