@@ -12,5 +12,6 @@ router.post(
   validationResults,
   addressController.addUserAddress
 );
+router.get("/get", isLogged);
 
 export default router;
