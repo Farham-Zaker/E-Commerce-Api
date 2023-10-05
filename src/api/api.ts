@@ -13,4 +13,7 @@ router.use('/products', productRoute)
 import addressRoute from "./../routes/address.route"
 router.use('/address', addressRoute)
 
+import cartRoute from "./../routes/cart.route";
+router.use('/cart', cartRoute);
+
 export default router;
