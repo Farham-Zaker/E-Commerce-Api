@@ -174,4 +174,74 @@ export default new (class {
       console.error(error);
     }
   }
+  async getCartById(req: Request, res: Response): Promise<void> {
+    const token = req.header("token") as string;
+    const decodedToken: { userId: string } = decodeToken(token) as {
+      userId: string;
+    };
+    const cartId: string = req.params.cartId;
+    const cart: CartTypes | null = (await prismaService.carts.findFirst({
+      where: {
+        cartId,
+        userId: decodedToken.userId,
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+      select: {
+        cartId: true,
+        product: {
+          select: {
+            productId: true,
+            title: true,
+            price: true,
+            image: true,
+            discountStatus: true,
+            discountPercent: true,
+            dicountEndTime: true,
+            discountedPrice: true,
+            category: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        cartInventories: {
+          select: {
+            colors: {
+              select: {
+                name: true,
+                hexCode: true,
+              },
+            },
+            quantity: true,
+          },
+        },
+      },
+    })) as CartTypes | null;
+
+    if (cart) {
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        cart,
+      });
+    } else {
+      res.status(404).json({
+        message: "Failed",
+        statusCode: 404,
+        response: "The requested cart was not found.",
+      });
+    }
+    try {
+    } catch (error) {
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error.",
+      });
+      console.error(error);
+    }
+  }
 })();
