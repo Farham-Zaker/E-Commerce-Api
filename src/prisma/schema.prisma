@@ -17,13 +17,13 @@ model users {
   createdAt DateTime     @default(now())
   auth      auth?
   addresses addreesses[]
-  users     user_carts[]
-  likes     user_likes[]
+  carts     carts[]
+  likes     likes[]
   comments  comments[]
   orders    orders[]
 }
 
-model user_likes {
+model likes {
   id        String   @id @default(uuid()) @db.VarChar(55)
   user      users    @relation(fields: [userId], references: [userId])
   userId    String   @db.VarChar(55)
@@ -32,13 +32,23 @@ model user_likes {
   createdAt DateTime @default(now())
 }
 
-model user_carts {
-  id        String   @id @default(uuid()) @db.VarChar(55)
-  user      users    @relation(fields: [userId], references: [userId])
-  userId    String   @db.VarChar(55)
-  product   products @relation(fields: [productId], references: [productId])
-  productId String   @db.VarChar(55)
-  createdAt DateTime @default(now())
+model carts {
+  cartId          String              @id @default(uuid()) @db.VarChar(55)
+  user            users               @relation(fields: [userId], references: [userId])
+  userId          String              @db.VarChar(55)
+  product         products            @relation(fields: [productId], references: [productId])
+  productId       String              @db.VarChar(55)
+  createdAt       DateTime            @default(now())
+  cartInventories carts_inventories[]
+}
+
+model carts_inventories {
+  inventoryId String @id @default(uuid()) @db.VarChar(55)
+  quantity    Int    @db.SmallInt
+  colors      colors @relation(fields: [colorId], references: [colorId])
+  colorId     String @db.VarChar(55)
+  carts       carts @relation(fields: [cartId], references: [cartId])
+  cartId      String @db.VarChar(55)
 }
 
 model comments {
@@ -67,8 +77,8 @@ model products {
   createdAt       DateTime      @default(now())
   category        categories    @relation(fields: [categoryId], references: [categoryId])
   categoryId      String        @db.VarChar(55)
-  user_carts      user_carts[]
-  usersLikes      user_likes[]
+  carts           carts[]
+  Likes           likes[]
   inventories     inventories[]
   comments        comments[]
   orderItems      order_items[]
@@ -90,11 +100,12 @@ model inventories {
 }
 
 model colors {
-  colorId     String        @id @default(uuid()) @db.VarChar(55)
-  name        String        @db.VarChar(35)
-  hexCode     String        @db.VarChar(10)
-  inventories inventories[]
-  orderItemId order_items[]
+  colorId         String              @id @default(uuid()) @db.VarChar(55)
+  name            String              @db.VarChar(35)
+  hexCode         String              @db.VarChar(10)
+  inventories     inventories[]
+  orderItemId     order_items[]
+  cartInventories carts_inventories[]
 }
 
 model auth {

@@ -12,7 +12,7 @@ CREATE TABLE `users` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `user_likes` (
+CREATE TABLE `likes` (
     `id` VARCHAR(55) NOT NULL,
     `userId` VARCHAR(55) NOT NULL,
     `productId` VARCHAR(55) NOT NULL,
@@ -22,13 +22,23 @@ CREATE TABLE `user_likes` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `user_carts` (
-    `id` VARCHAR(55) NOT NULL,
+CREATE TABLE `carts` (
+    `cartId` VARCHAR(55) NOT NULL,
     `userId` VARCHAR(55) NOT NULL,
     `productId` VARCHAR(55) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`cartId`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `carts_inventories` (
+    `inventoryId` VARCHAR(55) NOT NULL,
+    `quantity` SMALLINT NOT NULL,
+    `colorId` VARCHAR(55) NOT NULL,
+    `cartId` VARCHAR(55) NOT NULL,
+
+    PRIMARY KEY (`inventoryId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -150,16 +160,22 @@ CREATE TABLE `payments` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `user_likes` ADD CONSTRAINT `user_likes_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`userId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `likes` ADD CONSTRAINT `likes_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`userId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `user_likes` ADD CONSTRAINT `user_likes_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `products`(`productId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `likes` ADD CONSTRAINT `likes_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `products`(`productId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `user_carts` ADD CONSTRAINT `user_carts_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`userId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `carts` ADD CONSTRAINT `carts_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `users`(`userId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `user_carts` ADD CONSTRAINT `user_carts_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `products`(`productId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `carts` ADD CONSTRAINT `carts_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `products`(`productId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `carts_inventories` ADD CONSTRAINT `carts_inventories_colorId_fkey` FOREIGN KEY (`colorId`) REFERENCES `colors`(`colorId`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `carts_inventories` ADD CONSTRAINT `carts_inventories_cartId_fkey` FOREIGN KEY (`cartId`) REFERENCES `carts`(`cartId`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `comments` ADD CONSTRAINT `comments_replyId_fkey` FOREIGN KEY (`replyId`) REFERENCES `comments`(`commentId`) ON DELETE SET NULL ON UPDATE CASCADE;
