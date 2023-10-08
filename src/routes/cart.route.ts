@@ -1,7 +1,14 @@
 import { Router } from 'express';
 import isLogged from '../middlewares/isLogged';
-const router = Router()
+import cartValidator from "../validators/cart.validator";
+import validationResults from "../validators/validationResults";
+const router = Router();
 
-router.post('/add', isLogged)
+router.post(
+  "/add",
+  isLogged,
+  cartValidator.addToCartValidator(),
+  validationResults
+);
 
 export default router;
