@@ -355,4 +355,31 @@ export default new (class {
       response: "No matching condition was met.",
     });
   }
+  async deleteCartByIdreq(req: Request, res: Response): Promise<void> {
+    const cartId: string = req.params.cartId;
+    try {
+      await prismaService.carts_inventories.deleteMany({
+        where: {
+          cartId,
+        },
+      }),
+        await prismaService.carts.delete({
+          where: {
+            cartId,
+          },
+        }),
+        res.status(200).json({
+          message: "Success",
+          statusCode: 200,
+          response: "Desire cart was deleted successfully.",
+        });
+    } catch (error) {
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error.",
+      });
+      console.error(error);
+    }
+  }
 })();
