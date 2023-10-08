@@ -14,6 +14,12 @@ router.post(
 );
 router.get("/get", isLogged, cartController.getAllCarts);
 router.get("/get/:cartId", isLogged, cartController.getCartById);
-router.put("/update", isLogged,cartValidator.updateCartValidator(),validationResults);
+router.put(
+  "/update",
+  isLogged,
+  cartValidator.updateCartValidator(),
+  validationResults,
+  cartController.updateCarts
+);
 
 export default router;

@@ -244,4 +244,115 @@ export default new (class {
       console.error(error);
     }
   }
+  async updateCarts(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> {
+    const { cartId, colorId, quantity } = req.body;
+    const requestQuantity = Number(quantity)
+    const token = req.header("token") as string;
+    const decodedToken: { userId: string } = decodeToken(token) as {
+      userId: string;
+    };
+
+    try {
+      const productsInCart = await prismaService.carts_inventories.findFirst({
+        where: {
+          cartId,
+          colorId,
+          carts: {
+            userId: decodedToken.userId,
+          },
+        },
+        select: {
+          quantity: true,
+          carts: {
+            select: {
+              productId: true,
+            },
+          },
+        },
+      });
+
+      const productId = productsInCart?.carts.productId;
+
+      if (!productsInCart) {
+        return res.status(404).json({
+          message: "Not Found",
+          statusCode: 404,
+          response: "No product with this specification was found in carts.",
+        });
+      }
+
+      const inventories = await prismaService.inventories.findFirst({
+        where: {
+          colorId,
+          productId,
+        },
+        select: {
+          quantity: true,
+        },
+      });
+
+      if (!inventories) {
+        return res.status(404).json({
+          message: "Failed",
+          statusCode: 404,
+          response: "No product with this specification was found.",
+        });
+      }
+
+      const productInventories: number = inventories?.quantity!;
+      if (requestQuantity + productsInCart.quantity > productInventories) {
+        return res.status(400).json({
+          message: "Failed",
+          statusCode: 400,
+          response: "The available quantity is less than your desired product.",
+        });
+      }
+
+      console.log(inventories.quantity + requestQuantity);
+      console.log(productsInCart.quantity + requestQuantity < 0);
+      if (
+        inventories.quantity + requestQuantity < 0 ||
+        productsInCart.quantity + requestQuantity < 0
+      ) {
+        return res.status(400).json({
+          message: "Failed",
+          statusCode: 400,
+          response: `The quantity of product can not be negetive.Now the quantity of this product is ${productsInCart.quantity}`,
+        });
+      }
+      await prismaService.carts_inventories.updateMany({
+        data: {
+          colorId,
+          quantity: productsInCart.quantity + requestQuantity,
+        },
+        where: {
+          cartId,
+        },
+      });
+      console.log(productsInCart)
+      if(productsInCart.quantity === 0){
+      }
+      return res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire product successfully was updated.",
+      });
+
+    } catch (error) {
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error.",
+      });
+      console.error(error);
+    }
+    return res.status(404).json({
+      message: "Not Found",
+      statusCode: 404,
+      response: "No matching condition was met.",
+    });
+  }
 })();
