@@ -12,6 +12,6 @@ router.post(
   validationResults,
   cartController.addToCarts
 );
-router.get("/get", isLogged);
+router.get("/get", isLogged, cartController.getAllCarts);
 
 export default router;

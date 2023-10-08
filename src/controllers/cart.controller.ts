@@ -120,4 +120,58 @@ export default new (class {
       response: "No matching condition was met.",
     }) as Response<any, Record<string, any>>;
   }
+  async getAllCarts(req: Request, res: Response): Promise<void> {
+    const token = req.header("token") as string;
+    const decodedToken: { userId: string } = decodeToken(token) as {
+      userId: string;
+    };
+    try {
+      const carts = (await prismaService.carts.findMany({
+        where: {
+          userId: decodedToken.userId,
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+        select: {
+          cartId: true,
+          product: {
+            select: {
+              productId: true,
+              title: true,
+              price: true,
+              image: true,
+              discountStatus: true,
+              discountPercent: true,
+              dicountEndTime: true,
+              discountedPrice: true,
+              category: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          cartInventories: {
+            select: {
+              colors: true,
+              quantity: true,
+            },
+          },
+        },
+      })) as CartTypes[] | [];
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        carts,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error.",
+      });
+      console.error(error);
+    }
+  }
 })();
