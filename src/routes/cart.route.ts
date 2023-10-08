@@ -21,5 +21,6 @@ router.put(
   validationResults,
   cartController.updateCarts
 );
+router.delete("/delete/:cartId", isLogged);
 
 export default router;
