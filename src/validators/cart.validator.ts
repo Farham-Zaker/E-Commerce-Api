@@ -23,4 +23,26 @@ export default new (class V {
         }),
     ];
   }
+  updateCartValidator(): ValidationChain[] {
+    return [
+      check("cartId")
+        .notEmpty()
+        .withMessage("'cartId' field must be a number."),
+      check("colorId")
+        .notEmpty()
+        .withMessage("'colorId' field must be a number."),
+      check("quantity")
+        .notEmpty()
+        .withMessage("'quantity' field can not be empty.")
+        .isNumeric()
+        .withMessage("'quantity' field must be a number.")
+        .custom((value) => {
+          if (value < 1) {
+            throw "Quantity should be greater than or equal to 1.";
+          } else {
+            return true;
+          }
+        }),
+    ];
+  }
 })();
