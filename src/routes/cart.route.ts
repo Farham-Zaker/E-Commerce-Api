@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import isLogged from '../middlewares/isLogged';
+import { Router } from "express";
+import isLogged from "../middlewares/isLogged";
 import cartValidator from "../validators/cart.validator";
 import validationResults from "../validators/validationResults";
-import cartController from '../controllers/cart.controller';
+import cartController from "../controllers/cart.controller";
 const router = Router();
 
 router.post(
@@ -14,5 +14,6 @@ router.post(
 );
 router.get("/get", isLogged, cartController.getAllCarts);
 router.get("/get/:cartId", isLogged, cartController.getCartById);
+router.put("/update", isLogged);
 
 export default router;
