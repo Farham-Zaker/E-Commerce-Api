@@ -13,5 +13,6 @@ router.post(
   cartController.addToCarts
 );
 router.get("/get", isLogged, cartController.getAllCarts);
+router.get("/get/:cartId", isLogged);
 
 export default router;
