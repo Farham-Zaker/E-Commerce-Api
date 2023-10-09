@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prismaService from "./../prisma/prismaService";
 import decodeToken from "../middlewares/decodeToekn";
+import { ProductsInLikesTypes } from "../interfaces/likes.interface";
 
 export default new (class Controller {
   async addToLikes(
@@ -71,5 +72,55 @@ export default new (class Controller {
       });
     }
   }
+  async getAllLikes(req: Request, res: Response): Promise<void> {
+    const token = req.header("token") as string;
+    const decodedToken: { userId: string } = decodeToken(token) as {
+      userId: string;
+    };
 
+    try {
+      const userLikes = (await prismaService.likes.findMany({
+        where: {
+          userId: decodedToken.userId,
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+        select: {
+          id: true,
+          product: {
+            select: {
+              productId: true,
+              title: true,
+              price: true,
+              image: true,
+              discountStatus: true,
+              discountPercent: true,
+              dicountEndTime: true,
+              discountedPrice: true,
+              category: {
+                select: {
+                  name: true,
+                },
+              },
+              inventories: {
+                select: {
+                  colors: true,
+                  quantity: true,
+                },
+              },
+            },
+          },
+        },
+      })) as ProductsInLikesTypes[] | [];
+      res.status(200).json({ message: "Success", statusCode: 200, userLikes });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error.",
+      });
+    }
+  }
 })();
