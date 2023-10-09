@@ -13,6 +13,6 @@ router.post(
   likesController.addToLikes
 );
 router.get("/get", isLogged, likesController.getAllLikes);
-router.delete("/delete/:productId", isLogged);
+router.delete("/delete/:productId", isLogged, likesController.deleteFromCarts);
 
 export default router;

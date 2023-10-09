@@ -123,4 +123,47 @@ export default new (class Controller {
       });
     }
   }
+  async deleteFromCarts(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> {
+    const productId = req.params.productId;
+    try {
+      const product: { id: string } | null =
+        await prismaService.likes.findFirst({
+          where: {
+            productId,
+          },
+          select: {
+            id: true,
+          },
+        });
+
+      if (!product) {
+        return res.status(404).json({
+          message: "Failed",
+          statusCode: 404,
+          response: "There is no any product with this id.",
+        });
+      }
+
+      await prismaService.likes.deleteMany({
+        where: {
+          productId,
+        },
+      });
+      return res.status(200).json({
+        message: "Seccuss",
+        statusCode: 200,
+        response: "Desire product was deleted successfully from likes.",
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error.",
+      });
+    }
+  }
 })();
