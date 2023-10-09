@@ -19,4 +19,7 @@ router.use('/cart', cartRoute);
 import likesRoute from "../routes/likes.route";
 router.use('/likes', likesRoute)
 
+import commentRoute from "../routes/comments.route"
+router.use('/comments',commentRoute );
+
 export default router;
