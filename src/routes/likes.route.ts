@@ -12,5 +12,6 @@ router.post(
   validationResults,
   likesController.addToLikes
 );
+router.get("/get", isLogged);
 
 export default router;
