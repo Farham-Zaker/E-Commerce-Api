@@ -16,4 +16,7 @@ router.use('/address', addressRoute)
 import cartRoute from "./../routes/cart.route";
 router.use('/cart', cartRoute);
 
+import likesRoute from "../routes/likes.route";
+router.use('/likes', likesRoute)
+
 export default router;
