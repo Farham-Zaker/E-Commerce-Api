@@ -195,4 +195,55 @@ export default new (class {
         });
     }
   }
+  async updateComment(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>> | void> {
+    const token = req.header("token") as string;
+    const decodedToken: { userId: string } = decodeToken(token) as {
+      userId: string;
+    };
+
+    const { commentId, comment } = req.body;
+
+    try {
+      const isCommentAvialable: boolean =
+        !!(await prismaService.comments.findFirst({
+          where: {
+            commentId,
+            userId: decodedToken.userId,
+          },
+        }));
+
+      if (!isCommentAvialable) {
+        return res.status(404).json({
+          message: "Field",
+          statusCode: 404,
+          response: "There is no any comment with this id.",
+        });
+      }
+
+      await prismaService.comments.updateMany({
+        data: {
+          comment,
+          userId: decodedToken.userId,
+        },
+        where: {
+          commentId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire comment successfully was added.",
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error",
+      });
+    }
+  }
 })();

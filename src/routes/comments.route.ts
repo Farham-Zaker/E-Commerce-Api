@@ -17,7 +17,8 @@ router.put(
   "/update",
   isLogged,
   commentsValidator.updateCommentValidator(),
-  validationResults
+  validationResults,
+  commentsController.updateComment
 );
 
 export default router;
