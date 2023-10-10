@@ -20,6 +20,6 @@ router.put(
   validationResults,
   commentsController.updateComment
 );
-router.delete("/delete/:commentId", isLogged);
+router.delete("/delete/:commentId", isLogged, commentsController.deleteComment);
 
 export default router;
