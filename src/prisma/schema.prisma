@@ -54,7 +54,7 @@ model carts_inventories {
 model comments {
   commentId String     @id @default(uuid()) @db.VarChar(55)
   comment   String     @db.Text
-  role      String     @db.VarChar(6)
+  role      String     @db.VarChar(7)
   comments  comments[] @relation("CommentToReply")
   reply     comments?  @relation("CommentToReply", fields: [replyId], references: [commentId])
   replyId   String?    @default(uuid()) @db.VarChar(55)
