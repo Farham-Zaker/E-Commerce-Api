@@ -12,5 +12,5 @@ router.post(
   validationResults,
   commentsController.addToComment
 );
-
+router.get("/get/:productId");
 export default router;
