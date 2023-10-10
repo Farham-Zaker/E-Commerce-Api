@@ -13,4 +13,6 @@ router.post(
   commentsController.addToComment
 );
 router.get("/get/:productId", commentsController.getCommentByProductId);
+router.put("/update", isLogged);
+
 export default router;
