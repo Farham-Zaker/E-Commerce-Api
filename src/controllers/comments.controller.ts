@@ -1,6 +1,11 @@
 import { Request, Response } from "express";
 import prismaService from "../prisma/prismaService";
 import decodeToken from "../middlewares/decodeToekn";
+import {
+  CommentsAndRepliesTypes,
+  CommentsTypes,
+  RepliesTypes,
+} from "../interfaces/comments.interface";
 
 export default new (class {
   async addToComment(
@@ -88,6 +93,106 @@ export default new (class {
         statusCode: 500,
         response: "Internal Server Error",
       });
+    }
+  }
+  async getCommentByProductId(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>> | void> {
+    const productId = req.params.productId;
+
+    try {
+      const isProductAvialable: boolean =
+        !!(await prismaService.products.findFirst({
+          where: {
+            productId,
+          },
+        }));
+      if (!isProductAvialable) {
+        return res.status(404).json({
+          message: "Field",
+          statusCode: 404,
+          response: "There is no any product with this id.",
+        });
+      }
+
+      const allComments: CommentsTypes[] | [] =
+        await prismaService.comments.findMany({
+          where: {
+            productId,
+            role: "comment",
+          },
+          orderBy: {
+            createdAt: "asc",
+          },
+          select: {
+            commentId: true,
+            comment: true,
+            role: true,
+            users: {
+              select: {
+                userId: true,
+                firstName: true,
+                lastName: true,
+                image: true,
+              },
+            },
+            createdAt: true,
+          },
+        });
+
+      const allReplies: RepliesTypes[] | [] =
+        await prismaService.comments.findMany({
+          where: {
+            productId,
+            role: "reply",
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+          select: {
+            commentId: true,
+            comment: true,
+            role: true,
+            users: {
+              select: {
+                userId: true,
+                firstName: true,
+                lastName: true,
+                image: true,
+              },
+            },
+            replyId: true,
+            createdAt: true,
+          },
+        });
+
+      const comments: CommentsAndRepliesTypes[] = [];
+      allComments.map((c) => {
+        const filteredReplies = allReplies.filter((reply) => {
+          if (reply.replyId === c.commentId) {
+            return reply;
+          }
+          return null;
+        });
+        comments.push({
+          commentId: c.commentId,
+          comment: c.comment,
+          role: c.role,
+          users: c.users,
+          createdAt: c.createdAt,
+          replies: filteredReplies,
+        });
+      });
+
+      res.status(200).json({ message: "Success", statusCode: 200, comments });
+    } catch (error) {
+      console.error(error),
+        res.status(500).json({
+          message: "Error",
+          statusCode: 500,
+          response: "Internal Server Error",
+        });
     }
   }
 })();
