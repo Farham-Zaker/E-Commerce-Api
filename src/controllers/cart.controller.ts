@@ -143,8 +143,8 @@ export default new (class {
               image: true,
               discountStatus: true,
               discountPercent: true,
-              dicountEndTime: true,
-              discountedPrice: true,
+              discountEndTime: true,
+              finalPrice: true,
               category: {
                 select: {
                   name: true,
@@ -198,8 +198,8 @@ export default new (class {
             image: true,
             discountStatus: true,
             discountPercent: true,
-            dicountEndTime: true,
-            discountedPrice: true,
+            discountEndTime: true,
+            finalPrice: true,
             category: {
               select: {
                 name: true,
