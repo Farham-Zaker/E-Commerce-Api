@@ -22,4 +22,7 @@ router.use('/likes', likesRoute)
 import commentRoute from "../routes/comments.route"
 router.use('/comments',commentRoute );
 
+import paymentRoute from "../routes/payment.route"
+router.use('/payment', paymentRoute)
+
 export default router;
