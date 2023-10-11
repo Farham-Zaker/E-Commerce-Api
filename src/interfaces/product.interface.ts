@@ -4,9 +4,9 @@ export interface ProductTypes {
   price: number;
   image: string | null;
   discountStatus?: number | null;
+  finalPrice: number | null;
   discountPercent?: number | null;
-  dicountEndTime?: Date | null;
-  discountedPrice?: number | null;
+  discountEndTime?: Date | null;
   createdAt?: Date;
   category?: {
     categoryId: string;
