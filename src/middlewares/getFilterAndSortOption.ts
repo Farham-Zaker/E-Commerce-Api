@@ -9,10 +9,10 @@ export function getOrderProductOption(
   if (orderBy === "newset") {
     return { createdAt: "asc" };
   } else if (orderBy === "cheapest") {
-    return { discountedPrice: "asc" };
+    return { finalPrice: "asc" };
   } else if (orderBy === "mostExpensive") {
     return {
-      discountedPrice: "desc",
+      finalPrice: "desc",
     };
   } else {
     return {};
@@ -58,8 +58,8 @@ export function getFilterProductOption(
   if (minPrice && maxPrice) {
     priceCondition = {
       AND: [
-        { discountedPrice: { gte: Number(minPrice) || 0 } },
-        { discountedPrice: { lte: Number(maxPrice) || 100000000000000 } },
+        { finalPrice: { gte: Number(minPrice) || 0 } },
+        { finalPrice: { lte: Number(maxPrice) || 100000000000000 } },
       ],
     };
   }
