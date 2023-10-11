@@ -72,8 +72,8 @@ model products {
   image           String?       @db.VarChar(355)
   discountStatus  Int?          @default(0) @db.SmallInt
   discountPercent Int?          @db.SmallInt
-  dicountEndTime  DateTime?
-  discountedPrice Int?
+  discountEndTime DateTime?
+  finalPrice      Int?
   createdAt       DateTime      @default(now())
   category        categories    @relation(fields: [categoryId], references: [categoryId])
   categoryId      String        @db.VarChar(55)
