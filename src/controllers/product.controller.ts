@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import prismaService from "../prisma/prismaService";
-import { ProductTypes } from "./../interfaces/product.interface";
+import {
+  ProductTypes,
+  SearchedProductTypes,
+} from "./../interfaces/product.interface";
 import {
   getFilterProductOption,
   getOrderProductOption,
@@ -138,7 +141,7 @@ export default new (class {
     const take: number = Number(req.query.take);
 
     try {
-      const products: ProductTypes[] | [] =
+      const products: SearchedProductTypes[] | [] =
         await prismaService.products.findMany({
           take,
           where: {

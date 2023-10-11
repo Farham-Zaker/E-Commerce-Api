@@ -33,3 +33,9 @@ export interface FilterProductRquestBodyTypes {
   take: number;
   skip: number;
 }
+export interface SearchedProductTypes {
+  productId: string;
+  title: string;
+  price: number;
+  image: string | null;
+}
