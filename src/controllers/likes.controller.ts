@@ -96,8 +96,8 @@ export default new (class Controller {
               image: true,
               discountStatus: true,
               discountPercent: true,
-              dicountEndTime: true,
-              discountedPrice: true,
+              discountEndTime: true,
+              finalPrice: true,
               category: {
                 select: {
                   name: true,
