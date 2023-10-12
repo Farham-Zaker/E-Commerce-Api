@@ -1,0 +1,104 @@
+import { Request, Response } from "express";
+import prismaService from "../prisma/prismaService";
+import decodeToken from "../middlewares/decodeToekn";
+import axios from "axios";
+import { UserCartTypes } from "../interfaces/payment.interface";
+import config from "../config/config";
+
+export default new (class accountController {
+  async pay(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>> | void> {
+    const token = req.header("token") as string;
+    const decodedToken: { userId: string } = decodeToken(token) as {
+      userId: string;
+    };
+
+    try {
+      const userCart: UserCartTypes[] | [] = await prismaService.carts.findMany(
+        {
+          where: {
+            userId: decodedToken.userId,
+          },
+          select: {
+            cartId: true,
+            product: {
+              select: {
+                productId: true,
+                finalPrice: true,
+                price: true,
+                inventories: true,
+              },
+            },
+            cartInventories: {
+              select: {
+                inventoryId: true,
+                colorId: true,
+                quantity: true,
+              },
+            },
+          },
+        }
+      );
+
+      if (userCart.length === 0) {
+        return res.status(404).json({
+          message: "Failed",
+          statusCode: 404,
+          response: "There is no any product in cart.",
+        });
+      }
+
+      let sortedUserCart: UserCartTypes[] = userCart.map((cart) => {
+        let totlaQuantities: number = 0;
+        cart.cartInventories.map((inventory) => {
+          totlaQuantities += inventory.quantity;
+        });
+        return {
+          cartId: cart.cartId,
+          product: cart.product,
+          cartInventories: cart.cartInventories,
+          totlaQuantities,
+          totalPrice: (cart.product.finalPrice as number) * totlaQuantities,
+        };
+      });
+
+      let totalPrice: number = 0;
+      sortedUserCart.map((e) => {
+        totalPrice += e.totalPrice as number;
+      });
+
+      let params = {
+        merchant_id: config.merchant_id,
+        amount: totalPrice,
+        callback_url: config.gateway_callback + `?token=${token}`,
+        description: "Test buy",
+      };
+      const response = await axios.post(
+        "https://api.zarinpal.com/pg/v4/payment/request.json",
+        params
+      );
+
+      if (response.data.data.code === 100) {
+        res.redirect(
+          `https://www.zarinpal.com/pg/StartPay/${response.data.data.authority}`
+        );
+      } else {
+        return res.status(502).json({
+          message: "Field",
+          statusCode: 502,
+          response:
+            "An issue has occurred while processing your request. Please try again later. If the problem persists, please contact our support team.",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error",
+      });
+    }
+  }
+})();
