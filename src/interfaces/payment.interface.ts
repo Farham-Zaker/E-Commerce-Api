@@ -26,3 +26,11 @@ export interface OrderItemsTypes {
   quantity: number;
   colorId: string;
 }
+export interface PaymentTypes {
+  paymentId: string;
+  authorityId: string;
+  amount: number;
+  status: string;
+  orderId: string;
+  createdAt: Date;
+}
