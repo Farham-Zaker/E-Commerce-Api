@@ -17,3 +17,12 @@ export interface UserCartTypes {
   totlaQuantities?: number;
   totalPrice?: number;
 }
+export interface InventoryDatasToUpdateTypes {
+  inventoryId: string;
+  decrementAmount: number;
+}
+export interface OrderItemsTypes {
+  productId: string;
+  quantity: number;
+  colorId: string;
+}
