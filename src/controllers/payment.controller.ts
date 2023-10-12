@@ -6,6 +6,7 @@ import {
   UserCartTypes,
   InventoryDatasToUpdateTypes,
   OrderItemsTypes,
+  PaymentTypes,
 } from "../interfaces/payment.interface";
 import config from "../config/config";
 
@@ -245,6 +246,38 @@ export default new (class accountController {
         statusCode: 201,
         response:
           "Payment has been successfully copleted and your order is being procedded.",
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error",
+      });
+    }
+  }
+  async getAllPeyments(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>> | void> {
+    const token = req.header("token") as string;
+    const decodedToken: { userId: string } = decodeToken(token) as {
+      userId: string;
+    };
+
+    try {
+      const userPayments: PaymentTypes[] =
+        await prismaService.payments.findMany({
+          where: {
+            orders: {
+              userId: decodedToken.userId,
+            },
+          },
+        });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        payments: userPayments,
       });
     } catch (error) {
       console.error(error);
