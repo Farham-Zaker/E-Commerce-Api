@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import prismaService from "./../prisma/prismaService";
 import decodeToken from "../middlewares/decodeToekn";
-import { CancelOrderRouteOrderTypes } from "../interfaces/order.interface";
+import {
+  CancelOrderRouteOrderTypes,
+  GetAllOrdersRouteOrdesTypes,
+} from "../interfaces/order.interface";
 export default new (class Controller {
   async cancelOrder(
     req: Request,
@@ -106,6 +109,50 @@ export default new (class Controller {
     } catch (error) {
       console.error(error);
       return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response:
+          "Internal Server Error.Check data in body of request.It is possible that 'productId' or 'colorId' is incorrect.",
+      });
+    }
+  }
+  async getAllOrders(req: Request, res: Response): Promise<void> {
+    const token = req.header("token") as string;
+    const decodedToken: { userId: string } = decodeToken(token) as {
+      userId: string;
+    };
+
+    try {
+      const userOrders: GetAllOrdersRouteOrdesTypes[] =
+        await prismaService.orders.findMany({
+          where: {
+            userId: decodedToken.userId,
+          },
+          select: {
+            orderId: true,
+            totalPrice: true,
+            status: true,
+            createdAt: true,
+            orderItems: {
+              select: {
+                products: {
+                  select: {
+                    title: true,
+                    image: true,
+                  },
+                },
+              },
+            },
+          },
+        });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        orders: userOrders,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
         message: "Error",
         statusCode: 500,
         response:

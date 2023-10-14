@@ -12,6 +12,6 @@ router.post(
   validationResults,
   orderController.cancelOrder
 );
-router.get("/get", isLogged);
+router.get("/get", isLogged, orderController.getAllOrders);
 
 export default router;
