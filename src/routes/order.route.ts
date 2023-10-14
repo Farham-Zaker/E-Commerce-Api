@@ -13,5 +13,6 @@ router.post(
   orderController.cancelOrder
 );
 router.get("/get", isLogged, orderController.getAllOrders);
+router.get("/get/:orderId", isLogged);
 
 export default router;
