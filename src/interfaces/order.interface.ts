@@ -10,3 +10,15 @@ interface OrderIthemTypes {
   quantity: number;
   colorId: string;
 }
+export interface GetAllOrdersRouteOrdesTypes {
+  orderId: string;
+  totalPrice: number;
+  status: string;
+  createdAt: Date;
+  orderItems: {
+    products: {
+      title: string;
+      image: string | null;
+    };
+  }[];
+}
