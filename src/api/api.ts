@@ -25,4 +25,7 @@ router.use('/comments',commentRoute );
 import paymentRoute from "../routes/payment.route"
 router.use('/payment', paymentRoute)
 
+import orderRoute from "./../routes/order.route"
+router.use('/order', orderRoute)
+
 export default router;
