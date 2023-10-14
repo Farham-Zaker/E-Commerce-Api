@@ -1,4 +1,5 @@
 import { Router } from "express";
+import orderController from "../controllers/order.controller";
 import isLogged from "../middlewares/isLogged";
 import orderValidator from "../validators/order.validator";
 import validationResults from "../validators/validationResults";
@@ -8,7 +9,8 @@ router.post(
   "/cancel",
   isLogged,
   orderValidator.cancelvalidator(),
-  validationResults
+  validationResults,
+  orderController.cancelOrder
 );
 
 export default router;
