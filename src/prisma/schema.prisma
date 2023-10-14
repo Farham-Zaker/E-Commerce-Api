@@ -47,7 +47,7 @@ model carts_inventories {
   quantity    Int    @db.SmallInt
   colors      colors @relation(fields: [colorId], references: [colorId])
   colorId     String @db.VarChar(55)
-  carts       carts @relation(fields: [cartId], references: [cartId])
+  carts       carts  @relation(fields: [cartId], references: [cartId])
   cartId      String @db.VarChar(55)
 }
 
@@ -70,7 +70,7 @@ model products {
   title           String        @db.VarChar(155)
   price           Int
   image           String?       @db.VarChar(355)
-  discountStatus  Int?          @default(0) @db.SmallInt
+  discountStatus  Int           @default(0) @db.SmallInt
   discountPercent Int?          @db.SmallInt
   discountEndTime DateTime?
   finalPrice      Int?
@@ -136,7 +136,7 @@ model orders {
   userId     String        @db.VarChar(55)
   orderItems order_items[]
   totalPrice Int
-  status     String        @db.VarChar(10)
+  status     String        @db.VarChar(100)
   createdAt  DateTime      @default(now())
   payments   payments?
 }
@@ -153,7 +153,7 @@ model order_items {
 }
 
 model payments {
-  paymentId   String   @id @db.VarChar(55) @default(uuid())
+  paymentId   String   @id @default(uuid()) @db.VarChar(55)
   authorityId String   @db.VarChar(55)
   amount      Int
   status      String   @db.VarChar(10)
