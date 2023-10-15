@@ -22,3 +22,26 @@ export interface GetAllOrdersRouteOrdesTypes {
     };
   }[];
 }
+export interface GetOrderByIdRouteOrdeTypes {
+  orderId: string;
+  totalPrice: number;
+  status: string;
+  createdAt: Date;
+  orderItems: {
+    color: {
+      colorId: string;
+      name: string;
+      hexCode: string;
+    };
+    products: {
+      productId: string;
+      title: string;
+      image: string | null;
+      discountStatus: number | null;
+      discountPercent: number | null;
+      discountEndTime: Date | null;
+      price: number;
+      finalPrice: number;
+    };
+  }[];
+}
