@@ -73,7 +73,7 @@ model products {
   discountStatus  Int           @default(0) @db.SmallInt
   discountPercent Int?          @db.SmallInt
   discountEndTime DateTime?
-  finalPrice      Int?
+  finalPrice      Int
   createdAt       DateTime      @default(now())
   category        categories    @relation(fields: [categoryId], references: [categoryId])
   categoryId      String        @db.VarChar(55)
