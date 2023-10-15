@@ -12,6 +12,7 @@ router.put(
   validationResults,
   accountController.updateInfoRoute
 );
+router.post("/upload-image", isLogged);
 router.put(
   "/set-password",
   isLogged,
