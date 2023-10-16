@@ -8,24 +8,24 @@ import accountRoute from "./../routes/account.route";
 router.use("/account", accountRoute);
 
 import productRoute from "./../routes/product.route";
-router.use('/products', productRoute)
+router.use("/products", productRoute);
 
-import addressRoute from "./../routes/address.route"
-router.use('/address', addressRoute)
+import addressRoute from "./../routes/address.route";
+router.use("/address", addressRoute);
 
 import cartRoute from "./../routes/cart.route";
-router.use('/cart', cartRoute);
+router.use("/cart", cartRoute);
 
 import likesRoute from "../routes/likes.route";
-router.use('/likes', likesRoute)
+router.use("/likes", likesRoute);
 
-import commentRoute from "../routes/comments.route"
-router.use('/comments',commentRoute );
+import commentRoute from "../routes/comments.route";
+router.use("/comments", commentRoute);
 
-import paymentRoute from "../routes/payment.route"
-router.use('/payment', paymentRoute)
+import paymentRoute from "../routes/payment.route";
+router.use("/payment", paymentRoute);
 
-import orderRoute from "./../routes/order.route"
-router.use('/order', orderRoute)
+import orderRoute from "./../routes/order.route";
+router.use("/order", orderRoute);
 
 export default router;
