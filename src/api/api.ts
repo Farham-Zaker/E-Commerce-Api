@@ -28,4 +28,7 @@ router.use("/payment", paymentRoute);
 import orderRoute from "./../routes/order.route";
 router.use("/order", orderRoute);
 
+import adminRoute from "./../admin/index";
+router.use("/admin", adminRoute);
+
 export default router;
