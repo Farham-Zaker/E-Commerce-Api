@@ -8,6 +8,8 @@ import {
 import decodeToken from "../middlewares/decodeToekn";
 import hashPassword from "../middlewares/hashPassword";
 import passwordValidator from "../middlewares/passwordValidator";
+import { UploadedFile } from "express-fileupload";
+import path from "path";
 
 export default new (class accountController {
   async updateInfoRoute(req: Request, res: Response): Promise<void> {
@@ -31,6 +33,90 @@ export default new (class accountController {
         response: "The input data is incorrect.",
       });
     }
+  }
+  async uploadImage(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>> | void> {
+    const token = req.header("token") as string;
+    const decodedToken = decodeToken(token) as { userId: string };
+    const { files } = req;
+
+    if (!files || !files.image) {
+      return res.status(400).json({
+        message: "Failed",
+        statusCode: 400,
+        response: "Not any image has been selected.",
+      });
+    }
+
+    const image = files.image as UploadedFile;
+    const imageName: string = image.name;
+
+    const parts = imageName.split(".");
+    const extension = parts.pop();
+
+    const acceptableExtentions = ["jpeg", "jpg", "png", "svg", "webp"];
+
+    const [isExtentionCorrect] = acceptableExtentions.filter((ext) => {
+      if (ext === extension) {
+        return ext;
+      }
+      return null;
+    });
+
+    if (image.size > 1024000) {
+      return res.status(400).json({
+        message: "Failed",
+        statusCode: 400,
+        response: "The size of image must be less than 1.5 MG.",
+      });
+    }
+    if (!isExtentionCorrect) {
+      return res.status(400).json({
+        message: "Failed",
+        statusCode: 400,
+        response:
+          "You can just upload image with '.jpeg', '.jpg', '.png', '.svg', '.webp' extenstion.",
+      });
+    }
+
+    const user = (await prismaService.users.findFirst({
+      where: {
+        userId: decodedToken.userId,
+      },
+    })) as { firstName: string; lastName: string };
+
+    const newFileName = `${decodedToken.userId}-${user?.firstName}_${user?.lastName}.${extension}`;
+
+    image.mv(`./src/upload/users/` + newFileName, async (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({
+          message: "Error",
+          statusCode: 500,
+          response: "Error uploading the image.",
+        });
+      }
+      const relativeDirOfImage =
+        "./../../src/upload/users/e2fab14a-1618-472a-8ffa-920225628ccc-F_Z.png";
+      const absoluteDirOfImage = path.join(__dirname, relativeDirOfImage);
+
+      await prismaService.users.update({
+        data: {
+          image: absoluteDirOfImage,
+        },
+        where: {
+          userId: decodedToken.userId,
+        },
+      });
+
+      return res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Image uploaded successfully.",
+      });
+    });
   }
   async setPasswordRoute(req: Request, res: Response) {
     const token: string = req.header("token")!;
