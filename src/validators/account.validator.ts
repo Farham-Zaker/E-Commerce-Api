@@ -1,40 +1,37 @@
-import { check, ValidationChain } from "express-validator";
+import { body, check, ValidationChain } from "express-validator";
 
 export default new (class accountValidators {
   updateInfoValidator(): ValidationChain[] {
     return [
-      check("userId")
-        .notEmpty()
-        .withMessage("'userId' field can not be empty.")
-        .isUUID()
-        .withMessage("'userId' field must be a uuid."),
-      check("newData")
-        .notEmpty()
-        .withMessage("Provide the data that you want to update.")
-        .isObject()
-        .withMessage(
-          "Provide a object contain 'firstName', 'lastName', 'phone', 'email'."
-        ),
-      check("newData.firstName")
+      body().custom((value, { req }) => {
+        if (Object.keys(req.body).length === 0) {
+          throw new Error("Request body should not be empty");
+        }
+        return true;
+      }),
+      check("firstName")
+        .optional()
         .notEmpty()
         .withMessage("'firstName' field can not be empty.")
         .isString()
         .withMessage("'firstName' field must be string.")
         .isLength({ min: 2 })
         .withMessage("'firstName' field must be at lest two charachter."),
-      check("newData.lastName")
+      check("lastName")
+        .optional()
         .notEmpty()
         .withMessage("'lastName' field can not be empty.")
         .isString()
         .withMessage("'lastName' field must be string.")
         .isLength({ min: 2 })
         .withMessage("'lastName' field must be at lest two charachter."),
-      check("newData.phone")
+      check("phone")
+        .optional()
         .notEmpty()
         .withMessage("'phonr' field can not be empty.")
         .isLength({ min: 11, max: 11 })
         .withMessage("phone number is invalid."),
-      check("newData.email").isEmail().withMessage("Your email is invalid."),
+      check("email").optional().isEmail().withMessage("Your email is invalid."),
     ];
   }
   setPasswordValidator(): ValidationChain[] {
