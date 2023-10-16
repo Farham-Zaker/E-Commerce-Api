@@ -13,12 +13,15 @@ import path from "path";
 
 export default new (class accountController {
   async updateInfoRoute(req: Request, res: Response): Promise<void> {
-    const { userId, newData } = req.body;
+    const body = req.body;
+    const token = req.header("token") as string;
+    const decodedToken = decodeToken(token) as { userId: string };
+
     try {
       const updatedUser: SetPasswordRouteUpdatedUserTypes =
         await prismaService.users.update({
-          data: newData,
-          where: { userId },
+          data: body,
+          where: { userId: decodedToken.userId },
         });
       res.status(200).json({
         message: "Updated",
