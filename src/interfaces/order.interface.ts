@@ -18,7 +18,12 @@ export interface GetAllOrdersRouteOrdesTypes {
   orderItems: {
     products: {
       title: string;
-      image: string | null;
+      image?: {
+        imageId: string;
+        imageUrl: string;
+        productId: string;
+        createdAt: Date;
+      }[];
     };
   }[];
 }
@@ -36,7 +41,12 @@ export interface GetOrderByIdRouteOrdeTypes {
     products: {
       productId: string;
       title: string;
-      image: string | null;
+      image?: {
+        imageId: string;
+        imageUrl: string;
+        productId: string;
+        createdAt: Date;
+      }[];
       discountStatus: number | null;
       discountPercent: number | null;
       discountEndTime: Date | null;
