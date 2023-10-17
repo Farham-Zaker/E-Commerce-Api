@@ -4,7 +4,12 @@ export interface CartTypes {
     productId: string;
     title: string;
     price: number;
-    image: string | null;
+    image?: {
+      imageId: string;
+      imageUrl: string;
+      productId: string;
+      createdAt: Date;
+    }[];
     discountStatus: number;
     discountPercent: number | null;
     discountEndTime: Date | null;

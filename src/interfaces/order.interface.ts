@@ -41,7 +41,7 @@ export interface GetOrderByIdRouteOrdeTypes {
     products: {
       productId: string;
       title: string;
-      image?: {
+      images?: {
         imageId: string;
         imageUrl: string;
         productId: string;
