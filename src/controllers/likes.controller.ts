@@ -93,7 +93,7 @@ export default new (class Controller {
               productId: true,
               title: true,
               price: true,
-              image: true,
+              images: true,
               discountStatus: true,
               discountPercent: true,
               discountEndTime: true,
