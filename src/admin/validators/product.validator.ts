@@ -47,6 +47,59 @@ export default new (class {
     ];
   }
 
+  updateProduct(): ValidationChain[] {
+    return [
+      check("productId")
+        .notEmpty()
+        .withMessage("'productId' can not be empty."),
+      check("newData.title")
+        .optional()
+        .notEmpty()
+        .withMessage("'title' field can not be empty.")
+        .isString()
+        .withMessage("'title' field must be a string."),
+
+      check("newData.price")
+        .optional()
+        .notEmpty()
+        .withMessage("'price' field can not be empty.")
+        .isNumeric()
+        .withMessage("'price' field must be a string.")
+        .custom((value) => {
+          if (typeof value !== "number") {
+            throw new Error("'price' field must be a string.");
+          }
+          return true;
+        }),
+      check("newData.discountStatus")
+        .notEmpty()
+        .withMessage("'discountStatus' field can not be empty.")
+        .isBoolean()
+        .withMessage("'discountStatus' field must be a boolean."),
+
+      check("newData.discountPercent").custom((value, { req }) => {
+        const { discountStatus, discountPercent } = req.body;
+        return this.validateDiscountPercent(
+          discountStatus,
+          discountPercent,
+          value
+        );
+      }),
+      check("newData.discountEndTime").custom((value, { req }) => {
+        const { discountStatus, discountEndTime } = req.body.newData;
+        return this.discountEndTimeValidator(
+          discountStatus,
+          discountEndTime,
+          value
+        );
+      }),
+      check("newData.categoryId")
+        .optional()
+        .notEmpty()
+        .withMessage("'categoryId' field can not be empty."),
+    ];
+  }
+
   private validateDiscountPercent(
     discountStatus: boolean,
     discountPercent: number,
