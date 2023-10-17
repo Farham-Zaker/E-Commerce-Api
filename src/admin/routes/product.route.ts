@@ -10,5 +10,6 @@ router.post(
   validationResults,
   productContoller.createProduct
 );
+router.put("/update");
 
 export default router;
