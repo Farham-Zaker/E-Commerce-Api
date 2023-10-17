@@ -10,3 +10,6 @@ export interface ProductTypes {
   createdAt: Date;
   categoryId: string;
 }
+export interface ProductDiscountPercentTypes {
+  discountPercent: number | null;
+} 
