@@ -2,7 +2,12 @@ export interface ProductTypes {
   productId: string;
   title: string;
   price: number;
-  image: string | null;
+  images?: {
+    imageId: string;
+    imageUrl: string;
+    productId: string;
+    createdAt: Date;
+  }[];
   discountStatus: number;
   discountPercent: number | null;
   discountEndTime: Date | null;
@@ -12,4 +17,4 @@ export interface ProductTypes {
 }
 export interface ProductDiscountPercentTypes {
   discountPercent: number | null;
-} 
+}
