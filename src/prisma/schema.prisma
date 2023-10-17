@@ -66,22 +66,30 @@ model comments {
 }
 
 model products {
-  productId       String        @id @default(uuid()) @db.VarChar(55)
-  title           String        @db.VarChar(155)
+  productId       String           @id @default(uuid()) @db.VarChar(55)
+  title           String           @db.VarChar(155)
   price           Int
-  image           String?       @db.VarChar(355)
-  discountStatus  Int           @default(0) @db.SmallInt
-  discountPercent Int?          @db.SmallInt
+  discountStatus  Int              @default(0) @db.SmallInt
+  discountPercent Int?             @db.SmallInt
   discountEndTime DateTime?
   finalPrice      Int
-  createdAt       DateTime      @default(now())
-  category        categories    @relation(fields: [categoryId], references: [categoryId])
-  categoryId      String        @db.VarChar(55)
+  createdAt       DateTime         @default(now())
+  category        categories       @relation(fields: [categoryId], references: [categoryId])
+  categoryId      String           @db.VarChar(55)
   carts           carts[]
   Likes           likes[]
   inventories     inventories[]
   comments        comments[]
   orderItems      order_items[]
+  images          product_images[]
+}
+
+model product_images {
+  imageId   String   @id @default(uuid()) @db.VarChar(55)
+  imageUrl  String   @db.VarChar(355)
+  products  products @relation(fields: [productId], references: [productId])
+  productId String   @db.VarChar(55)
+  createdAt DateTime @default(now())
 }
 
 model categories {
