@@ -5,7 +5,12 @@ export interface ProductsInLikesTypes {
         productId: string;
         title: string;
         price: number;
-        image: string | null;
+        images?: {
+          imageId: string;
+          imageUrl: string;
+          productId: string;
+          createdAt: Date;
+        }[];
         discountStatus: number | null;
         discountPercent: number | null;
         dicountEndTime: Date | null;
