@@ -139,7 +139,7 @@ export default new (class Controller {
                 products: {
                   select: {
                     title: true,
-                    image: true,
+                    images: true,
                   },
                 },
               },
@@ -190,7 +190,7 @@ export default new (class Controller {
                   select: {
                     productId: true,
                     title: true,
-                    image: true,
+                    images: true,
                     discountStatus: true,
                     discountPercent: true,
                     discountEndTime: true,
