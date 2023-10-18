@@ -11,6 +11,6 @@ router.post(
   colorController.createColor
 );
 router.get("/get", colorController.getAllColors);
-
+router.get("/get/:colorId");
 
 export default router;
