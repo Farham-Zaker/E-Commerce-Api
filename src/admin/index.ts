@@ -8,4 +8,7 @@ router.use("/product", isAdmin, productRoute);
 import categoryRoute from "./routes/category.route"
 router.use("/category", isAdmin, categoryRoute);
 
+import colorRoute from "./routes/color.route"
+router.use("/color", isAdmin, colorRoute);
+
 export default router;
