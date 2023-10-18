@@ -70,4 +70,28 @@ export default new (class {
       });
     }
   }
+  async deleteCategory(req: Request, res: Response): Promise<void> {
+    const categoryId = req.params.categoryId;
+
+    try {
+      await prismaService.categories.delete({
+        where: {
+          categoryId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire category was deleted successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response:
+          "Internal Server Error.The reason of this error can be because of categoryId the you sent in body.",
+      });
+    }
+  }
 })();
