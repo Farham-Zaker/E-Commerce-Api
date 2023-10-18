@@ -60,4 +60,41 @@ export default new (class {
       });
     }
   }
+  async getColorById(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> {
+    const colorId: string = req.params.colorId;
+
+    try {
+      const color: ColorsTypes | null = await prismaService.colors.findFirst({
+        where: {
+          colorId,
+        },
+      });
+
+      if (!color) {
+        return res.status(404).json({
+          message: "Failed",
+          statusCode: 404,
+          response:
+            "There is not any product with such id that you sent in params.",
+        });
+      }
+      return res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        color,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response:
+          "Internal Server Error.The reason of this error can be because of id of color that you sent in params.Make sure that it is valid.",
+      });
+    }
+  }
+
 })();
