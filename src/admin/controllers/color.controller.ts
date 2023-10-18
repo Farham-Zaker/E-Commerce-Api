@@ -43,4 +43,21 @@ export default new (class {
       });
     }
   }
+  async getAllColors(req: Request, res: Response): Promise<void> {
+    try {
+      const allColors: ColorsTypes[] = await prismaService.colors.findMany();
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        colors: allColors,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error.",
+      });
+    }
+  }
 })();
