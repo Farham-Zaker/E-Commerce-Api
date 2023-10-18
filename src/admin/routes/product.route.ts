@@ -20,6 +20,7 @@ router.post(
   "/upload-image",
   productValidator.uploadImage(),
   validationResults,
+  productContoller.uploadImage
 );
 
 export default router;
