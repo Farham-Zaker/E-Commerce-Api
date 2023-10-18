@@ -14,6 +14,8 @@ router.get("/get", colorController.getAllColors);
 router.get("/get/:colorId", colorController.getColorById);
 router.put(
   "/update",
+  colorValidator.updateColor(),
+  validationResults,
 );
 
 export default router;
