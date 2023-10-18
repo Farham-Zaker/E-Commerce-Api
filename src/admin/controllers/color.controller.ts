@@ -124,4 +124,27 @@ export default new (class {
       });
     }
   }
+  async deleteColor(req: Request, res: Response): Promise<void> {
+    const colorId = req.params.colorId;
+    try {
+      await prismaService.colors.delete({
+        where: {
+          colorId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire color was deleted successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response:
+          "Internal Server Error.The reason of this error can be because of 'colorId' that you send in params.Make sure that it is valid.",
+      });
+    }
+  }
 })();
