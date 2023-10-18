@@ -10,5 +10,6 @@ router.post(
   validationResults,
   categoryController.createProduct
 );
+router.get("/get");
 
 export default router;
