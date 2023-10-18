@@ -18,5 +18,6 @@ router.put(
   validationResults,
   colorController.updateColor
 );
+router.delete("/delete/:colorId");
 
 export default router;
