@@ -16,6 +16,7 @@ router.put(
   "/update",
   colorValidator.updateColor(),
   validationResults,
+  colorController.updateColor
 );
 
 export default router;

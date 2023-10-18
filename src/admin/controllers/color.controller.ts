@@ -96,5 +96,32 @@ export default new (class {
       });
     }
   }
+  async updateColor(req: Request, res: Response): Promise<void> {
+    const { colorId, name, hexCode } = req.body;
 
+    try {
+      await prismaService.colors.update({
+        data: {
+          name,
+          hexCode,
+        },
+        where: {
+          colorId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire product was updated successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response:
+          "Internal Server Error.The reason of this error can be because of 'colorId' that you send in body.Make sure that it is correct.",
+      });
+    }
+  }
 })();
