@@ -100,6 +100,12 @@ export default new (class {
     ];
   }
 
+  uploadImage(): ValidationChain {
+    return check("productId")
+      .notEmpty()
+      .withMessage("'productId' field can not be empty.");
+  }
+
   private validateDiscountPercent(
     discountStatus: boolean,
     discountPercent: number,

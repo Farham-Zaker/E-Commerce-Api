@@ -16,6 +16,10 @@ router.put(
   validationResults,
   productContoller.updateProduct
 );
-router.post("/upload-image");
+router.post(
+  "/upload-image",
+  productValidator.uploadImage(),
+  validationResults,
+);
 
 export default router;
