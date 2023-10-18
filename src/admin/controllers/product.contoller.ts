@@ -248,4 +248,31 @@ export default new (class {
       });
     }
   }
+  async deleteImage(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>> | void> {
+    const imageId = req.params.imageId;
+
+    try {
+      await prismaService.product_images.delete({
+        where: {
+          imageId,
+        },
+      });
+      return res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire image was deleted successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response:
+          "Internal Server Error.The reason of this error can be becuase of 'imageId' that you sent in body.Make sure it is correct.",
+      });
+    }
+  }
 })();
