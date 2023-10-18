@@ -10,6 +10,6 @@ router.post(
   validationResults,
   colorController.createColor
 );
-
+router.get("/get");
 
 export default router;
