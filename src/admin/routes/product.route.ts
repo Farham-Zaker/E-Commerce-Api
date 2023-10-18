@@ -22,5 +22,7 @@ router.post(
   validationResults,
   productContoller.uploadImage
 );
-
+router.delete(
+  "/delete-image/:imageId",
+);
 export default router;
