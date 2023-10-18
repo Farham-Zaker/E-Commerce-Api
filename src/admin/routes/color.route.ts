@@ -12,5 +12,8 @@ router.post(
 );
 router.get("/get", colorController.getAllColors);
 router.get("/get/:colorId", colorController.getColorById);
+router.put(
+  "/update",
+);
 
 export default router;
