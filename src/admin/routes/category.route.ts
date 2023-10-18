@@ -11,5 +11,6 @@ router.post(
   categoryController.createProduct
 );
 router.get("/get", categoryController.getAllCategories);
+router.delete("/delete/:categoryId");
 
 export default router;
