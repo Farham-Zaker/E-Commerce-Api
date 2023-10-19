@@ -11,5 +11,8 @@ router.post(
   inventoryController.createInventory
 );
 router.get("/get", inventoryController.getInventory);
+router.put(
+  "/update",
+);
 
 export default router;
