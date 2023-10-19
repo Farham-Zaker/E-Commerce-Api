@@ -15,6 +15,7 @@ router.put(
   "/update",
   inventoryValidator.updateInventory(),
   validationResults,
+  inventoryController.updateInventory
 );
 
 export default router;

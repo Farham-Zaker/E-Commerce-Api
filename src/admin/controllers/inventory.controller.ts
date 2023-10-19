@@ -117,4 +117,34 @@ export default new (class {
       });
     }
   }
+  async updateInventory(req: Request, res: Response): Promise<void> {
+    const { inventoryId, productId, colorId, quantity } = req.body;
+
+    try {
+      await prismaService.inventories.update({
+        data: {
+          productId,
+          colorId,
+          quantity,
+        },
+        where: {
+          inventoryId,
+        },
+      });
+
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire inventory was updated successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response:
+          "Internal Server Error.The reason of this error can be because of 'inventoryId', 'productId' or 'colorId' that you sent in body of request. Make sure that they are valid.",
+      });
+    }
+  }
 })();
