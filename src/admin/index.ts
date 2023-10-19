@@ -11,4 +11,7 @@ router.use("/category", isAdmin, categoryRoute);
 import colorRoute from "./routes/color.route"
 router.use("/color", isAdmin, colorRoute);
 
+import inventoryRoute from "./routes/inventory.route";
+router.use("/inventory", inventoryRoute);
+
 export default router;
