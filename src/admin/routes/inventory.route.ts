@@ -10,5 +10,6 @@ router.post(
   validationResults,
   inventoryController.createInventory
 );
+router.get("/get");
 
 export default router;
