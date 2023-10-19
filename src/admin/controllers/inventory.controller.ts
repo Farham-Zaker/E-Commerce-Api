@@ -147,4 +147,27 @@ export default new (class {
       });
     }
   }
+  async deleteInventory(req: Request, res: Response): Promise<void> {
+    const inventoryId: string = req.params.inventoryId;
+    try {
+      await prismaService.inventories.delete({
+        where: {
+          inventoryId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire inventory was deleted successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response:
+          "Internal Server Error.The reason of this error can be because of 'inventoryId' that you sent in params. Make sure that they are valid.",
+      });
+    }
+  }
 })();

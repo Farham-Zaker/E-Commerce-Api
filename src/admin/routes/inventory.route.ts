@@ -17,6 +17,6 @@ router.put(
   validationResults,
   inventoryController.updateInventory
 );
-router.delete("/delete/:inventoryId");
+router.delete("/delete/:inventoryId", inventoryController.deleteInventory);
 
 export default router;
