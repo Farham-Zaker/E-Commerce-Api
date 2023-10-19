@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prismaService from "../../prisma/prismaService";
+import { InventoryTpye } from "../interfaces/inventory.interface";
 
 export default new (class {
   async createInventory(
@@ -74,6 +75,45 @@ export default new (class {
         statusCode: 500,
         response:
           "Internal Server Error.The reason of this error can be becuase of 'imageId' that you sent in body.Make sure it is correct.",
+      });
+    }
+  }
+  async getInventory(req: Request, res: Response): Promise<void> {
+    const { colorId, productId } = req.query;
+
+    let conditions = {};
+    if (colorId) {
+      conditions = {
+        colorId,
+      };
+    }
+    if (productId) {
+      conditions = {
+        productId,
+      };
+    }
+    if (colorId && productId) {
+      conditions = {
+        colorId,
+        productId,
+      };
+    }
+    try {
+      const inventories: InventoryTpye[] =
+        await prismaService.inventories.findMany({
+          where: conditions,
+        });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        inventories,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error",
       });
     }
   }
