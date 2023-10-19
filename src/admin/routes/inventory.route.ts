@@ -13,6 +13,8 @@ router.post(
 router.get("/get", inventoryController.getInventory);
 router.put(
   "/update",
+  inventoryValidator.updateInventory(),
+  validationResults,
 );
 
 export default router;
