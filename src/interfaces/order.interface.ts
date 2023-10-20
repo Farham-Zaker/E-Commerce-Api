@@ -16,7 +16,7 @@ export interface GetAllOrdersRouteOrdesTypes {
   status: string;
   createdAt: Date;
   orderItems: {
-    products: {
+    product: {
       title: string;
       image?: {
         imageId: string;
@@ -38,7 +38,7 @@ export interface GetOrderByIdRouteOrdeTypes {
       name: string;
       hexCode: string;
     };
-    products: {
+    product: {
       productId: string;
       title: string;
       images?: {
