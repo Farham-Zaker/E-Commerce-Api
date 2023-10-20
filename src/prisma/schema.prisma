@@ -140,20 +140,20 @@ model addreesses {
 
 model orders {
   orderId    String        @id @default(uuid()) @db.VarChar(55)
-  users      users         @relation(fields: [userId], references: [userId])
+  user       users         @relation(fields: [userId], references: [userId])
   userId     String        @db.VarChar(55)
   orderItems order_items[]
   totalPrice Int
   status     String        @db.VarChar(100)
   createdAt  DateTime      @default(now())
-  payments   payments?
+  payment    payments?
 }
 
 model order_items {
   orderItemId String   @id @default(uuid()) @db.VarChar(55)
   orders      orders   @relation(fields: [orderId], references: [orderId])
   orderId     String   @db.VarChar(55)
-  products    products @relation(fields: [productId], references: [productId])
+  product     products @relation(fields: [productId], references: [productId])
   productId   String   @db.VarChar(55)
   quantity    Int      @db.SmallInt
   color       colors   @relation(fields: [colorId], references: [colorId])
