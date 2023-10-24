@@ -5,7 +5,7 @@ import authRoute from "../routes/auth.route";
 router.use("/auth", authRoute);
 
 import accountRoute from "./../routes/account.route";
-router.use("/account", accountRoute);
+router.use("/account", isLogged, accountRoute);
 
 import productRoute from "./../routes/product.route";
 router.use("/products", productRoute);
