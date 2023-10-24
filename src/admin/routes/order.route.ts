@@ -19,6 +19,8 @@ router.get(
 router.get("/get/:orderId", orderController.getOrderById);
 router.put(
   "/update",
+  orderValidator.updateOrderValidator(),
+  validationResults,
 );
 
 export default router;

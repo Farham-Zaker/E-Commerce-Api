@@ -90,6 +90,29 @@ export default new (class {
         }),
     ];
   }
+  updateOrderValidator(): ValidationChain[] {
+    return [
+      check("orderId")
+        .notEmpty()
+        .withMessage("'orderId' field can not be empty."),
+      check("status")
+        .notEmpty()
+        .withMessage("'status' field can not be empty.")
+        .custom((value) => {
+          return this.validateStatusField(value);
+        }),
+      check("totalPrice")
+        .optional()
+        .notEmpty()
+        .withMessage("'totalPrice' field cant not be empty.")
+        .custom((value) => {
+          if (typeof value !== "number") {
+            throw new Error("Provide a number for 'totalPrice' field.");
+          }
+          return true;
+        }),
+    ];
+  }
   private validateWhenOrderItemIsFalse(
     field: string,
     value: string,
