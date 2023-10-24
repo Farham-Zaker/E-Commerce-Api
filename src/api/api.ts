@@ -14,7 +14,7 @@ import addressRoute from "./../routes/address.route";
 router.use("/address", isLogged, addressRoute);
 
 import cartRoute from "./../routes/cart.route";
-router.use("/cart", cartRoute);
+router.use("/cart", isLogged, cartRoute);
 
 import likesRoute from "../routes/likes.route";
 router.use("/likes", likesRoute);
