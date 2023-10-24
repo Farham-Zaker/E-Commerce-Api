@@ -12,5 +12,7 @@ router.post(
 );
 router.get(
   "/get",
+  orderValidator.getOrders(),
+  validationResults,
 );
 export default router;
