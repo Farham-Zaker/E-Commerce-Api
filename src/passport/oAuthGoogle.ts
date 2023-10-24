@@ -3,7 +3,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import config from "../config/config";
 import prismaService from "../prisma/prismaService";
 import { RegisterUserDataTypes } from "./../interfaces/auth.interface";
-import generateToken from "../middlewares/generateToken";
+import generateToken from "../util/generateToken";
 export default async function oAuthGoogle() {
   passport.use(
     new GoogleStrategy(

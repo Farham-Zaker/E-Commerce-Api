@@ -1,24 +1,18 @@
 import { Request, Response } from "express";
 import prismaService from "./../prisma/prismaService";
-import hashPassword from "./../middlewares/hashPassword";
+import hashPassword from "../util/hashPassword";
 import {
   RegisterUserDataTypes,
   LoginUserDataTypes,
 } from "./../interfaces/auth.interface";
 
-import userFinder from "../middlewares/userFinder";
-import passwordValidator from "../middlewares/passwordValidator";
-import generateToken from "../middlewares/generateToken";
+import userFinder from "../util/userFinder";
+import passwordValidator from "../util/passwordValidator";
+import generateToken from "../util/generateToken";
 
 export default new (class Controller {
   async registerRoute(req: Request, res: Response): Promise<void> {
-    const {
-      firstName,
-      lastName,
-      email,
-      phone,
-      password,
-    } = req.body;
+    const { firstName, lastName, email, phone, password } = req.body;
 
     try {
       const user = await prismaService.users.findFirst({
@@ -84,7 +78,7 @@ export default new (class Controller {
         );
         if (isPasswordValid && user.auth.password) {
           const token: string = generateToken(user.userId);
-           
+
           res.status(200).json({
             message: "Login successfully",
             statusCode: 200,

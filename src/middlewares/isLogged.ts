@@ -1,6 +1,6 @@
 import jwt, { verify, JwtPayload, Secret } from "jsonwebtoken";
 import { RequestHandler, Request, Response, NextFunction } from "express";
-import decodeToken from "./decodeToekn";
+import decodeToken from "../util/decodeToekn";
 
 interface ErrorResponseTypes {
   message: string;

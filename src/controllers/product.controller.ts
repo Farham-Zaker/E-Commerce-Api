@@ -7,7 +7,7 @@ import {
 import {
   getFilterProductOption,
   getOrderProductOption,
-} from "../middlewares/getFilterAndSortOption";
+} from "../util/getFilterAndSortOption";
 
 export default new (class {
   async getAllProduct(req: Request, res: Response): Promise<void> {

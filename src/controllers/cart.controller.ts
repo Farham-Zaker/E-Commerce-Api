@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prismaService from "../prisma/prismaService";
-import decodeToken from "../middlewares/decodeToekn";
+import decodeToken from "../util/decodeToekn";
 import { CartTypes } from "../interfaces/cart.interface";
 
 export default new (class {
@@ -249,7 +249,7 @@ export default new (class {
     res: Response
   ): Promise<Response<any, Record<string, any>>> {
     const { cartId, colorId, quantity } = req.body;
-    const requestQuantity = Number(quantity)
+    const requestQuantity = Number(quantity);
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
       userId: string;
@@ -332,15 +332,14 @@ export default new (class {
           cartId,
         },
       });
-      console.log(productsInCart)
-      if(productsInCart.quantity === 0){
+      console.log(productsInCart);
+      if (productsInCart.quantity === 0) {
       }
       return res.status(200).json({
         message: "Success",
         statusCode: 200,
         response: "Desire product successfully was updated.",
       });
-
     } catch (error) {
       res.status(500).json({
         message: "Error",

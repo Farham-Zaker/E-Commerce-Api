@@ -5,9 +5,9 @@ import {
   UserAuthInfoTypes,
   UserInfoTypes,
 } from "./../interfaces/account.interface";
-import decodeToken from "../middlewares/decodeToekn";
-import hashPassword from "../middlewares/hashPassword";
-import passwordValidator from "../middlewares/passwordValidator";
+import decodeToken from "../util/decodeToekn";
+import hashPassword from "../util/hashPassword";
+import passwordValidator from "../util/passwordValidator";
 import { UploadedFile } from "express-fileupload";
 import path from "path";
 

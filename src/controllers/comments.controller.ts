@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prismaService from "../prisma/prismaService";
-import decodeToken from "../middlewares/decodeToekn";
+import decodeToken from "../util/decodeToekn";
 import {
   CommentsAndRepliesTypes,
   CommentsTypes,
