@@ -24,7 +24,7 @@ import commentRoute from "../routes/comments.route";
 router.use("/comments", isLogged, commentRoute);
 
 import paymentRoute from "../routes/payment.route";
-router.use("/payment", paymentRoute);
+router.use("/payment", isLogged, paymentRoute);
 
 import orderRoute from "./../routes/order.route";
 router.use("/order", orderRoute);
