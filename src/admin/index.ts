@@ -14,4 +14,7 @@ router.use("/color", isAdmin, colorRoute);
 import inventoryRoute from "./routes/inventory.route";
 router.use("/inventory", inventoryRoute);
 
+import orderRoute from "./routes/order.route";
+router.use("/order", orderRoute);
+
 export default router;
