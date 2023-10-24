@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import decodeToken from "../../util/decodeToekn";
-import prismaService from "../../prisma/prismaService";
+import decodeToken from "../util/decodeToekn";
+import prismaService from "../prisma/prismaService";
 
 async function isAdmin(
   req: Request,
