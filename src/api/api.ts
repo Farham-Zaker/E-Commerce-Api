@@ -1,5 +1,6 @@
 import { Router } from "express";
 const router = Router();
+import isLogged from "../middlewares/isLogged";
 
 import authRoute from "../routes/auth.route";
 router.use("/auth", isLogged, authRoute);
@@ -17,7 +18,7 @@ import cartRoute from "./../routes/cart.route";
 router.use("/cart", isLogged, cartRoute);
 
 import likesRoute from "../routes/likes.route";
-router.use("/likes", likesRoute);
+router.use("/likes", isLogged, likesRoute);
 
 import commentRoute from "../routes/comments.route";
 router.use("/comments", commentRoute);
@@ -29,7 +30,6 @@ import orderRoute from "./../routes/order.route";
 router.use("/order", orderRoute);
 
 import adminRoute from "./../admin/index";
-import isLogged from "../middlewares/isLogged";
 router.use("/admin", adminRoute);
 
 export default router;
