@@ -71,3 +71,22 @@ export interface GetOrderByIdRouteOrderTypes {
     };
   }[];
 }
+export interface UpdateOrderRouteOrderTypes {
+  userId: string;
+  orderItems: UpdateOrderRouteOrderIthemTypes[];
+}
+export interface UpdateOrderRouteOrderIthemTypes {
+  orderItemId: string;
+  orderId: string;
+  productId: string;
+  quantity: number;
+  colorId: string;
+}
+export interface UpdateOrderRouteInventoryTypes {
+  inventoryId: string;
+  quantity: number;
+}
+export interface UpdateOrderRouteCartIventoryTypes {
+  cartId: string;
+  quantity: number;
+}
