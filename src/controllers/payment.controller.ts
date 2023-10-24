@@ -217,7 +217,7 @@ export default new (class accountController {
               data: orderItems,
             },
           },
-          payments: {
+          payment: {
             create: {
               amount: totalPrice,
               authorityId: authorityId,
