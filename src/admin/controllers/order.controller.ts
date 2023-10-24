@@ -367,4 +367,26 @@ export default new (class {
       });
     }
   }
+  async deleteOrder(req: Request, res: Response): Promise<void> {
+    const orderId = req.params.orderId;
+    try {
+      await prismaService.orders.delete({
+        where: {
+          orderId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire order was deleted successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response: "An error occurred while deleting orders.",
+      });
+    }
+  }
 })();
