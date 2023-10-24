@@ -4,6 +4,10 @@ import { Prisma } from "@prisma/client";
 import {
   GetOrdersRouteOrdersTypes,
   GetOrderByIdRouteOrderTypes,
+  UpdateOrderRouteCartIventoryTypes,
+  UpdateOrderRouteInventoryTypes,
+  UpdateOrderRouteOrderIthemTypes,
+  UpdateOrderRouteOrderTypes,
 } from "../interfaces/order.inteface";
 
 export default new (class {
@@ -195,6 +199,171 @@ export default new (class {
         message: "Error",
         statusCode: 500,
         response: "Internal Server Error",
+      });
+    }
+  }
+  async updateOrder(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>> | void> {
+    const { orderId, status, totalPrice } = req.body;
+    try {
+      if (status === "Canceled") {
+        const order: UpdateOrderRouteOrderTypes | null =
+          await prismaService.orders.findFirst({
+            where: {
+              orderId,
+            },
+            select: {
+              orderItems: true,
+              userId: true,
+            },
+          });
+
+        if (!order) {
+          return res.status(404).json({
+            message: "Failed",
+            statusCode: 404,
+            response: "There is no any order with such orderId.",
+          });
+        }
+
+        const userId: string = order?.userId!;
+        const orderItems: UpdateOrderRouteOrderIthemTypes[] =
+          order?.orderItems!;
+
+        for (let orderItem of orderItems) {
+          const inventory: UpdateOrderRouteInventoryTypes | null =
+            await prismaService.inventories.findFirst({
+              where: {
+                productId: orderItem.productId,
+                colorId: orderItem.colorId,
+              },
+              select: {
+                inventoryId: true,
+                quantity: true,
+              },
+            });
+
+          if (inventory) {
+            await prismaService.inventories.update({
+              data: {
+                quantity: orderItem.quantity + inventory.quantity,
+              },
+              where: {
+                inventoryId: inventory.inventoryId,
+              },
+            });
+          } else {
+            await prismaService.inventories.create({
+              data: {
+                quantity: orderItem.quantity,
+                colorId: orderItem.colorId,
+                productId: orderItem.productId,
+              },
+            });
+          }
+
+          const cart: { cartId: string } | null =
+            await prismaService.carts.findFirst({
+              where: {
+                productId: orderItem.productId,
+              },
+            });
+          if (cart) {
+            const cartInvenotory: UpdateOrderRouteCartIventoryTypes | null =
+              await prismaService.carts_inventories.findFirst({
+                where: {
+                  colorId: orderItem.colorId,
+                },
+              });
+
+            if (cartInvenotory) {
+              await prismaService.carts_inventories.updateMany({
+                data: {
+                  quantity: cartInvenotory.quantity + orderItem.quantity,
+                },
+                where: {
+                  cartId: cartInvenotory.cartId,
+                  colorId: orderItem.colorId,
+                },
+              });
+            } else {
+              await prismaService.carts_inventories.create({
+                data: {
+                  cartId: cart.cartId,
+                  quantity: orderItem.quantity,
+                  colorId: orderItem.colorId,
+                },
+              });
+            }
+          } else {
+            await prismaService.carts.create({
+              data: {
+                productId: orderItem.productId,
+                userId,
+                cartInventories: {
+                  create: {
+                    colorId: orderItem.colorId,
+                    quantity: orderItem.quantity,
+                  },
+                },
+              },
+            });
+          }
+        }
+        await prismaService.orders.update({
+          data: {
+            status: "Canceled",
+            totalPrice,
+          },
+          where: {
+            orderId,
+          },
+        });
+        return res.status(200).json({
+          message: "Success",
+          statusCode: 200,
+          response: "Desire order was canceled successfully.",
+        });
+      } else if (status === "Pending") {
+        await prismaService.orders.update({
+          data: {
+            status: "Pending",
+            totalPrice,
+          },
+          where: {
+            orderId,
+          },
+        });
+        return res.status(200).json({
+          message: "Success",
+          statusCode: 200,
+          response:
+            "Desire status of order was change to Pennding successfully.",
+        });
+      } else if (status === "Finished") {
+        await prismaService.orders.update({
+          data: {
+            status: "Finished",
+            totalPrice,
+          },
+          where: {
+            orderId,
+          },
+        });
+        return res.status(200).json({
+          message: "Success",
+          statusCode: 200,
+          response: "Desire order was finished successfully.",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response: "An error occurred while updating orders.",
       });
     }
   }
