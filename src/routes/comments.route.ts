@@ -1,5 +1,4 @@
 import { Router } from "express";
-import isLogged from "../middlewares/isLogged";
 import commentsController from "../controllers/comments.controller";
 import commentsValidator from "../validators/comments.validator";
 import validationResults from "../validators/validationResults";
@@ -7,7 +6,6 @@ const router = Router();
 
 router.post(
   "/add",
-  isLogged,
   commentsValidator.addCommentValidator(),
   validationResults,
   commentsController.addToComment
@@ -15,11 +13,10 @@ router.post(
 router.get("/get/:productId", commentsController.getCommentByProductId);
 router.put(
   "/update",
-  isLogged,
   commentsValidator.updateCommentValidator(),
   validationResults,
   commentsController.updateComment
 );
-router.delete("/delete/:commentId", isLogged, commentsController.deleteComment);
+router.delete("/delete/:commentId", commentsController.deleteComment);
 
 export default router;
