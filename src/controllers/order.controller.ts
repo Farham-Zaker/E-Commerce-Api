@@ -136,7 +136,7 @@ export default new (class Controller {
             createdAt: true,
             orderItems: {
               select: {
-                products: {
+                product: {
                   select: {
                     title: true,
                     images: true,
@@ -186,7 +186,7 @@ export default new (class Controller {
             orderItems: {
               select: {
                 color: true,
-                products: {
+                product: {
                   select: {
                     productId: true,
                     title: true,
