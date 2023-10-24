@@ -3,6 +3,7 @@ import prismaService from "../../prisma/prismaService";
 import { Prisma } from "@prisma/client";
 import {
   GetOrdersRouteOrdersTypes,
+  GetOrderByIdRouteOrderTypes,
 } from "../interfaces/order.inteface";
 
 export default new (class {
@@ -138,6 +139,55 @@ export default new (class {
         totalSale: totalSale == "true" ? { income, quantities } : undefined,
         statusCode: 200,
         orders,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error",
+      });
+    }
+  }
+  async getOrderById(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> {
+    const orderId = req.params.orderId;
+
+    try {
+      const order: GetOrderByIdRouteOrderTypes | null =
+        await prismaService.orders.findFirst({
+          where: {
+            orderId,
+          },
+          select: {
+            orderId: true,
+            totalPrice: true,
+            status: true,
+            createdAt: true,
+            user: true,
+            orderItems: {
+              select: {
+                orderItemId: true,
+                product: true,
+                quantity: true,
+                color: true,
+              },
+            },
+          },
+        });
+      if (!order) {
+        return res.status(404).json({
+          message: "Field",
+          statusCode: 404,
+          response: "There is no any order with such id.",
+        });
+      }
+      return res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        order,
       });
     } catch (error) {
       console.error(error);
