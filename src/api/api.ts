@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 
 import authRoute from "../routes/auth.route";
-router.use("/auth", authRoute);
+router.use("/auth", isLogged, authRoute);
 
 import accountRoute from "./../routes/account.route";
 router.use("/account", isLogged, accountRoute);
