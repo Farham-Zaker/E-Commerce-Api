@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import * as dotenv from "dotenv";
 import passport from "passport";
 import session from "express-session";
-import oAuthSetup from "./../passport/oAuthGoogle";
+import oAuthSetup from "./passport/oAuthGoogle";
 import fileUpload from "express-fileupload";
 
 export default async (server: Express) => {

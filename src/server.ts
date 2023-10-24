@@ -1,7 +1,7 @@
 import express, { Express } from "express";
 const server: Express = express();
 
-import projectConfigs from "./middlewares/projectConfigs";
+import projectConfigs from "./projectConfigs";
 projectConfigs(server);
 
 import api from "./api/api";
