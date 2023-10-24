@@ -11,7 +11,7 @@ import productRoute from "./../routes/product.route";
 router.use("/products", productRoute);
 
 import addressRoute from "./../routes/address.route";
-router.use("/address", addressRoute);
+router.use("/address", isLogged, addressRoute);
 
 import cartRoute from "./../routes/cart.route";
 router.use("/cart", cartRoute);
@@ -29,6 +29,7 @@ import orderRoute from "./../routes/order.route";
 router.use("/order", orderRoute);
 
 import adminRoute from "./../admin/index";
+import isLogged from "../middlewares/isLogged";
 router.use("/admin", adminRoute);
 
 export default router;
