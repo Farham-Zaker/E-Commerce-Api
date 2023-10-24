@@ -44,3 +44,30 @@ interface PaymentTypes {
   orderId: string;
   createdAt: string;
 }
+export interface GetOrderByIdRouteOrderTypes {
+  orderId: string;
+  totalPrice: number;
+  status: string;
+  createdAt: Date;
+  user: UserTypes;
+  orderItems: {
+    orderItemId: string;
+    product: {
+      productId: string;
+      title: string;
+      price: number;
+      discountStatus: number;
+      discountPercent: number | null;
+      discountEndTime: Date | null;
+      finalPrice: number | null;
+      createdAt: Date;
+      categoryId: string;
+    };
+    quantity: number;
+    color: {
+      colorId: string;
+      name: string;
+      hexCode: string;
+    };
+  }[];
+}
