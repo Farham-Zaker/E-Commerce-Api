@@ -4,8 +4,8 @@ import {
   ProductDiscountPercentTypes,
   ProductTypes,
 } from "../interfaces/product.interface";
-import discountCalculator from "../middlewares/product/discountCalculator";
-import getFinalPrice from "../middlewares/product/getFinalPrice";
+import discountCalculator from "../../util/discountCalculator";
+import getFinalPrice from "../../util/getFinalPrice";
 import { UploadedFile } from "express-fileupload";
 import { v4 as uuidv4 } from "uuid";
 import path from "path";
