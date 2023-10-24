@@ -27,7 +27,7 @@ import paymentRoute from "../routes/payment.route";
 router.use("/payment", isLogged, paymentRoute);
 
 import orderRoute from "./../routes/order.route";
-router.use("/order", orderRoute);
+router.use("/order", isLogged, orderRoute);
 
 import adminRoute from "./../admin/index";
 router.use("/admin", adminRoute);
