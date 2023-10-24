@@ -7,12 +7,11 @@ const router = Router();
 
 router.post(
   "/cancel",
-  isLogged,
   orderValidator.cancelvalidator(),
   validationResults,
   orderController.cancelOrder
 );
-router.get("/get", isLogged, orderController.getAllOrders);
-router.get("/get/:orderId", isLogged, orderController.getOrderById);
+router.get("/get", orderController.getAllOrders);
+router.get("/get/:orderId", orderController.getOrderById);
 
 export default router;
