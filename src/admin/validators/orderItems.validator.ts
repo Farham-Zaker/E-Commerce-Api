@@ -48,6 +48,35 @@ export default new (class {
         }),
     ];
   }
+  updateOrderItems(): ValidationChain[] {
+    return [
+      check("orderItemId")
+        .notEmpty()
+        .withMessage("'orderItemId' field can not be empty."),
+      check("orderId")
+        .optional()
+        .notEmpty()
+        .withMessage("'orderId' field can not be empty."),
+      check("productId")
+        .optional()
+        .notEmpty()
+        .withMessage("'productId' field can not be empty."),
+      check("quantity")
+        .optional()
+        .notEmpty()
+        .withMessage("'quantity' field can not be empty.")
+        .custom((value) => {
+          if (typeof value !== "number") {
+            throw new Error("Provide a number for 'quantity' field.");
+          }
+          return true;
+        }),
+      check("colorId")
+        .optional()
+        .notEmpty()
+        .withMessage("'colorId' field can not be empty."),
+    ];
+  }
   private isTrueOrFalse(field: string, value: string): boolean {
     if (value == "true" || value == "false") {
       return true;
