@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
 import prismaService from "../../prisma/prismaService";
+import {
+  GetAllItemsRouteOrderItemTypes,
+} from "../interfaces/orderItems.interface";
 
 export default new (class {
   async createOrderItem(
@@ -113,4 +116,40 @@ export default new (class {
       });
     }
   }
+  async getOrderItems(req: Request, res: Response): Promise<void> {
+    const { color, product, order, take, skip } = req.query;
+
+    let filterOptions: any = {};
+
+    if (color === "true") {
+      filterOptions = { ...filterOptions, color: true };
+    }
+    if (product === "true") {
+      filterOptions = { ...filterOptions, product: true };
+    }
+    if (order === "true") {
+      filterOptions = { ...filterOptions, order: true };
+    }
+    try {
+      const orderItems: GetAllItemsRouteOrderItemTypes[] =
+        await prismaService.order_items.findMany({
+          take: Number(take) || 99999999999,
+          skip: Number(skip) || 0,
+          include: filterOptions,
+        });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        orderItems,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "Internal Server Error",
+      });
+    }
+  }
+
 })();

@@ -14,6 +14,7 @@ router.get(
   "/get",
   orderItemsValidator.getOrderItems(),
   validationResults,
+  orderItemsController.getOrderItems
 );
 
 export default router;
