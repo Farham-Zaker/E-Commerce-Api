@@ -17,5 +17,8 @@ router.get(
   orderItemsController.getOrderItems
 );
 router.get("/get/:orderItemId", orderItemsController.getOrderItemById);
+router.put(
+  "/update",
+);
 
 export default router;
