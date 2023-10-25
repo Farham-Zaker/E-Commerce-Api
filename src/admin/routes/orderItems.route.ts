@@ -10,5 +10,8 @@ router.post(
   validationResults,
   orderItemsController.createOrderItem
 );
+router.get(
+  "/get",
+);
 
 export default router;
