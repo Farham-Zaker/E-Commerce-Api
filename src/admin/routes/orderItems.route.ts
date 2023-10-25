@@ -21,6 +21,7 @@ router.put(
   "/update",
   orderItemsValidator.updateOrderItems(),
   validationResults,
+  orderItemsController.updateOrderItem
 );
 
 export default router;

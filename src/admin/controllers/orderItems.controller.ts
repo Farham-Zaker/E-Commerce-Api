@@ -180,4 +180,34 @@ export default new (class {
       });
     }
   }
+
+  async updateOrderItem(req: Request, res: Response): Promise<void> {
+    const { orderItemId, orderId, productId, quantity, colorId } = req.body;
+
+    try {
+      await prismaService.order_items.update({
+        data: {
+          orderId,
+          productId,
+          quantity,
+          colorId,
+        },
+        where: {
+          orderItemId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire ithem was updated successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response: "An error occurred while updating items of order.",
+      });
+    }
+  }
 })();
