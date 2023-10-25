@@ -31,3 +31,13 @@ interface OrderType {
   status: string;
   createdAt: Date;
 }
+export interface GetItemByIdRouteOrderItemTypes {
+  orderItemId: string;
+  orderId: string;
+  productId: string;
+  quantity: number;
+  colorId: string;
+  color: ColorTypes;
+  product: ProductTypes;
+  order: OrderType;
+}
