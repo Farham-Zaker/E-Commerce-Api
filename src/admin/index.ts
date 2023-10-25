@@ -17,4 +17,7 @@ router.use("/inventory", inventoryRoute);
 import orderRoute from "./routes/order.route";
 router.use("/order", orderRoute);
 
+import orderItemsRoute from "./routes/orderItems.route";
+router.use("/orderItems", isAdmin, orderItemsRoute);
+
 export default router;
