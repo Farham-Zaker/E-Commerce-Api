@@ -23,6 +23,6 @@ router.put(
   validationResults,
   orderItemsController.updateOrderItem
 );
-router.delete("/delete/:orderItemId")
+router.delete("/delete/:orderItemId" ,orderItemsController.deleteOrderItem)
 
 export default router;
