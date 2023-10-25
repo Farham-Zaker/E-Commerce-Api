@@ -16,7 +16,6 @@ router.get(
   validationResults,
   orderItemsController.getOrderItems
 );
-router.get("/get/:orderItemId");
-
+router.get("/get/:orderItemId", orderItemsController.getOrderItemById);
 
 export default router;

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import prismaService from "../../prisma/prismaService";
 import {
   GetAllItemsRouteOrderItemTypes,
+  GetItemByIdRouteOrderItemTypes,
 } from "../interfaces/orderItems.interface";
 
 export default new (class {
@@ -151,5 +152,32 @@ export default new (class {
       });
     }
   }
-
+  async getOrderItemById(req: Request, res: Response): Promise<void> {
+    const orderItemId: string = req.params.orderItemId;
+    try {
+      const orderItem: GetItemByIdRouteOrderItemTypes | null =
+        await prismaService.order_items.findFirst({
+          where: {
+            orderItemId,
+          },
+          include: {
+            product: true,
+            color: true,
+            order: true,
+          },
+        });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        orderItem,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response: "An error occurred while getting items of order.",
+      });
+    }
+  }
 })();
