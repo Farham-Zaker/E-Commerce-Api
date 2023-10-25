@@ -151,7 +151,7 @@ model orders {
 
 model order_items {
   orderItemId String   @id @default(uuid()) @db.VarChar(55)
-  orders      orders   @relation(fields: [orderId], references: [orderId])
+  order       orders   @relation(fields: [orderId], references: [orderId])
   orderId     String   @db.VarChar(55)
   product     products @relation(fields: [productId], references: [productId])
   productId   String   @db.VarChar(55)
