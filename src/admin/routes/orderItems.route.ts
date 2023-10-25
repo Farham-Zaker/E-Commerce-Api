@@ -12,6 +12,8 @@ router.post(
 );
 router.get(
   "/get",
+  orderItemsValidator.getOrderItems(),
+  validationResults,
 );
 
 export default router;
