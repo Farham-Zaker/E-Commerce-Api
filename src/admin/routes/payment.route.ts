@@ -18,5 +18,6 @@ router.put(
   validationResults,
   paymentController.updatePayment
 );
+router.delete("/delete/:paymentId");
 
 export default router;
