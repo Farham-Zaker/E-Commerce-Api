@@ -12,6 +12,8 @@ router.post(
 );
 router.get("/get", paymentController.getAllPaynent);
 router.get("/get/:paymentId", paymentController.getPaymentById);
-
+router.put(
+  "/update",
+);
 
 export default router;
