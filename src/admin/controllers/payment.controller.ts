@@ -65,5 +65,39 @@ export default new (class {
       });
     }
   }
- 
+  async getPaymentById(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> {
+    const paymentId = req.params.paymentId;
+    try {
+      const payment: PaymentTypes | null =
+        await prismaService.payments.findFirst({
+          where: { paymentId },
+          include: {
+            order: true,
+          },
+        });
+
+      if (!payment) {
+        return res.status(404).json({
+          message: "Failed",
+          statusCode: 404,
+          response: "There is no any product with such id.",
+        });
+      }
+      return res.status(201).json({
+        message: "Success",
+        statusCode: 201,
+        payment,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response: "An error occurred while getting payment invoice.",
+      });
+    }
+  }
 })();
