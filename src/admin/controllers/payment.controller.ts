@@ -122,4 +122,26 @@ export default new (class {
       });
     }
   }
+  async deletePayment(req: Request, res: Response): Promise<void> {
+    const paymentId = req.params.paymentId;
+    try {
+      await prismaService.payments.delete({
+        where: {
+          paymentId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire payment invoice was deleted successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response: "An error occurred while deleting payment invoice.",
+      });
+    }
+  }
 })();
