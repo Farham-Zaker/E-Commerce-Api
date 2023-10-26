@@ -165,7 +165,7 @@ model payments {
   authorityId String   @db.VarChar(55)
   amount      Int
   status      String   @db.VarChar(10)
-  orders      orders   @relation(fields: [orderId], references: [orderId])
+  order       orders   @relation(fields: [orderId], references: [orderId])
   orderId     String   @unique @db.VarChar(55)
   createdAt   DateTime @default(now())
 }
