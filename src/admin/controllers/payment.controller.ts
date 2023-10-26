@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prismaService from "../../prisma/prismaService";
+import { PaymentTypes } from "../interfaces/payment.interface";
 
 export default new (class {
   async createPayment(
@@ -43,6 +44,26 @@ export default new (class {
       });
     }
   }
-
+  async getAllPaynent(req: Request, res: Response): Promise<void> {
+    try {
+      const payments: PaymentTypes[] = await prismaService.payments.findMany({
+        include: {
+          order: true,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        payments,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response: "An error occurred while getting payment invoice.",
+      });
+    }
+  }
  
 })();

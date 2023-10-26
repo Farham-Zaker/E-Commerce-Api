@@ -10,7 +10,7 @@ router.post(
   validationResults,
   paymentController.createPayment
 );
-router.get("/get");
+router.get("/get", paymentController.getAllPaynent);
 
 
 export default router;
