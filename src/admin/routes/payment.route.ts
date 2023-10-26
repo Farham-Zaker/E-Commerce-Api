@@ -1,7 +1,7 @@
 import { Router } from "express";
+import paymentController from "../controllers/payment.controller";
 import paymentValidator from "../validators/payment.validator";
 import validationResults from "../../validators/validationResults";
-import paymentController from "../controllers/payment.controller";
 const router = Router();
 
 router.post(
@@ -10,6 +10,7 @@ router.post(
   validationResults,
   paymentController.createPayment
 );
+router.get("/get");
 
 
 export default router;
