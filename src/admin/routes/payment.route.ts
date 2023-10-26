@@ -16,6 +16,7 @@ router.put(
   "/update",
   paymentValidator.updatePayment(),
   validationResults,
+  paymentController.updatePayment
 );
 
 export default router;

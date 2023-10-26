@@ -100,4 +100,26 @@ export default new (class {
       });
     }
   }
+  async updatePayment(req: Request, res: Response): Promise<void> {
+    const { paymentId, authorityId, amount, status, orderId } = req.body;
+
+    try {
+      await prismaService.payments.update({
+        data: { authorityId, amount, status, orderId },
+        where: { paymentId },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire payment invoice was updated successfully,",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response: "An error occurred while updating payment invoice.",
+      });
+    }
+  }
 })();
