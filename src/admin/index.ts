@@ -12,10 +12,10 @@ import colorRoute from "./routes/color.route";
 router.use("/color", isAdmin, colorRoute);
 
 import inventoryRoute from "./routes/inventory.route";
-router.use("/inventory", inventoryRoute);
+router.use("/inventory", isAdmin, inventoryRoute);
 
 import orderRoute from "./routes/order.route";
-router.use("/order", orderRoute);
+router.use("/order", isAdmin, orderRoute);
 
 import orderItemsRoute from "./routes/orderItems.route";
 router.use("/orderItems", isAdmin, orderItemsRoute);
