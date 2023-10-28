@@ -21,6 +21,7 @@ router.put(
   "/update",
   cartValidator.updateCart(),
   validationResults,
+  cartController.updateCart
 );
 
 

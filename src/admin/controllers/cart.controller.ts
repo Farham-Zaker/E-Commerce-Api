@@ -193,4 +193,74 @@ export default new (class {
       });
     }
   }
+  async updateCart(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> {
+    const { cartId, userId, productId, quantity, colorId } = req.body;
+
+    try {
+      const product: { quantity: number } | null =
+        await prismaService.inventories.findFirst({
+          where: {
+            productId,
+            colorId,
+          },
+          select: {
+            quantity: true,
+          },
+        });
+
+      const productQuantity: number = product?.quantity!;
+      if (!product || productQuantity === 0) {
+        return res.status(404).json({
+          message: "Not Found",
+          statusCode: 404,
+          response: "The requested product is not available or not exist.",
+        });
+      }
+      if (product?.quantity < quantity) {
+        return res.status(400).json({
+          message: "Failed",
+          statusCode: 400,
+          response: `The requested volume is invalid. You can just add ${product.quantity} of this product.`,
+        });
+      }
+
+      await prismaService.carts.update({
+        data: {
+          cartId,
+          userId,
+          productId,
+          cartInventories: {
+            updateMany: {
+              data: {
+                colorId,
+                quantity,
+              },
+              where: {
+                cartId,
+              },
+            },
+          },
+        },
+        where: {
+          cartId,
+        },
+      });
+
+      return res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire cart was updated successfully.s",
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while updating product of this cart.",
+      });
+    }
+  }
 })();
