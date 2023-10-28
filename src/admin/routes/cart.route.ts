@@ -16,7 +16,7 @@ router.get(
   validationResults,
   cartController.getCarts
 );
-router.get("/get/:cartId");
+router.get("/get/:cartId", cartController.getCartById);
 
 
 

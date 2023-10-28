@@ -154,4 +154,43 @@ export default new (class {
       });
     }
   }
+  async getCartById(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> {
+    const cartId: string = req.params.cartId;
+
+    try {
+      const cart: CartTypes | null = await prismaService.carts.findFirst({
+        where: {
+          cartId,
+        },
+        include: {
+          user: true,
+          product: true,
+          cartInventories: true,
+        },
+      });
+      if (!cart) {
+        return res.status(404).json({
+          message: "Failed",
+          statusCode: 404,
+          response: "There is no any cart with such id.",
+        });
+      }
+
+      return res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        cart,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while getting product of this cart.",
+      });
+    }
+  }
 })();
