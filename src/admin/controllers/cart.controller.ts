@@ -263,4 +263,23 @@ export default new (class {
       });
     }
   }
+  async deleteCart(req: Request, res: Response): Promise<void> {
+    const cartId: string = req.params.cartId;
+    try {
+      await prismaService.carts.delete({
+        where: { cartId },
+      });
+      await prismaService.carts_inventories.deleteMany({
+        where: {
+          cartId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire cart was deleted successfully.",
+      });
+    } catch (error) {}
+  }
+ 
 })();

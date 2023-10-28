@@ -23,7 +23,7 @@ router.put(
   validationResults,
   cartController.updateCart
 );
-router.delete("/delete/:cartId",);
+router.delete("/delete/:cartId", cartController.deleteCart);
 
 
 export default router;
