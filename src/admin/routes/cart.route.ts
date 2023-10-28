@@ -14,5 +14,6 @@ router.get(
   "/get",
   cartValidator.getCart(),
   validationResults,
+  cartController.getCarts
 );
 export default router;

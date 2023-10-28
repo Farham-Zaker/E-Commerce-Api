@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import prismaService from "../../prisma/prismaService";
+import { Prisma } from "@prisma/client";
+import { CartTypes } from "../interfaces/cart.interface";
 
 export default new (class {
   async createCart(
@@ -106,6 +108,49 @@ export default new (class {
         message: "Error",
         statusCode: 500,
         response: "An error occurred while adding product to cart.",
+      });
+    }
+  }
+  async getCarts(req: Request, res: Response): Promise<void> {
+    const { userId, productId, user, product, cartInventories, take, skip } =
+      req.query;
+
+    let include: Prisma.cartsInclude = {};
+    if (user === "true") {
+      include = { user: true };
+    }
+    if (product === "true") {
+      include = { ...include, product: true };
+    }
+    if (cartInventories === "true") {
+      include = { ...include, cartInventories: true };
+    }
+    let where: Prisma.cartsWhereInput = {};
+    if (user === "true") {
+      where = { ...where, userId: userId as string | undefined };
+    }
+    if (product === "true") {
+      where = { ...where, productId: productId as string | undefined };
+    }
+
+    try {
+      const carts: CartTypes[] = await prismaService.carts.findMany({
+        where,
+        include,
+        take: Number(take) || 99999999999,
+        skip: Number(skip) || 0,
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        carts,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while gettinf product of carts.",
       });
     }
   }
