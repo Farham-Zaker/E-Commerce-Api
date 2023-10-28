@@ -281,5 +281,43 @@ export default new (class {
       });
     } catch (error) {}
   }
- 
+  async deleteCartInventories(req: Request, res: Response): Promise<void> {
+    const { cartId, colorId } = req.query;
+    try {
+      await prismaService.carts_inventories.deleteMany({
+        where: {
+          cartId: cartId as string,
+          colorId: colorId as string,
+        },
+      });
+      const carts_inventories: boolean =
+        !!(await prismaService.carts_inventories.findFirst({
+          where: {
+            cartId: cartId as string,
+          },
+          select: {
+            cartId: true,
+          },
+        }));
+      if (!carts_inventories) {
+        await prismaService.carts.delete({
+          where: {
+            cartId: cartId as string,
+          },
+        });
+      }
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire cart item was deleted successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while deleting cart items.",
+      });
+    }
+  }
 })();
