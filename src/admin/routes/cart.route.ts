@@ -10,4 +10,7 @@ router.post(
   validationResults,
   cartController.createCart
 );
+router.get(
+  "/get",
+);
 export default router;
