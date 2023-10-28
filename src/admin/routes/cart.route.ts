@@ -26,6 +26,8 @@ router.put(
 router.delete("/delete/:cartId", cartController.deleteCart);
 router.delete(
   "/inventories/delete",
+  cartValidator.deleteInventories(),
+  validationResults,
 );
 
 export default router;

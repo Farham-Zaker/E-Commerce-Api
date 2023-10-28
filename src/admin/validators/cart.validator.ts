@@ -84,6 +84,16 @@ export default new (class {
         }),
     ];
   }
+  deleteInventories(): ValidationChain[] {
+    return [
+      check("cartId")
+        .notEmpty()
+        .withMessage("'cartId' field can not be empty."),
+      check("colorId")
+        .notEmpty()
+        .withMessage("'colorId' field can not be empty."),
+    ];
+  }
   private isBoolean(field: string, value: string): boolean {
     if (value === "true" || value === "false") {
       return true;
