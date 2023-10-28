@@ -19,6 +19,8 @@ router.get(
 router.get("/get/:cartId", cartController.getCartById);
 router.put(
   "/update",
+  cartValidator.updateCart(),
+  validationResults,
 );
 
 

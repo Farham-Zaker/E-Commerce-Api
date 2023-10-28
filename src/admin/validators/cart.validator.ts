@@ -58,6 +58,32 @@ export default new (class {
         .withMessage("'skip' field must be a number."),
     ];
   }
+  updateCart(): ValidationChain[] {
+    return [
+      check("cartId")
+        .notEmpty()
+        .withMessage("'cartId' field can not be empty."),
+      check("productId")
+        .optional()
+        .notEmpty()
+        .withMessage("'productId' field can not be empty."),
+      check("colorId")
+        .optional()
+        .notEmpty()
+        .withMessage("'colorId' field can not be empty."),
+      check("userId")
+        .optional()
+        .notEmpty()
+        .withMessage("'userId' field can not be empty."),
+      check("quantity")
+        .optional()
+        .notEmpty()
+        .withMessage("'quantity' field can not be empty.")
+        .custom((value) => {
+          return this.isNumber("field", value);
+        }),
+    ];
+  }
   private isBoolean(field: string, value: string): boolean {
     if (value === "true" || value === "false") {
       return true;
