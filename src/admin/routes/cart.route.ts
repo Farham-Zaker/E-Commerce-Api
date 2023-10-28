@@ -17,7 +17,9 @@ router.get(
   cartController.getCarts
 );
 router.get("/get/:cartId", cartController.getCartById);
-
+router.put(
+  "/update",
+);
 
 
 export default router;
