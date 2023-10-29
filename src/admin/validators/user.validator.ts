@@ -50,7 +50,50 @@ export default new (class {
         }),
     ];
   }
-
+  updateUser(): ValidationChain[] {
+    return [
+      check("userId")
+        .notEmpty()
+        .withMessage("'userId' field can not be empty."),
+      check("firstName")
+        .optional()
+        .notEmpty()
+        .withMessage("'firstName' field can not be empty.")
+        .isString()
+        .withMessage("'firstName' field must be string."),
+      check("lastName")
+        .optional()
+        .notEmpty()
+        .withMessage("'lastName' field can not be empty")
+        .isString()
+        .withMessage("'lastName' field must be string."),
+      check("phone")
+        .optional()
+        .notEmpty()
+        .withMessage("'phone' field can not be empty")
+        .isLength({ min: 11, max: 11 })
+        .withMessage("'phone' field is invalid."),
+      check("email")
+        .optional()
+        .isEmail()
+        .withMessage("'email' field is invalid."),
+      check("isAdmin")
+        .optional()
+        .notEmpty()
+        .withMessage("'isAdmin' field can not be empty")
+        .isBoolean()
+        .withMessage("'isAdmin' field must be a boolean value."),
+      check("password")
+        .optional()
+        .isLength({ min: 8 })
+        .withMessage(
+          "The password must be more than 8 character and contain alphatic character."
+        )
+        .custom((value: string) => {
+          return this.validatePassword(value);
+        }),
+    ];
+  }
   private validatePassword(value: string): boolean {
     const lettersCount: number = value
       .split("")

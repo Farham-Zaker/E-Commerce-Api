@@ -25,5 +25,7 @@ router.get(
 router.get("/get/:userId", userController.getUserById);
 router.put(
   "/update",
+  userValidator.updateUser(),
+  validationResults,
 );
 export default router;
