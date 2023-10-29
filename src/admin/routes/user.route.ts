@@ -23,5 +23,7 @@ router.get(
   userController.getUsers
 );
 router.get("/get/:userId", userController.getUserById);
-
+router.put(
+  "/update",
+);
 export default router;
