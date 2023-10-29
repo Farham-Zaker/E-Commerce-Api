@@ -29,4 +29,6 @@ router.put(
   validationResults,
   userController.updateUser
 );
+router.delete("/delete/:userId")
+
 export default router;
