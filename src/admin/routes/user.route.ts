@@ -16,5 +16,8 @@ router.post(
   validationResults,
   userController.uploadImage
 );
+router.get(
+  "/get",
+);
 
 export default router;
