@@ -27,5 +27,6 @@ router.put(
   "/update",
   userValidator.updateUser(),
   validationResults,
+  userController.updateUser
 );
 export default router;

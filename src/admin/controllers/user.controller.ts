@@ -261,4 +261,44 @@ export default new (class {
       });
     }
   }
+  async updateUser(req: Request, res: Response): Promise<void> {
+    const { userId, firstName, lastName, phone, email, password, isAdmin } =
+      req.body;
+    try {
+      await prismaService.users.update({
+        data: {
+          firstName,
+          lastName,
+          phone,
+          email,
+          auth: {
+            update: {
+              data: {
+                password: password ? await hashPassword(password) : undefined,
+                isAdmin: isAdmin ? 1 : 0,
+              },
+              where: {
+                userId,
+              },
+            },
+          },
+        },
+        where: {
+          userId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire user was updated successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while updateing desire user.",
+      });
+    }
+  }
 })();
