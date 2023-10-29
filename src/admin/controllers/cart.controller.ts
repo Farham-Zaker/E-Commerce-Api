@@ -200,10 +200,26 @@ export default new (class {
     const { cartId, userId, productId, quantity, colorId } = req.body;
 
     try {
+      const cart: { productId: string } | null =
+        await prismaService.carts.findFirst({
+          where: {
+            cartId,
+          },
+          select: {
+            productId: true,
+          },
+        });
+      if (!cart) {
+        return res.status(404).json({
+          message: "Failed",
+          statusCode: 404,
+          response: "There is no any cart with such id.",
+        });
+      }
       const product: { quantity: number } | null =
         await prismaService.inventories.findFirst({
           where: {
-            productId,
+            productId: cart?.productId,
             colorId,
           },
           select: {
