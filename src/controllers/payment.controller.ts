@@ -269,7 +269,7 @@ export default new (class accountController {
       const userPayments: PaymentTypes[] =
         await prismaService.payments.findMany({
           where: {
-            orders: {
+            order: {
               userId: decodedToken.userId,
             },
           },
