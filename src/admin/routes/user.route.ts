@@ -20,6 +20,7 @@ router.get(
   "/get",
   userValidator.getUsers(),
   validationResults,
+  userController.getUsers
 );
 
 export default router;

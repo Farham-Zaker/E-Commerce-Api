@@ -3,6 +3,7 @@ import prismaService from "../../prisma/prismaService";
 import hashPassword from "../../util/hashPassword";
 import { UploadedFile } from "express-fileupload";
 import path from "path";
+import { UserTypes } from "../interfaces/user.interface";
 
 export default new (class {
   async createUser(
@@ -163,6 +164,64 @@ export default new (class {
         message: "Error",
         statusCode: 500,
         response: "An error occurred while uploading image of user.",
+      });
+    }
+  }
+  async getUsers(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> {
+    const { searchTerm, orderBy } = req.query;
+
+    let orderOption: any = {};
+    if (orderBy === "firstName") {
+      orderOption = {
+        firstName: "asc",
+      };
+    }
+    if (orderBy === "lastName") {
+      orderOption = {
+        lastName: "asc",
+      };
+    }
+
+    try {
+      const contain: { contains: string } = {
+        contains: searchTerm as string,
+      };
+      const users: UserTypes[] = await prismaService.users.findMany({
+        include: {
+          auth: true,
+        },
+        where: {
+          OR: [
+            {
+              firstName: contain,
+            },
+            {
+              lastName: contain,
+            },
+            {
+              email: contain,
+            },
+            {
+              phone: contain,
+            },
+          ],
+        },
+        orderBy: orderOption,
+      });
+      return res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        users,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while getting all user.",
       });
     }
   }
