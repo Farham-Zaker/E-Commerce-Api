@@ -301,4 +301,31 @@ export default new (class {
       });
     }
   }
+  async deleteUser(req: Request, res: Response): Promise<void> {
+    const userId: string = req.params.userId;
+    try {
+      await prismaService.auth.delete({
+        where: {
+          userId,
+        },
+      });
+      await prismaService.users.delete({
+        where: {
+          userId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire user was deleted successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while deleting desire user.",
+      });
+    }
+  }
 })();
