@@ -26,7 +26,7 @@ export default new (class {
           "The password must be more than 8 character and contain alphatic character."
         )
         .custom((value: string) => {
-          this.validatePassword(value);
+          return this.validatePassword(value);
         }),
     ];
   }
@@ -35,6 +35,22 @@ export default new (class {
       .notEmpty()
       .withMessage("'userId' field can not be empty.");
   }
+  getUsers(): ValidationChain[] {
+    return [
+      check("searchTerm")
+        .optional()
+        .notEmpty()
+        .withMessage("'searchTerm' field can not be empty."),
+      check("orderBy")
+        .optional()
+        .notEmpty()
+        .withMessage("'orderBy' field can not be empty.")
+        .custom((value) => {
+          return this.validatePassword(value);
+        }),
+    ];
+  }
+
   private validatePassword(value: string): boolean {
     const lettersCount: number = value
       .split("")

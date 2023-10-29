@@ -18,6 +18,8 @@ router.post(
 );
 router.get(
   "/get",
+  userValidator.getUsers(),
+  validationResults,
 );
 
 export default router;
