@@ -26,4 +26,7 @@ router.use("/payment", isAdmin, paymentRoute);
 import cartRoute from "./routes/cart.route";
 router.use("/cart", isAdmin, cartRoute);
 
+import userRoute from "./routes/user.route";
+router.use("/user", isAdmin, userRoute);
+
 export default router;
