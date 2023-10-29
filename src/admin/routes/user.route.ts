@@ -12,6 +12,8 @@ router.post(
 );
 router.post(
   "/upload-image",
+  userValidator.uploadUserImage(),
+  validationResults,
 );
 
 export default router;

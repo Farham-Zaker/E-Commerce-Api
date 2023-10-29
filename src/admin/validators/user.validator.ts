@@ -36,6 +36,11 @@ export default new (class {
         }),
     ];
   }
+  uploadUserImage(): ValidationChain {
+    return check("userId")
+      .notEmpty()
+      .withMessage("'userId' field can not be empty.");
+  }
   private validatePassword(value: string): boolean {
     const lettersCount: number = value
       .split("")
