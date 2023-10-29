@@ -10,6 +10,8 @@ router.post(
   validationResults,
   userController.createUser
 );
-
+router.post(
+  "/upload-image",
+);
 
 export default router;
