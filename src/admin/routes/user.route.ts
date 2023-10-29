@@ -22,6 +22,6 @@ router.get(
   validationResults,
   userController.getUsers
 );
-router.get("/get/:userId",);
+router.get("/get/:userId", userController.getUserById);
 
 export default router;
