@@ -14,6 +14,7 @@ router.get(
   "/get",
   addressValidator.getAddresses(),
   validationResults,
+  addressController.getAddresses
 );
 
 export default router;
