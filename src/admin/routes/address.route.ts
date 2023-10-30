@@ -17,5 +17,8 @@ router.get(
   addressController.getAddresses
 );
 router.get("/get/:addressId", addressController.getAddressById);
+router.put(
+  "/update",
+);
 
 export default router;
