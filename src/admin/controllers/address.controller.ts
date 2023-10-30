@@ -111,4 +111,45 @@ export default new (class {
       });
     }
   }
+  async updateAddress(req: Request, res: Response): Promise<void> {
+    const {
+      addressId,
+      country,
+      state,
+      city,
+      zone,
+      apartmentUnite,
+      postalCode,
+      userId,
+    } = req.body;
+
+    try {
+      await prismaService.addreesses.update({
+        data: {
+          country,
+          state,
+          city,
+          zone,
+          apartmentUnite,
+          postalCode,
+          userId,
+        },
+        where: {
+          addressId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire address was updated successfully.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while updating addresses.",
+      });
+    }
+  }
 })();

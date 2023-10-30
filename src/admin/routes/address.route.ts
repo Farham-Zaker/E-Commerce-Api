@@ -21,6 +21,7 @@ router.put(
   "/update",
   addressValidator.updateAddress(),
   validationResults,
+  addressController.updateAddress
 );
 
 export default router;
