@@ -12,6 +12,8 @@ router.post(
 );
 router.get(
   "/get",
+  addressValidator.getAddresses(),
+  validationResults,
 );
 
 export default router;

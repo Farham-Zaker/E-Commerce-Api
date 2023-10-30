@@ -41,6 +41,22 @@ export default new (class {
         .withMessage("'userId' field can not be empty."),
     ];
   }
+  getAddresses(): ValidationChain[] {
+    return [
+      check("user")
+        .optional()
+        .notEmpty()
+        .withMessage("'user' field can not be empty.")
+        .custom((value) => {
+          if (value != "true" && value != "false") {
+            throw new Error(
+              "Avialable option for 'user' field are true or false."
+            );
+          }
+          return true;
+        }),
+    ];
+  }
   private isNumber(field: string, value: string): boolean {
     if (typeof value !== "number") {
       throw new Error(`'${field}' field must be a number.`);
