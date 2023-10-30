@@ -23,5 +23,6 @@ router.put(
   validationResults,
   addressController.updateAddress
 );
+router.delete("/delete/:addressId");
 
 export default router;
