@@ -207,6 +207,9 @@ export default new (class {
             {
               phone: contain,
             },
+            {
+              userId: contain,
+            },
           ],
         },
         orderBy: orderOption,
