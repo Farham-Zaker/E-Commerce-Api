@@ -16,6 +16,6 @@ router.get(
   validationResults,
   addressController.getAddresses
 );
-router.get("/get/:addressId",);
+router.get("/get/:addressId", addressController.getAddressById);
 
 export default router;

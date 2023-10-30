@@ -78,4 +78,37 @@ export default new (class {
       });
     }
   }
+  async getAddressById(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> {
+    const addressId: string = req.params.addressId;
+    try {
+      const address: AddressTypes | null =
+        await prismaService.addreesses.findFirst({
+          where: {
+            addressId,
+          },
+        });
+      if (!address) {
+        return res.status(404).json({
+          message: "Failed",
+          statusCode: 404,
+          response: "There is no any address with such id.",
+        });
+      }
+      return res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        address,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while getting address with such id.",
+      });
+    }
+  }
 })();
