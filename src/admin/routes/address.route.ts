@@ -19,6 +19,8 @@ router.get(
 router.get("/get/:addressId", addressController.getAddressById);
 router.put(
   "/update",
+  addressValidator.updateAddress(),
+  validationResults,
 );
 
 export default router;
