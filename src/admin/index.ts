@@ -29,4 +29,7 @@ router.use("/cart", isAdmin, cartRoute);
 import userRoute from "./routes/user.route";
 router.use("/user", isAdmin, userRoute);
 
+import addressRoute from "./routes/address.route";
+router.use("/address", isAdmin, addressRoute);
+
 export default router;
