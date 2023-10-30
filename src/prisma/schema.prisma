@@ -133,7 +133,7 @@ model addreesses {
   zone           String?  @db.VarChar(155)
   apartmentUnite Int?     @db.SmallInt
   postalCode     String   @db.VarChar(20)
-  users          users?   @relation(fields: [userId], references: [userId])
+  user           users?   @relation(fields: [userId], references: [userId])
   userId         String   @db.VarChar(255)
   createdAt      DateTime @default(now())
 }
