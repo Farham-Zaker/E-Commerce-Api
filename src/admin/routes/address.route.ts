@@ -10,5 +10,8 @@ router.post(
   validationResults,
   addressController.createAddress
 );
+router.get(
+  "/get",
+);
 
 export default router;
