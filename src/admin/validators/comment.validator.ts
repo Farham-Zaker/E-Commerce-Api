@@ -14,10 +14,9 @@ export default new (class {
         .custom((value) => {
           return this.isCommentOrRepoly(value);
         }),
-      check("replyId")
-        .custom((value, { req }) => {
-          return this.validateReplyId(value, req.body.role);
-        }),
+      check("replyId").custom((value, { req }) => {
+        return this.validateReplyId(value, req.body.role);
+      }),
       check("userId")
         .notEmpty()
         .withMessage("'userId' field can not be empty."),
@@ -61,6 +60,31 @@ export default new (class {
             );
           }
           return true;
+        }),
+    ];
+  }
+  getCommentById(): ValidationChain[] {
+    return [
+      check("user")
+        .optional()
+        .notEmpty()
+        .withMessage("'user' field can not be empty.")
+        .custom((value) => {
+          return this.isBoolean("user", value);
+        }),
+      check("product")
+        .optional()
+        .notEmpty()
+        .withMessage("'product' field can not be empty.")
+        .custom((value) => {
+          return this.isBoolean("product", value);
+        }),
+      check("reply")
+        .optional()
+        .notEmpty()
+        .withMessage("'reply' field can not be empty.")
+        .custom((value, { req }) => {
+          return this.isBoolean("reply", value);
         }),
     ];
   }

@@ -18,6 +18,8 @@ router.get(
 );
 router.get(
   "/get/:commentId",
+  commentValidator.getCommentById(),
+  validationResults,
 );
 
 export default router;
