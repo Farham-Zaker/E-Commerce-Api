@@ -24,6 +24,8 @@ router.get(
 );
 router.put(
   "/update",
+  commentValidator.updateComment(),
+  validationResults,
 );
 
 export default router;
