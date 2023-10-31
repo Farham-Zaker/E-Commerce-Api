@@ -14,6 +14,7 @@ router.get(
   "/get",
   commentValidator.getValidator(),
   validationResults,
+  commentController.getComments
 );
 
 export default router;
