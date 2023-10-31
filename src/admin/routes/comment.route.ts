@@ -10,5 +10,8 @@ router.post(
   validationResults,
   commentController.createComment
 );
+router.get(
+  "/get",
+);
 
 export default router;
