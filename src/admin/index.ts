@@ -32,4 +32,7 @@ router.use("/user", isAdmin, userRoute);
 import addressRoute from "./routes/address.route";
 router.use("/address", isAdmin, addressRoute);
 
+import commentRoute from "./routes/comment.route";
+router.use("/comment", isAdmin, commentRoute);
+
 export default router;
