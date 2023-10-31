@@ -16,5 +16,8 @@ router.get(
   validationResults,
   commentController.getComments
 );
+router.get(
+  "/get/:commentId",
+);
 
 export default router;
