@@ -28,6 +28,6 @@ router.put(
   validationResults,
   commentController.updateComments
 );
-router.delete("/delete/:commentId");
+router.delete("/delete/:commentId", commentController.deleteComment);
 
 export default router;

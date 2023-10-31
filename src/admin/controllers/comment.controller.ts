@@ -206,4 +206,32 @@ export default new (class {
       });
     }
   }
+  async deleteComment(req: Request, res: Response): Promise<void> {
+    const commentId: string = req.params.commentId;
+
+    try {
+      await prismaService.comments.deleteMany({
+        where: {
+          replyId: commentId,
+        },
+      });
+      await prismaService.comments.delete({
+        where: {
+          commentId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire comment was deleted successfuly",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while deleting comment with such id.",
+      });
+    }
+  }
 })();
