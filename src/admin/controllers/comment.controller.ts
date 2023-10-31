@@ -110,4 +110,69 @@ export default new (class {
       });
     }
   }
+  async getCommentById(
+    req: Request,
+    res: Response
+  ): Promise<Response<any, Record<string, any>>> {
+    const commentId: string = req.params.commentId;
+    const { user, product, reply } = req.query;
+
+    let include: Prisma.commentsInclude = {};
+    if (user === "true") {
+      include = { user: true };
+    }
+    if (product === "true") {
+      include = { ...include, product: true };
+    }
+
+    try {
+      const comment: CommentAndReplyTypes | null =
+        await prismaService.comments.findFirst({
+          where: {
+            commentId,
+          },
+          include,
+        });
+
+      if (reply === "true" && comment?.role === "reply") {
+        return res.status(422).json({
+          message: "Failed",
+          statusCode: 422,
+          respone:
+            "The 'reply' field can be set to 'true' only if the comment is not a reply of another comment.",
+        });
+      }
+
+      if (reply === "true") {
+        const replies: CommentAndReplyTypes[] =
+          await prismaService.comments.findMany({
+            where: {
+              replyId: comment?.commentId,
+            },
+          });
+
+        return res.status(200).json({
+          message: "Success",
+          statusCode: 200,
+          comments: {
+            ...comment,
+            replies,
+          },
+        });
+      }
+
+      return res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        comment,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while getting comment with such id.",
+      });
+    }
+  }
 })();
