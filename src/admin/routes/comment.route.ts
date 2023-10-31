@@ -22,5 +22,8 @@ router.get(
   validationResults,
   commentController.getCommentById
 );
+router.put(
+  "/update",
+);
 
 export default router;
