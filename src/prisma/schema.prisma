@@ -58,7 +58,7 @@ model comments {
   comments  comments[] @relation("CommentToReply")
   reply     comments?  @relation("CommentToReply", fields: [replyId], references: [commentId])
   replyId   String?    @default(uuid()) @db.VarChar(55)
-  users     users      @relation(fields: [userId], references: [userId])
+  user      users      @relation(fields: [userId], references: [userId])
   userId    String     @db.VarChar(55)
   product   products   @relation(fields: [productId], references: [productId])
   productId String     @db.VarChar(55)
