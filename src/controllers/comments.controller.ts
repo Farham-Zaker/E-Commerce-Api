@@ -129,7 +129,7 @@ export default new (class {
             commentId: true,
             comment: true,
             role: true,
-            users: {
+            user: {
               select: {
                 userId: true,
                 firstName: true,
@@ -154,7 +154,7 @@ export default new (class {
             commentId: true,
             comment: true,
             role: true,
-            users: {
+            user: {
               select: {
                 userId: true,
                 firstName: true,
@@ -179,7 +179,7 @@ export default new (class {
           commentId: c.commentId,
           comment: c.comment,
           role: c.role,
-          users: c.users,
+          users: c.user,
           createdAt: c.createdAt,
           replies: filteredReplies,
         });
