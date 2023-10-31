@@ -26,6 +26,7 @@ router.put(
   "/update",
   commentValidator.updateComment(),
   validationResults,
+  commentController.updateComments
 );
 
 export default router;

@@ -175,4 +175,35 @@ export default new (class {
       });
     }
   }
+  async updateComments(req: Request, res: Response): Promise<void> {
+    const { commentId, comment, role, replyId, userId, productId } = req.body;
+
+    try {
+      await prismaService.comments.update({
+        data: {
+          comment,
+          role,
+          replyId,
+          userId,
+          productId,
+        },
+        where: {
+          commentId,
+        },
+      });
+
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire comment was updated successfuly",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error",
+        statusCode: 500,
+        response: "An error occurred while updating comment with such id.",
+      });
+    }
+  }
 })();
