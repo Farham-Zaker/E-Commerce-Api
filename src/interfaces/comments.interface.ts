@@ -2,7 +2,7 @@ export interface CommentsTypes {
   commentId: string;
   comment: string;
   role: string;
-  users: {
+  user: {
     userId: string;
     firstName: string;
     lastName: string;
@@ -14,7 +14,7 @@ export interface RepliesTypes {
   commentId: string;
   comment: string;
   role: string;
-  users: {
+  user: {
     userId: string;
     firstName: string;
     lastName: string;
