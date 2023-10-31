@@ -12,6 +12,8 @@ router.post(
 );
 router.get(
   "/get",
+  commentValidator.getValidator(),
+  validationResults,
 );
 
 export default router;
