@@ -18,6 +18,8 @@ router.get(
 );
 router.get(
   "/get/:likeId",
+  likesValidator.getLike(),
+  validationResults,
 );
 
 export default router;
