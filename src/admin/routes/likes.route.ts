@@ -10,4 +10,8 @@ router.post(
   validationResults,
   likesController.addToLikes
 );
+router.get(
+  "/get",
+);
+
 export default router;
