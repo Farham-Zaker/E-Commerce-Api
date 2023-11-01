@@ -78,4 +78,38 @@ export default new (class {
       });
     }
   }
+  async getLikeById(req: Request, res: Response): Promise<void> {
+    const likeId: string = req.params.id;
+
+    const { user, product } = req.query;
+
+    let include: Prisma.likesInclude = {};
+    if (user === "true") {
+      include = { user: true };
+    }
+    if (product === "true") {
+      include = { ...include, product: true };
+    }
+
+    try {
+      const likes: LikeTypes | null = await prismaService.likes.findFirst({
+        include,
+        where: {
+          likeId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        likes,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response: "An error occurred while adding product to likes list.",
+      });
+    }
+  }
 })();
