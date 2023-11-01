@@ -28,5 +28,6 @@ router.put(
   validationResults,
   likesController.updateLikes
 );
+router.delete("/delete/:likeId");
 
 export default router;
