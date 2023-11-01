@@ -68,7 +68,7 @@ export default new (class accountController {
       return null;
     });
 
-    if (image.size > 1024000) {
+    if (image.size > 1048576) {
       return res.status(400).json({
         message: "Failed",
         statusCode: 400,
@@ -84,13 +84,14 @@ export default new (class accountController {
       });
     }
 
-    const user = (await prismaService.users.findFirst({
-      where: {
-        userId: decodedToken.userId,
-      },
-    })) as { firstName: string; lastName: string };
+    const user: { firstName: string; lastName: string } | null =
+      await prismaService.users.findFirst({
+        where: {
+          userId: decodedToken.userId,
+        },
+      });
 
-    const newFileName = `${decodedToken.userId}-${user?.firstName}_${user?.lastName}.${extension}`;
+    const newFileName: string = `${decodedToken.userId}-${user?.firstName}_${user?.lastName}.${extension}`;
 
     image.mv(`./src/upload/users/` + newFileName, async (err) => {
       if (err) {
@@ -101,9 +102,12 @@ export default new (class accountController {
           response: "Error uploading the image.",
         });
       }
-      const relativeDirOfImage =
+      const relativeDirOfImage: string =
         "./../../src/upload/users/e2fab14a-1618-472a-8ffa-920225628ccc-F_Z.png";
-      const absoluteDirOfImage = path.join(__dirname, relativeDirOfImage);
+      const absoluteDirOfImage: string = path.join(
+        __dirname,
+        relativeDirOfImage
+      );
 
       await prismaService.users.update({
         data: {
