@@ -14,6 +14,7 @@ router.get(
   "/get",
   likesValidator.getLike(),
   validationResults,
+  likesController.getAllLikes
 );
 
 export default router;

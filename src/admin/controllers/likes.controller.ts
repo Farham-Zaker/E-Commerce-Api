@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import prismaService from "../../prisma/prismaService";
+import { LikeTypes } from "../interfaces/likes.interface";
+import { Prisma } from "@prisma/client";
 
 export default new (class {
   async addToLikes(
@@ -43,6 +45,36 @@ export default new (class {
         statusCode: 500,
         response:
           "An error occurred while creating adding product to likes list.",
+      });
+    }
+  }
+
+  async getAllLikes(req: Request, res: Response): Promise<void> {
+    const { user, product } = req.query;
+
+    let include: Prisma.likesInclude = {};
+    if (user === "true") {
+      include = { user: true };
+    }
+    if (product === "true") {
+      include = { ...include, product: true };
+    }
+
+    try {
+      const likes: LikeTypes[] = await prismaService.likes.findMany({
+        include,
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        likes,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response: "An error occurred while adding product to likes list.",
       });
     }
   }
