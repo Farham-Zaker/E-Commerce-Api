@@ -12,6 +12,8 @@ router.post(
 );
 router.get(
   "/get",
+  likesValidator.getLike(),
+  validationResults,
 );
 
 export default router;
