@@ -112,4 +112,31 @@ export default new (class {
       });
     }
   }
+  async updateLikes(req: Request, res: Response): Promise<void> {
+    const { likeId, userId, productId } = req.body;
+    try {
+      await prismaService.likes.update({
+        data: {
+          productId,
+          userId,
+        },
+        where: {
+          likeId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire liked item was updated successfuly.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response:
+          "An error occurred while updateding liked product with such id.",
+      });
+    }
+  }
 })();

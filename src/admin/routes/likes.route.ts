@@ -26,6 +26,7 @@ router.put(
   "/update",
   likesValidator.updateLike(),
   validationResults,
+  likesController.updateLikes
 );
 
 export default router;
