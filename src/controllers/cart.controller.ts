@@ -48,7 +48,6 @@ export default new (class {
 
       if (productsInCarts) {
         if (productQuantity < requestQuantity + productsInCarts?.quantity) {
-          console.log(productQuantity);
           return res.status(400).json({
             message: "bad",
             statusCode: 400,
@@ -311,8 +310,6 @@ export default new (class {
         });
       }
 
-      console.log(inventories.quantity + requestQuantity);
-      console.log(productsInCart.quantity + requestQuantity < 0);
       if (
         inventories.quantity + requestQuantity < 0 ||
         productsInCart.quantity + requestQuantity < 0
@@ -332,7 +329,6 @@ export default new (class {
           cartId,
         },
       });
-      console.log(productsInCart);
       if (productsInCart.quantity === 0) {
       }
       return res.status(200).json({
