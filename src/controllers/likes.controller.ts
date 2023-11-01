@@ -32,14 +32,14 @@ export default new (class Controller {
         });
       }
 
-      const userLike: { id: string } | null =
+      const userLike: { likeId: string } | null =
         await prismaService.likes.findFirst({
           where: {
             userId: decodedToken.userId,
             productId,
           },
           select: {
-            id: true,
+            likeId: true,
           },
         });
 
@@ -87,7 +87,7 @@ export default new (class Controller {
           createdAt: "asc",
         },
         select: {
-          id: true,
+          likeId: true,
           product: {
             select: {
               productId: true,
@@ -129,13 +129,13 @@ export default new (class Controller {
   ): Promise<Response<any, Record<string, any>>> {
     const productId = req.params.productId;
     try {
-      const product: { id: string } | null =
+      const product: { likeId: string } | null =
         await prismaService.likes.findFirst({
           where: {
             productId,
           },
           select: {
-            id: true,
+            likeId: true,
           },
         });
 
