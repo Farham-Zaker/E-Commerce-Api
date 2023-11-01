@@ -35,4 +35,7 @@ router.use("/address", isAdmin, addressRoute);
 import commentRoute from "./routes/comment.route";
 router.use("/comment", isAdmin, commentRoute);
 
+import likeRoute from "./routes/likes.route";
+router.use("/likes", isAdmin, likeRoute);
+
 export default router;
