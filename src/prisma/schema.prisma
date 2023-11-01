@@ -24,7 +24,7 @@ model users {
 }
 
 model likes {
-  id        String   @id @default(uuid()) @db.VarChar(55)
+  likeId    String   @id @default(uuid()) @db.VarChar(55)
   user      users    @relation(fields: [userId], references: [userId])
   userId    String   @db.VarChar(55)
   product   products @relation(fields: [productId], references: [productId])
