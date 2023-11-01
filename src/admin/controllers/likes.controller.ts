@@ -139,4 +139,27 @@ export default new (class {
       });
     }
   }
+  async deleteLike(req: Request, res: Response): Promise<void> {
+    const likeId: string = req.params.likeId;
+    try {
+      await prismaService.likes.delete({
+        where: {
+          likeId,
+        },
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        response: "Desire liked item was deleted successfuly.",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Success",
+        statusCode: 500,
+        response:
+          "An error occurred while deleting liked product with such id.",
+      });
+    }
+  }
 })();
