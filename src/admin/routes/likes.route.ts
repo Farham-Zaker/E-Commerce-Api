@@ -22,5 +22,8 @@ router.get(
   validationResults,
   likesController.getLikeById
 );
+router.put(
+  "/update",
+);
 
 export default router;
