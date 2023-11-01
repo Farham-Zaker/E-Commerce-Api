@@ -29,6 +29,21 @@ export default new (class {
         }),
     ];
   }
+  updateLike(): ValidationChain[] {
+    return [
+      check("likeId")
+        .notEmpty()
+        .withMessage("'likeId' field can not be empty."),
+      check("userId")
+        .optional()
+        .notEmpty()
+        .withMessage("'userId' field can not be empty."),
+      check("productId")
+        .optional()
+        .notEmpty()
+        .withMessage("'productId' field can not be empty."),
+    ];
+  }
   private isBoolean(filed: string, value: string): boolean {
     if (value !== "true" && value !== "false") {
       throw new Error(`'${filed}' field must be 'true' or 'false'.`);
