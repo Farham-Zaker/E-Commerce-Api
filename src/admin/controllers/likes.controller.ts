@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import { LikeTypes } from "../interfaces/likes.interface";
 import { Prisma } from "@prisma/client";
@@ -6,8 +6,9 @@ import { Prisma } from "@prisma/client";
 export default new (class {
   async addToLikes(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { userId, productId } = req.body;
     try {
       const like: boolean = !!(await prismaService.likes.findFirst({
@@ -39,17 +40,15 @@ export default new (class {
         response: "Desire product was added to likes successfuly.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response:
-          "An error occurred while creating adding product to likes list.",
-      });
+      next(error);
     }
   }
 
-  async getAllLikes(req: Request, res: Response): Promise<void> {
+  async getAllLikes(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { user, product } = req.query;
 
     let include: Prisma.likesInclude = {};
@@ -70,15 +69,14 @@ export default new (class {
         likes,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response: "An error occurred while adding product to likes list.",
-      });
+      next(error);
     }
   }
-  async getLikeById(req: Request, res: Response): Promise<void> {
+  async getLikeById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const likeId: string = req.params.id;
 
     const { user, product } = req.query;
@@ -104,15 +102,14 @@ export default new (class {
         likes,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response: "An error occurred while adding product to likes list.",
-      });
+      next(error);
     }
   }
-  async updateLikes(req: Request, res: Response): Promise<void> {
+  async updateLikes(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { likeId, userId, productId } = req.body;
     try {
       await prismaService.likes.update({
@@ -130,16 +127,14 @@ export default new (class {
         response: "Desire liked item was updated successfuly.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response:
-          "An error occurred while updateding liked product with such id.",
-      });
+      next(error);
     }
   }
-  async deleteLike(req: Request, res: Response): Promise<void> {
+  async deleteLike(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const likeId: string = req.params.likeId;
     try {
       await prismaService.likes.delete({
@@ -153,13 +148,7 @@ export default new (class {
         response: "Desire liked item was deleted successfuly.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response:
-          "An error occurred while deleting liked product with such id.",
-      });
+      next(error);
     }
   }
 })();
