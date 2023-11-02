@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import hashPassword from "../../util/hashPassword";
 import { UploadedFile } from "express-fileupload";
@@ -8,8 +8,9 @@ import { UserTypes } from "../interfaces/user.interface";
 export default new (class {
   async createUser(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { firstName, lastName, phone, email, image, password } = req.body;
 
     try {
@@ -46,17 +47,13 @@ export default new (class {
         response: "The user account was created successfully.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while creating user.",
-      });
+      next(error);
     }
   }
   async uploadImage(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const userId: string = req.body.userId;
     try {
@@ -159,18 +156,14 @@ export default new (class {
         });
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while uploading image of user.",
-      });
+      next(error);
     }
   }
   async getUsers(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { searchTerm, orderBy } = req.query;
 
     let orderOption: any = {};
@@ -220,18 +213,14 @@ export default new (class {
         users,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while getting all user.",
-      });
+      next(error);
     }
   }
   async getUserById(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const userId = req.params.userId;
 
     try {
@@ -256,15 +245,14 @@ export default new (class {
         user,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while getting desire user.",
-      });
+      next(error);
     }
   }
-  async updateUser(req: Request, res: Response): Promise<void> {
+  async updateUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { userId, firstName, lastName, phone, email, password, isAdmin } =
       req.body;
     try {
@@ -296,15 +284,14 @@ export default new (class {
         response: "Desire user was updated successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while updateing desire user.",
-      });
+      next(error);
     }
   }
-  async deleteUser(req: Request, res: Response): Promise<void> {
+  async deleteUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const userId: string = req.params.userId;
     try {
       await prismaService.auth.delete({
@@ -323,12 +310,7 @@ export default new (class {
         response: "Desire user was deleted successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while deleting desire user.",
-      });
+      next(error);
     }
   }
 })();
