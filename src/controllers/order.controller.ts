@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "./../prisma/prismaService";
 import decodeToken from "../util/decodeToekn";
 import {
@@ -9,8 +9,9 @@ import {
 export default new (class Controller {
   async cancelOrder(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { orderId } = req.body;
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
@@ -109,15 +110,14 @@ export default new (class Controller {
       });
     } catch (error) {
       console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.Check data in body of request.It is possible that 'productId' or 'colorId' is incorrect.",
-      });
+      next(error);
     }
   }
-  async getAllOrders(req: Request, res: Response): Promise<void> {
+  async getAllOrders(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
       userId: string;
@@ -152,19 +152,14 @@ export default new (class Controller {
         orders: userOrders,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.Check data in body of request.It is possible that 'productId' or 'colorId' is incorrect.",
-      });
+      next(error);
     }
   }
   async getOrderById(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
       userId: string;
@@ -215,13 +210,7 @@ export default new (class Controller {
         order,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.Check data in body of request.It is possible that 'productId' or 'colorId' is incorrect.",
-      });
+      next(error);
     }
   }
 })();
