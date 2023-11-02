@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../prisma/prismaService";
 import decodeToken from "../util/decodeToekn";
 import axios from "axios";
@@ -13,7 +13,8 @@ import config from "../config/config";
 export default new (class accountController {
   async pay(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
@@ -98,17 +99,13 @@ export default new (class accountController {
         });
       }
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
   async payCallback(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const status = req.query.status as string;
     const authorityId = req.query.Authority as string;
@@ -248,17 +245,13 @@ export default new (class accountController {
           "Payment has been successfully copleted and your order is being procedded.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
   async getAllPeyments(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
@@ -280,12 +273,7 @@ export default new (class accountController {
         payments: userPayments,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
 })();
