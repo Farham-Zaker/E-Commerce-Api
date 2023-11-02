@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "./../prisma/prismaService";
 import decodeToken from "../util/decodeToekn";
 import { ProductsInLikesTypes } from "../interfaces/likes.interface";
@@ -6,8 +6,9 @@ import { ProductsInLikesTypes } from "../interfaces/likes.interface";
 export default new (class Controller {
   async addToLikes(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const productId: string = req.body.productId;
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
@@ -64,15 +65,14 @@ export default new (class Controller {
         response: "Desire product was added to likes successfully.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error.",
-      });
+      next(error);
     }
   }
-  async getAllLikes(req: Request, res: Response): Promise<void> {
+  async getAllLikes(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
       userId: string;
@@ -115,18 +115,14 @@ export default new (class Controller {
       })) as ProductsInLikesTypes[] | [];
       res.status(200).json({ message: "Success", statusCode: 200, userLikes });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error.",
-      });
+      next(error);
     }
   }
   async deleteFromCarts(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const productId = req.params.productId;
     try {
       const product: { likeId: string } | null =
@@ -158,12 +154,7 @@ export default new (class Controller {
         response: "Desire product was deleted successfully from likes.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error.",
-      });
+      next(error);
     }
   }
 })();
