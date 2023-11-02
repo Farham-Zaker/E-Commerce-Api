@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import { Prisma } from "@prisma/client";
 import {
@@ -13,8 +13,9 @@ import {
 export default new (class {
   async createOrder(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { userId, totalPrice, status } = req.body;
     try {
       const isUserAvialable: boolean = !!(await prismaService.users.findFirst({
@@ -45,18 +46,14 @@ export default new (class {
         response: "Desire product was created successfully.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response: "An error occurred while creating order.",
-      });
+      next(error);
     }
   }
   async getOrders(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const {
       date,
       totalSale,
@@ -145,18 +142,14 @@ export default new (class {
         orders,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
   async getOrderById(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const orderId = req.params.orderId;
 
     try {
@@ -194,17 +187,13 @@ export default new (class {
         order,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
   async updateOrder(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const { orderId, status, totalPrice } = req.body;
     try {
@@ -359,15 +348,14 @@ export default new (class {
         });
       }
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response: "An error occurred while updating orders.",
-      });
+      next(error);
     }
   }
-  async deleteOrder(req: Request, res: Response): Promise<void> {
+  async deleteOrder(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const orderId = req.params.orderId;
     try {
       await prismaService.orders.delete({
@@ -381,12 +369,7 @@ export default new (class {
         response: "Desire order was deleted successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response: "An error occurred while deleting orders.",
-      });
+      next(error);
     }
   }
 })();
