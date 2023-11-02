@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../prisma/prismaService";
 import decodeToken from "../util/decodeToekn";
 import {
@@ -8,7 +8,11 @@ import {
 } from "../interfaces/address.interface";
 
 export default new (class {
-  async addUserAddress(req: Request, res: Response): Promise<void> {
+  async addUserAddress(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const { country, state, city, zone, apartmentUnite, postalCode } =
         req.body;
@@ -34,11 +38,14 @@ export default new (class {
         newAddress: addedUserAddress,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Server Error");
+      next(error);
     }
   }
-  async getUserAddresses(req: Request, res: Response): Promise<void> {
+  async getUserAddresses(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const query = req.query;
 
     let filterOptions: { [key: string]: boolean } = {};
@@ -77,11 +84,14 @@ export default new (class {
         });
       res.send({ message: "ok", statusCode: 200, userAdresses });
     } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Server Error");
+      next(error);
     }
   }
-  async getAddressById(req: Request, res: Response): Promise<void> {
+  async getAddressById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const addressId: string = req.params.addressId;
       const address: ReceivedUserAddressTypes | null =
@@ -100,11 +110,14 @@ export default new (class {
         });
       }
     } catch (error) {
-      console.error(error);
-      res.status(500).send("Internal Server Error");
+      next(error);
     }
   }
-  async updateUserAddresses(req: Request, res: Response): Promise<void> {
+  async updateUserAddresses(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const { addressId, newAddress } = req.body;
       const updatedAddress: UpdatedUserAddressType =
@@ -121,16 +134,14 @@ export default new (class {
         updatedAddress,
       });
     } catch (error) {
-      res.status(404).json({
-        message: "Error",
-        statusCode: 404,
-        response:
-          "Check data that you send in body of request.Probaby addressId is incorrect.",
-      });
-      console.error(error);
+      next(error);
     }
   }
-  async deleteUserAddress(req: Request, res: Response): Promise<void> {
+  async deleteUserAddress(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const addressId: string = req.params.addressId;
       await prismaService.addreesses.delete({ where: { addressId } });
@@ -140,12 +151,7 @@ export default new (class {
         response: `The address successfully deleted base on '${addressId}' id.`,
       });
     } catch (error) {
-      res.status(404).json({
-        message: "Not found.",
-        statusCode: 404,
-        response:
-          "Check data that you send in body of request.Probaby addressId is incorrect.",
-      });
+      next(error);
     }
   }
 })();
