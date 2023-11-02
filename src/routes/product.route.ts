@@ -5,7 +5,7 @@ import productValidator from "../validators/product.validator";
 import validationResults from "../validators/validationResults";
 
 router.get("/", productController.getAllProduct);
-router.get("/getById/:productId", productController.getProductByIdRoute);
+router.get("/:productId", productController.getProductByIdRoute);
 router.get(
   "/getByFilter",
   productValidator.filterProductValidator(),
