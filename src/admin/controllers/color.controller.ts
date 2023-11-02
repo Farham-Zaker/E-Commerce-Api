@@ -1,12 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import { ColorsTypes } from "../interfaces/color.interface";
 
 export default new (class {
   async createColor(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { name, hexCode } = req.body;
 
     try {
@@ -35,15 +36,14 @@ export default new (class {
         response: "Desire color was created successfully.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error.",
-      });
+      next(error);
     }
   }
-  async getAllColors(req: Request, res: Response): Promise<void> {
+  async getAllColors(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const allColors: ColorsTypes[] = await prismaService.colors.findMany();
       res.status(200).json({
@@ -52,18 +52,14 @@ export default new (class {
         colors: allColors,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error.",
-      });
+      next(error);
     }
   }
   async getColorById(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const colorId: string = req.params.colorId;
 
     try {
@@ -87,16 +83,14 @@ export default new (class {
         color,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.The reason of this error can be because of id of color that you sent in params.Make sure that it is valid.",
-      });
+      next(error);
     }
   }
-  async updateColor(req: Request, res: Response): Promise<void> {
+  async updateColor(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { colorId, name, hexCode } = req.body;
 
     try {
@@ -115,16 +109,14 @@ export default new (class {
         response: "Desire product was updated successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.The reason of this error can be because of 'colorId' that you send in body.Make sure that it is correct.",
-      });
+      next(error);
     }
   }
-  async deleteColor(req: Request, res: Response): Promise<void> {
+  async deleteColor(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const colorId = req.params.colorId;
     try {
       await prismaService.colors.delete({
@@ -138,13 +130,7 @@ export default new (class {
         response: "Desire color was deleted successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.The reason of this error can be because of 'colorId' that you send in params.Make sure that it is valid.",
-      });
+      next(error);
     }
   }
 })();
