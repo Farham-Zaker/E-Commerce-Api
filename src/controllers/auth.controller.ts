@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "./../prisma/prismaService";
 import hashPassword from "../util/hashPassword";
 import {
@@ -11,20 +11,25 @@ import passwordValidator from "../util/passwordValidator";
 import generateToken from "../util/generateToken";
 
 export default new (class Controller {
-  async registerRoute(req: Request, res: Response): Promise<void> {
+  async registerRoute(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { firstName, lastName, email, phone, password } = req.body;
 
     try {
-      const user = await prismaService.users.findFirst({
-        where: {
-          OR: [
-            {
-              email,
-            },
-            { phone },
-          ],
-        },
-      });
+      const user: RegisterUserDataTypes | null =
+        await prismaService.users.findFirst({
+          where: {
+            OR: [
+              {
+                email,
+              },
+              { phone },
+            ],
+          },
+        });
 
       if (!user) {
         const hashedPassword: string = await hashPassword(password);
@@ -60,10 +65,14 @@ export default new (class Controller {
         });
       }
     } catch (error) {
-      throw new Error("There is an error in registeration process." + error);
+      next(error);
     }
   }
-  async loginRoute(req: Request, res: Response): Promise<void> {
+  async loginRoute(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { phoneOrEmail, password } = req.body;
 
     try {
@@ -99,7 +108,7 @@ export default new (class Controller {
         });
       }
     } catch (error) {
-      throw new Error("There is an error in logining process." + error);
+      next(error);
     }
   }
   googleCallbackRoute(req: Request, res: Response) {
