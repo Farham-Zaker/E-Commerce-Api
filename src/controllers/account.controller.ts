@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../prisma/prismaService";
 import {
   SetPasswordRouteUpdatedUserTypes,
@@ -12,7 +12,11 @@ import { UploadedFile } from "express-fileupload";
 import path from "path";
 
 export default new (class accountController {
-  async updateInfoRoute(req: Request, res: Response): Promise<void> {
+  async updateInfoRoute(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const body = req.body;
     const token = req.header("token") as string;
     const decodedToken = decodeToken(token) as { userId: string };
@@ -30,16 +34,13 @@ export default new (class accountController {
         user: updatedUser,
       });
     } catch (error) {
-      res.status(400).json({
-        message: "bad",
-        statusCode: 400,
-        response: "The input data is incorrect.",
-      });
+      next(error);
     }
   }
   async uploadImage(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const token = req.header("token") as string;
     const decodedToken = decodeToken(token) as { userId: string };
@@ -125,7 +126,7 @@ export default new (class accountController {
       });
     });
   }
-  async setPasswordRoute(req: Request, res: Response) {
+  async setPasswordRoute(req: Request, res: Response, next: NextFunction) {
     const token: string = req.header("token")!;
     const { newPassword, confirmPassword } = req.body;
     const decodedToken: { userId: string } = decodeToken(token)!;
@@ -165,10 +166,10 @@ export default new (class accountController {
         });
       }
     } catch (error) {
-      throw new Error(error as string);
+      next(error);
     }
   }
-  async changePasswordRoute(req: Request, res: Response) {
+  async changePasswordRoute(req: Request, res: Response, next: NextFunction) {
     const { currentPassword, newPassword, confirmNewPassword } = req.body;
     try {
       if (newPassword === confirmNewPassword) {
@@ -220,10 +221,14 @@ export default new (class accountController {
         });
       }
     } catch (error) {
-      throw new Error(error as string);
+      next(error);
     }
   }
-  async getUserInfo(req: Request, res: Response): Promise<void> {
+  async getUserInfo(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const query = req.query;
 
     let filteroption: { [key: string]: boolean } = {};
@@ -259,11 +264,7 @@ export default new (class accountController {
 
       res.status(200).json({ message: "ok", statusCode: 200, user });
     } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      } else {
-        console.error(error);
-      }
+      next(error);
     }
   }
 })();
