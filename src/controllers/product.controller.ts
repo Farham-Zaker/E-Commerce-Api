@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import prismaService from "../prisma/prismaService";
 import {
   ProductTypes,
@@ -10,7 +10,11 @@ import {
 } from "../util/getFilterAndSortOption";
 
 export default new (class {
-  async getAllProduct(req: Request, res: Response): Promise<void> {
+  async getAllProduct(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const allProducts: ProductTypes[] = await prismaService.products.findMany(
         {
@@ -41,10 +45,14 @@ export default new (class {
         .status(200)
         .json({ message: "ok", statusCode: 200, products: allProducts });
     } catch (error) {
-      throw new Error(error as string);
+      next(error);
     }
   }
-  async getProductByIdRoute(req: Request, res: Response): Promise<void> {
+  async getProductByIdRoute(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const productId: string = req.params.productId;
     try {
       const product: ProductTypes | null =
@@ -88,10 +96,14 @@ export default new (class {
           response: "Product with this id not found.",
         });
     } catch (error) {
-      throw new Error(error as string);
+      next(error);
     }
   }
-  async getByFilterRoute(req: Request, res: Response): Promise<void> {
+  async getByFilterRoute(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { take, skip } = req.body;
     try {
       const filterConditions = getFilterProductOption(req.body);
@@ -132,11 +144,15 @@ export default new (class {
         products,
       });
     } catch (error) {
-      throw new Error(error as string);
+      next(error);
     }
   }
 
-  async searchProductRoute(req: Request, res: Response): Promise<void> {
+  async searchProductRoute(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const searchTerm: string = req.query.searchTerm as string;
     const take: number = Number(req.query.take);
 
@@ -166,7 +182,7 @@ export default new (class {
       });
       res.send({ message: "ok", statusCode: 200, products, categories });
     } catch (error) {
-      throw new Error(error as string);
+      next(error);
     }
   }
 })();
