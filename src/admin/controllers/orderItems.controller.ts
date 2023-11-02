@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import {
   GetAllItemsRouteOrderItemTypes,
@@ -8,8 +8,9 @@ import {
 export default new (class {
   async createOrderItem(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { orderId, productId, quantity, colorId } = req.body;
 
     try {
@@ -109,15 +110,14 @@ export default new (class {
         response: "Desire order item was created successfully.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response: "An error occurred while getting items of order.",
-      });
+      next(error);
     }
   }
-  async getOrderItems(req: Request, res: Response): Promise<void> {
+  async getOrderItems(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { color, product, order, take, skip } = req.query;
 
     let filterOptions: any = {};
@@ -144,15 +144,14 @@ export default new (class {
         orderItems,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
-  async getOrderItemById(req: Request, res: Response): Promise<void> {
+  async getOrderItemById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const orderItemId: string = req.params.orderItemId;
     try {
       const orderItem: GetItemByIdRouteOrderItemTypes | null =
@@ -172,16 +171,15 @@ export default new (class {
         orderItem,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response: "An error occurred while getting items of order.",
-      });
+      next(error);
     }
   }
 
-  async updateOrderItem(req: Request, res: Response): Promise<void> {
+  async updateOrderItem(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { orderItemId, orderId, productId, quantity, colorId } = req.body;
 
     try {
@@ -202,15 +200,14 @@ export default new (class {
         response: "Desire ithem was updated successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response: "An error occurred while updating items of order.",
-      });
+      next(error);
     }
   }
-  async deleteOrderItem(req: Request, res: Response): Promise<void> {
+  async deleteOrderItem(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const orderItemId: string = req.params.orderItemId;
 
     try {
@@ -225,12 +222,7 @@ export default new (class {
         response: "Desire item of order was deleted successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Success",
-        statusCode: 500,
-        response: "An error occurred while updating items of order.",
-      });
+      next(error);
     }
   }
 })();
