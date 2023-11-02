@@ -1,9 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import { AddressTypes } from "../interfaces/address.interface";
 
 export default new (class {
-  async createAddress(req: Request, res: Response): Promise<void> {
+  async createAddress(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { country, state, city, zone, apartmentUnite, postalCode, userId } =
       req.body;
 
@@ -26,15 +30,14 @@ export default new (class {
           "The address was created with such specification successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while creating address.",
-      });
+      next(error);
     }
   }
-  async getAddresses(req: Request, res: Response): Promise<void> {
+  async getAddresses(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { searchTerm, user, userId } = req.query;
     try {
       const contain: { contains: string } = {
@@ -70,18 +73,14 @@ export default new (class {
         addresses,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while getting addresses of users.",
-      });
+      next(error);
     }
   }
   async getAddressById(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const addressId: string = req.params.addressId;
     try {
       const address: AddressTypes | null =
@@ -103,15 +102,14 @@ export default new (class {
         address,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while getting address with such id.",
-      });
+      next(error);
     }
   }
-  async updateAddress(req: Request, res: Response): Promise<void> {
+  async updateAddress(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const {
       addressId,
       country,
@@ -144,15 +142,14 @@ export default new (class {
         response: "Desire address was updated successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while updating addresses.",
-      });
+      next(error);
     }
   }
-  async deleteAddress(req: Request, res: Response): Promise<void> {
+  async deleteAddress(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const addressId: string = req.params.addressId;
     try {
       await prismaService.addreesses.delete({
@@ -167,12 +164,7 @@ export default new (class {
         response: "Desire address was deleted successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while deleting address.",
-      });
+      next(error);
     }
   }
 })();
