@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import { Prisma } from "@prisma/client";
 import { CartTypes } from "../interfaces/cart.interface";
@@ -6,8 +6,9 @@ import { CartTypes } from "../interfaces/cart.interface";
 export default new (class {
   async createCart(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { userId, productId, quantity, colorId } = req.body;
 
     try {
@@ -103,15 +104,14 @@ export default new (class {
         response: "Desire product was added to cart of user with such id.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while adding product to cart.",
-      });
+      next(error);
     }
   }
-  async getCarts(req: Request, res: Response): Promise<void> {
+  async getCarts(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { userId, productId, user, product, cartInventories, take, skip } =
       req.query;
 
@@ -146,18 +146,14 @@ export default new (class {
         carts,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while gettinf product of carts.",
-      });
+      next(error);
     }
   }
   async getCartById(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const cartId: string = req.params.cartId;
 
     try {
@@ -185,18 +181,14 @@ export default new (class {
         cart,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while getting product of this cart.",
-      });
+      next(error);
     }
   }
   async updateCart(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { cartId, userId, productId, quantity, colorId } = req.body;
 
     try {
@@ -271,15 +263,14 @@ export default new (class {
         response: "Desire cart was updated successfully.s",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while updating product of this cart.",
-      });
+      next(error);
     }
   }
-  async deleteCart(req: Request, res: Response): Promise<void> {
+  async deleteCart(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const cartId: string = req.params.cartId;
     try {
       await prismaService.carts.delete({
@@ -295,9 +286,15 @@ export default new (class {
         statusCode: 200,
         response: "Desire cart was deleted successfully.",
       });
-    } catch (error) {}
+    } catch (error) {
+      next(error);
+    }
   }
-  async deleteCartInventories(req: Request, res: Response): Promise<void> {
+  async deleteCartInventories(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { cartId, colorId } = req.query;
     try {
       await prismaService.carts_inventories.deleteMany({
@@ -328,12 +325,7 @@ export default new (class {
         response: "Desire cart item was deleted successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while deleting cart items.",
-      });
+      next(error);
     }
   }
 })();
