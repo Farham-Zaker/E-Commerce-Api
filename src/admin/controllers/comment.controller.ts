@@ -1,10 +1,14 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import { Prisma } from "@prisma/client";
 import { CommentAndReplyTypes } from "../interfaces/comment.interface";
 
 export default new (class {
-  async createComment(req: Request, res: Response): Promise<void> {
+  async createComment(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { comment, role, replyId, userId, productId } = req.body;
 
     try {
@@ -23,18 +27,14 @@ export default new (class {
         response: "A comment with such specification was created successfuly.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while creating comment.",
-      });
+      next(error);
     }
   }
   async getComments(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { role, user, product, reply, searchTerm } = req.query;
     let where: Prisma.commentsWhereInput = {};
     if (role) {
@@ -71,7 +71,7 @@ export default new (class {
         });
       if (reply === "true") {
         const filteredComment: any = comments.map((comment) => {
-          const replies: Promise<CommentAndReplyTypes[]> =
+          const replies: Promise<CommentAndReplyTypes[] | void> =
             prismaService.comments
               .findMany({
                 where: {
@@ -82,7 +82,7 @@ export default new (class {
                 return replies;
               })
               .catch((err) => {
-                throw new Error(err);
+                next(err);
               });
 
           return { ...comment, replies };
@@ -102,18 +102,14 @@ export default new (class {
         comments,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while getting comments.",
-      });
+      next(error);
     }
   }
   async getCommentById(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const commentId: string = req.params.commentId;
     const { user, product, reply } = req.query;
 
@@ -167,15 +163,14 @@ export default new (class {
         comment,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while getting comment with such id.",
-      });
+      next(error);
     }
   }
-  async updateComments(req: Request, res: Response): Promise<void> {
+  async updateComments(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { commentId, comment, role, replyId, userId, productId } = req.body;
 
     try {
@@ -198,15 +193,14 @@ export default new (class {
         response: "Desire comment was updated successfuly",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while updating comment with such id.",
-      });
+      next(error);
     }
   }
-  async deleteComment(req: Request, res: Response): Promise<void> {
+  async deleteComment(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const commentId: string = req.params.commentId;
 
     try {
@@ -226,12 +220,7 @@ export default new (class {
         response: "Desire comment was deleted successfuly",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "An error occurred while deleting comment with such id.",
-      });
+      next(error);
     }
   }
 })();
