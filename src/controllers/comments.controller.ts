@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../prisma/prismaService";
 import decodeToken from "../util/decodeToekn";
 import {
@@ -10,7 +10,8 @@ import {
 export default new (class {
   async addToComment(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
@@ -87,17 +88,13 @@ export default new (class {
         response: "You comment successfully was added.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
   async getCommentByProductId(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const productId = req.params.productId;
 
@@ -187,17 +184,13 @@ export default new (class {
 
       res.status(200).json({ message: "Success", statusCode: 200, comments });
     } catch (error) {
-      console.error(error),
-        res.status(500).json({
-          message: "Error",
-          statusCode: 500,
-          response: "Internal Server Error",
-        });
+      next(error);
     }
   }
   async updateComment(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
@@ -238,17 +231,13 @@ export default new (class {
         response: "Desire comment successfully was added.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
   async deleteComment(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
@@ -283,12 +272,7 @@ export default new (class {
         response: "Desire product was deleted successfully.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
 })();
