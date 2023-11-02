@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import {
   ProductDiscountPercentTypes,
@@ -13,8 +13,9 @@ import path from "path";
 export default new (class {
   async createProduct(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const {
       title,
       price,
@@ -60,18 +61,13 @@ export default new (class {
         product,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.The reason of this error can be becuase of 'categoryId' that you sent in body of request.Make sure that is true.",
-      });
+      next(error);
     }
   }
   async updateProduct(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const { productId, newData } = req.body;
     const {
@@ -128,18 +124,13 @@ export default new (class {
         updateProduct,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.The reason of this error can be becuase of 'productId' that you sent in body of request.Make sure that is true.",
-      });
+      next(error);
     }
   }
   async uploadImage(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const { productId } = req.body;
 
@@ -240,17 +231,13 @@ export default new (class {
         });
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error.",
-      });
+      next(error);
     }
   }
   async deleteImage(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
     const imageId = req.params.imageId;
 
@@ -266,13 +253,7 @@ export default new (class {
         response: "Desire image was deleted successfully.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.The reason of this error can be becuase of 'imageId' that you sent in body.Make sure it is correct.",
-      });
+      next(error);
     }
   }
 })();
