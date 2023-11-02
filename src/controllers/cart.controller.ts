@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../prisma/prismaService";
 import decodeToken from "../util/decodeToekn";
 import { CartTypes } from "../interfaces/cart.interface";
@@ -6,7 +6,8 @@ import { CartTypes } from "../interfaces/cart.interface";
 export default new (class {
   async addToCarts(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>>> {
     const { productId, colorId, quantity } = req.body;
     const requestQuantity = Number(quantity);
@@ -105,13 +106,7 @@ export default new (class {
         return res.status(201).json(response);
       }
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.Check data in body of request.It is possible that 'productId' or 'colorId' is incorrect.",
-      });
+      next(error);
     }
     return res.status(404).json({
       message: "Not Found",
@@ -119,7 +114,11 @@ export default new (class {
       response: "No matching condition was met.",
     }) as Response<any, Record<string, any>>;
   }
-  async getAllCarts(req: Request, res: Response): Promise<void> {
+  async getAllCarts(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
       userId: string;
@@ -165,15 +164,14 @@ export default new (class {
         carts,
       });
     } catch (error) {
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error.",
-      });
-      console.error(error);
+      next(error);
     }
   }
-  async getCartById(req: Request, res: Response): Promise<void> {
+  async getCartById(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const token = req.header("token") as string;
     const decodedToken: { userId: string } = decodeToken(token) as {
       userId: string;
@@ -235,17 +233,13 @@ export default new (class {
     }
     try {
     } catch (error) {
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error.",
-      });
-      console.error(error);
+      next(error);
     }
   }
   async updateCarts(
     req: Request,
-    res: Response
+    res: Response,
+    next: NextFunction
   ): Promise<Response<any, Record<string, any>>> {
     const { cartId, colorId, quantity } = req.body;
     const requestQuantity = Number(quantity);
@@ -337,12 +331,7 @@ export default new (class {
         response: "Desire product successfully was updated.",
       });
     } catch (error) {
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error.",
-      });
-      console.error(error);
+      next(error);
     }
     return res.status(404).json({
       message: "Not Found",
@@ -350,7 +339,11 @@ export default new (class {
       response: "No matching condition was met.",
     });
   }
-  async deleteCartByIdreq(req: Request, res: Response): Promise<void> {
+  async deleteCartByIdreq(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const cartId: string = req.params.cartId;
     try {
       await prismaService.carts_inventories.deleteMany({
@@ -369,12 +362,7 @@ export default new (class {
           response: "Desire cart was deleted successfully.",
         });
     } catch (error) {
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error.",
-      });
-      console.error(error);
+      next(error);
     }
   }
 })();
