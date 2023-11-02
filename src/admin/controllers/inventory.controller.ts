@@ -1,12 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import { InventoryTpye } from "../interfaces/inventory.interface";
 
 export default new (class {
   async createInventory(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { productId, colorId, quantity } = req.body;
 
     try {
@@ -69,16 +70,14 @@ export default new (class {
         response: "Desire inventory was created successfully.",
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.The reason of this error can be becuase of 'imageId' that you sent in body.Make sure it is correct.",
-      });
+      next(error);
     }
   }
-  async getInventory(req: Request, res: Response): Promise<void> {
+  async getInventory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { colorId, productId } = req.query;
 
     let conditions = {};
@@ -109,15 +108,14 @@ export default new (class {
         inventories,
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
-  async updateInventory(req: Request, res: Response): Promise<void> {
+  async updateInventory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { inventoryId, productId, colorId, quantity } = req.body;
 
     try {
@@ -138,16 +136,14 @@ export default new (class {
         response: "Desire inventory was updated successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.The reason of this error can be because of 'inventoryId', 'productId' or 'colorId' that you sent in body of request. Make sure that they are valid.",
-      });
+      next(error);
     }
   }
-  async deleteInventory(req: Request, res: Response): Promise<void> {
+  async deleteInventory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const inventoryId: string = req.params.inventoryId;
     try {
       await prismaService.inventories.delete({
@@ -161,13 +157,7 @@ export default new (class {
         response: "Desire inventory was deleted successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.The reason of this error can be because of 'inventoryId' that you sent in params. Make sure that they are valid.",
-      });
+      next(error);
     }
   }
 })();
