@@ -7,6 +7,9 @@ projectConfigs(server);
 import api from "./api/api";
 server.use(api);
 
+import errorHandler from "./errorHandler";
+server.use(errorHandler);
+
 import config from "./config/config";
 
 const port: number = config.port;
