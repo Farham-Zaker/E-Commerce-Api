@@ -1,12 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import { CategoryTypes } from "../interfaces/category.interface";
 
 export default new (class {
   async createProduct(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     const { name } = req.body;
     try {
       const category: { name: string } | null =
@@ -37,18 +38,14 @@ export default new (class {
         response: `'${name}' category was created successfully.`,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
   async getAllCategories(
     req: Request,
-    res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>> | void> {
     try {
       const allCategories: CategoryTypes[] =
         await prismaService.categories.findMany({
@@ -62,15 +59,14 @@ export default new (class {
         categories: allCategories,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response: "Internal Server Error",
-      });
+      next(error);
     }
   }
-  async deleteCategory(req: Request, res: Response): Promise<void> {
+  async deleteCategory(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const categoryId = req.params.categoryId;
 
     try {
@@ -85,13 +81,7 @@ export default new (class {
         response: "Desire category was deleted successfully.",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Error",
-        statusCode: 500,
-        response:
-          "Internal Server Error.The reason of this error can be because of categoryId the you sent in body.",
-      });
+      next(error);
     }
   }
 })();
