@@ -507,5 +507,172 @@ export default {
         },
       },
     },
+    "/add": {
+      post: {
+        tags: ["Address"],
+        summary: "Add a new user address",
+        operationId: "addUserAddress",
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  country: {
+                    type: "string",
+                  },
+                  state: {
+                    type: "string",
+                  },
+                  city: {
+                    type: "string",
+                  },
+                  zone: {
+                    type: ["string", "null"],
+                  },
+                  apartmentUnite: {
+                    type: ["number", "null"],
+                  },
+                  postalCode: {
+                    type: "string",
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "201": {
+            description: "Created",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/get": {
+      get: {
+        tags: ["Address"],
+        summary: "Get user addresses",
+        operationId: "getUserAddresses",
+        responses: {
+          "200": {
+            description: "OK",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/get/{addressId}": {
+      get: {
+        tags: ["Address"],
+        summary: "Get user address by ID",
+        operationId: "getAddressById",
+        parameters: [
+          {
+            name: "addressId",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "OK",
+          },
+          "404": {
+            description: "Not Found",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/update": {
+      put: {
+        tags: ["Address"],
+        summary: "Update user addresses",
+        operationId: "updateUserAddresses",
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  addressId: {
+                    type: "string",
+                  },
+                  newAddress: {
+                    type: "object",
+                    properties: {
+                      country: {
+                        type: "string",
+                      },
+                      state: {
+                        type: "string",
+                      },
+                      city: {
+                        type: "string",
+                      },
+                      zone: {
+                        type: "string",
+                      },
+                      apartmentUnite: {
+                        type: "number",
+                      },
+                      postalCode: {
+                        type: "string",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "OK",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/delete/{addressId}": {
+      delete: {
+        tags: ["Address"],
+        summary: "Delete user address by ID",
+        operationId: "deleteUserAddress",
+        parameters: [
+          {
+            name: "addressId",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "OK",
+          },
+          "404": {
+            description: "Not Found",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
