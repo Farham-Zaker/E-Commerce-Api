@@ -674,5 +674,82 @@ export default {
         },
       },
     },
+    "/likes/add": {
+      post: {
+        summary: "Add a product to likes",
+        tags: ["Likes"],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  productId: {
+                    type: "string",
+                    description: "Product ID to add to likes",
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "201": {
+            description: "Product added to likes",
+          },
+          "404": {
+            description: "Product not found",
+          },
+          "409": {
+            description: "Product already in likes",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/likes/get": {
+      get: {
+        summary: "Get all liked products",
+        tags: ["Likes"],
+        responses: {
+          "200": {
+            description: "OK",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/likes/delete/{productId}": {
+      delete: {
+        summary: "Delete a product from likes",
+        tags: ["Likes"],
+        parameters: [
+          {
+            name: "productId",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+            description: "Product ID to delete from likes",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Product deleted from likes",
+          },
+          "404": {
+            description: "Product not found",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
