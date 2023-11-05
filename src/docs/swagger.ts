@@ -277,5 +277,235 @@ export default {
         },
       },
     },
+    "/account/update-info": {
+      put: {
+        tags: ["Account"],
+        summary: "Update user information",
+        description: "Update user information based on the provided data.",
+        parameters: [
+          {
+            in: "body",
+            name: "body",
+            description: "User data for updating information",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                firstName: {
+                  type: "string",
+                  description: "User's first name",
+                },
+                lastName: {
+                  type: "string",
+                  description: "User's last name",
+                },
+                phone: {
+                  type: "string",
+                  description: "User's phone number",
+                },
+                email: {
+                  type: "string",
+                  description: "User's email Account",
+                },
+              },
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "User information updated successfully",
+          },
+          "400": {
+            description: "Bad request",
+          },
+          "401": {
+            description: "Unauthorized",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/account/upload-image": {
+      post: {
+        tags: ["Account"],
+        summary: "Upload user image",
+        description: "Upload a user's image file.",
+        parameters: [
+          {
+            in: "formData",
+            name: "image",
+            description: "User's image file",
+            required: true,
+            type: "file",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Image uploaded successfully",
+          },
+          "400": {
+            description: "Bad request",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/account/set-password": {
+      put: {
+        tags: ["Account"],
+        summary: "Set user password",
+        description: "Set a new password for the user.",
+        parameters: [
+          {
+            in: "body",
+            name: "body",
+            description: "User's new password",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                newPassword: {
+                  type: "string",
+                  description: "New password for the user",
+                },
+                confirmPassword: {
+                  type: "string",
+                  description: "Confirmation of the new password",
+                },
+              },
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Password set successfully",
+          },
+          "400": {
+            description: "Bad request",
+          },
+          "401": {
+            description: "Unauthorized",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/account/change-password": {
+      put: {
+        tags: ["Account"],
+        summary: "Change user password",
+        description: "Change the user's password.",
+        parameters: [
+          {
+            in: "body",
+            name: "body",
+            description: "User's current and new passwords",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                currentPassword: {
+                  type: "string",
+                  description: "User's current password",
+                },
+                newPassword: {
+                  type: "string",
+                  description: "User's new password",
+                },
+                confirmNewPassword: {
+                  type: "string",
+                  description: "Confirmation of the new password",
+                },
+              },
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Password changed successfully",
+          },
+          "400": {
+            description: "Bad request",
+          },
+          "401": {
+            description: "Unauthorized",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/account/info": {
+      get: {
+        tags: ["Account"],
+        summary: "Get user information",
+        description: "Get user information based on query parameters.",
+        parameters: [
+          {
+            in: "query",
+            name: "userId",
+            description: "Include user ID in the response",
+            type: "boolean",
+          },
+          {
+            in: "query",
+            name: "firstName",
+            description: "Include user's first name in the response",
+            type: "boolean",
+          },
+          {
+            in: "query",
+            name: "lastName",
+            description: "Include user's last name in the response",
+            type: "boolean",
+          },
+          {
+            in: "query",
+            name: "image",
+            description: "Include user's image in the response",
+            type: "boolean",
+          },
+          {
+            in: "query",
+            name: "email",
+            description: "Include user's email in the response",
+            type: "boolean",
+          },
+          {
+            in: "query",
+            name: "phone",
+            description: "Include user's phone number in the response",
+            type: "boolean",
+          },
+          {
+            in: "query",
+            name: "createdAt",
+            description: "Include user's creation date in the response",
+            type: "boolean",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "User information retrieved successfully",
+          },
+          "400": {
+            description: "Bad request",
+          },
+          "401": {
+            description: "Unauthorized",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
