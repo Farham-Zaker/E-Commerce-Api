@@ -79,40 +79,28 @@ export default new (class Controller {
     };
 
     try {
-      const userLikes = (await prismaService.likes.findMany({
-        where: {
-          userId: decodedToken.userId,
-        },
-        orderBy: {
-          createdAt: "asc",
-        },
-        select: {
-          likeId: true,
-          product: {
-            select: {
-              productId: true,
-              title: true,
-              price: true,
-              images: true,
-              discountStatus: true,
-              discountPercent: true,
-              discountEndTime: true,
-              finalPrice: true,
-              category: {
-                select: {
-                  name: true,
-                },
-              },
-              inventories: {
-                select: {
-                  colors: true,
-                  quantity: true,
-                },
+      const userLikes: ProductsInLikesTypes[] =
+        await prismaService.likes.findMany({
+          where: {
+            userId: decodedToken.userId,
+          },
+          orderBy: {
+            createdAt: "asc",
+          },
+          select: {
+            likeId: true,
+            product: {
+              select: {
+                productId: true,
+                title: true,
+                price: true,
+                images: true,
+                finalPrice: true,
+                inventories: true,
               },
             },
           },
-        },
-      })) as ProductsInLikesTypes[] | [];
+        });
       res.status(200).json({ message: "Success", statusCode: 200, userLikes });
     } catch (error) {
       next(error);
