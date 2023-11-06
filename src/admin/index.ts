@@ -1,9 +1,9 @@
 import { Router } from "express";
 const router = Router();
 import isAdmin from "../middlewares/isAdmin";
-import productRoute from "./routes/product.route";
 
-router.use("/products", isAdmin, productRoute);
+import productsRoute from "./routes/products.route";
+router.use("/products", isAdmin, productsRoute);
 
 import categoryRoute from "./routes/categories.route";
 router.use("/categories", isAdmin, categoryRoute);

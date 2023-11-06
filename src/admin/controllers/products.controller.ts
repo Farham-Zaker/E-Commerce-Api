@@ -3,7 +3,7 @@ import prismaService from "../../prisma/prismaService";
 import {
   ProductDiscountPercentTypes,
   ProductTypes,
-} from "../interfaces/product.interface";
+} from "../interfaces/products.interface";
 import discountCalculator from "../../util/discountCalculator";
 import getFinalPrice from "../../util/getFinalPrice";
 import { UploadedFile } from "express-fileupload";
