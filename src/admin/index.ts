@@ -14,8 +14,8 @@ router.use("/colors", isAdmin, colorRoute);
 import inventoriesRoute from "./routes/inventories.route";
 router.use("/inventories", isAdmin, inventoriesRoute);
 
-import orderRoute from "./routes/order.route";
-router.use("/orders", isAdmin, orderRoute);
+import ordersRoute from "./routes/orders.route";
+router.use("/orders", isAdmin, ordersRoute);
 
 import orderItemsRoute from "./routes/orderItems.route";
 router.use("/orderItems", isAdmin, orderItemsRoute);

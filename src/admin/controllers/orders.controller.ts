@@ -8,7 +8,7 @@ import {
   UpdateOrderRouteInventoryTypes,
   UpdateOrderRouteOrderIthemTypes,
   UpdateOrderRouteOrderTypes,
-} from "../interfaces/order.inteface";
+} from "../interfaces/orders.inteface";
 
 export default new (class {
   async createOrder(
