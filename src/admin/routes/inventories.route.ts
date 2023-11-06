@@ -1,6 +1,6 @@
 import { Router } from "express";
-import inventoryController from "../controllers/inventory.controller";
-import inventoryValidator from "../validators/inventory.validator";
+import inventoryController from "../controllers/inventories.controller";
+import inventoryValidator from "../validators/inventories.validator";
 import validationResults from "../../validators/validationResults";
 const router = Router();
 

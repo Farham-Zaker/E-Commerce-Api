@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
-import { InventoryTpye } from "../interfaces/inventory.interface";
+import { InventoryTpye } from "../interfaces/inventories.interface";
 
 export default new (class {
   async createInventory(
