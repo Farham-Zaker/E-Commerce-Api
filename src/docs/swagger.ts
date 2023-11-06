@@ -932,5 +932,197 @@ export default {
         },
       },
     },
+    "/cart/add": {
+      post: {
+        summary: "Add a product to the cart",
+        tags: ["Cart"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "body",
+            name: "body",
+            description: "Product information to add to the cart",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                productId: {
+                  type: "string",
+                },
+                colorId: {
+                  type: "string",
+                },
+                quantity: {
+                  type: "number",
+                },
+              },
+            },
+          },
+        ],
+        responses: {
+          201: {
+            description: "Product added to the cart successfully",
+          },
+          400: {
+            description: "Invalid request or insufficient product quantity",
+          },
+          404: {
+            description:
+              "The requested product is not available or does not exist",
+          },
+        },
+      },
+    },
+    "/cart/get": {
+      get: {
+        summary: "Get all items in the cart",
+        tags: ["Cart"],
+        paramaters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "List of items in the cart",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/cart/get/{cartId}": {
+      get: {
+        summary: "Get a specific item in the cart by cartId",
+        tags: ["Cart"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "cartId",
+            description: "Cart ID to retrieve the item",
+            required: true,
+            type: "string",
+          },
+        ],
+        responses: {
+          200: {
+            description: "Item retrieved successfully",
+          },
+          404: {
+            description: "The requested cart item was not found",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/cart/update": {
+      put: {
+        summary: "Update the quantity of an item in the cart",
+        tags: ["Cart"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "body",
+            name: "body",
+            description: "Cart item information to update",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                cartId: {
+                  type: "string",
+                },
+                colorId: {
+                  type: "string",
+                },
+                quantity: {
+                  type: "number",
+                },
+              },
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Item quantity updated successfully",
+          },
+          400: {
+            description: "Invalid request or insufficient product quantity",
+          },
+          404: {
+            description: "The requested cart item was not found",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/cart/delete/{cartId}": {
+      delete: {
+        summary: "Delete an item from the cart by cartId",
+        tags: ["Cart"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "cartId",
+            description: "Cart ID to delete the item",
+            required: true,
+            type: "string",
+          },
+        ],
+        responses: {
+          200: {
+            description: "Item deleted from the cart successfully",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
