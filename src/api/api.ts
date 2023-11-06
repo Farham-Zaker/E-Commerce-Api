@@ -1,6 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import isLogged from "../middlewares/isLogged";
+import isAdmin from "../middlewares/isAdmin";
 
 import authRoute from "../routes/auth.route";
 router.use("/auth", authRoute);
@@ -30,6 +31,6 @@ import ordersRoute from "../routes/orders.route";
 router.use("/orders", isLogged, ordersRoute);
 
 import adminRoute from "./../admin/index";
-router.use("/admin", adminRoute);
+router.use("/admin",isAdmin, adminRoute);
 
 export default router;
