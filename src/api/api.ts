@@ -11,8 +11,8 @@ router.use("/account", isLogged, accountRoute);
 import productRoute from "../routes/products.route";
 router.use("/products", productRoute);
 
-import addressRoute from "./../routes/address.route";
-router.use("/address", isLogged, addressRoute);
+import addressesRoute from "../routes/addresses.route";
+router.use("/address", isLogged, addressesRoute);
 
 import cartRoute from "./../routes/cart.route";
 router.use("/cart", isLogged, cartRoute);

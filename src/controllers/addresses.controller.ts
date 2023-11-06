@@ -5,7 +5,7 @@ import {
   AddedUserAddressTypes,
   ReceivedUserAddressTypes,
   UpdatedUserAddressType,
-} from "../interfaces/address.interface";
+} from "../interfaces/addresses.interface";
 
 export default new (class {
   async addUserAddress(
