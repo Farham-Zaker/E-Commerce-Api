@@ -3,7 +3,7 @@ const router = Router();
 import isLogged from "../middlewares/isLogged";
 
 import authRoute from "../routes/auth.route";
-router.use("/auth", isLogged, authRoute);
+router.use("/auth", authRoute);
 
 import accountRoute from "./../routes/account.route";
 router.use("/account", isLogged, accountRoute);
@@ -20,14 +20,14 @@ router.use("/cart", isLogged, cartRoute);
 import likesRoute from "../routes/likes.route";
 router.use("/likes", isLogged, likesRoute);
 
-import commentRoute from "../routes/comments.route";
-router.use("/comments", commentRoute);
+import commentsRoute from "../routes/comments.route";
+router.use("/comments", commentsRoute);
 
-import paymentRoute from "../routes/payments.route";
-router.use("/payments", isLogged, paymentRoute);
+import paymentsRoute from "../routes/payments.route";
+router.use("/payments", isLogged, paymentsRoute);
 
-import orderRoute from "../routes/orders.route";
-router.use("/orders", isLogged, orderRoute);
+import ordersRoute from "../routes/orders.route";
+router.use("/orders", isLogged, ordersRoute);
 
 import adminRoute from "./../admin/index";
 router.use("/admin", adminRoute);
