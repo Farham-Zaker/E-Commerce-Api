@@ -507,9 +507,9 @@ export default {
         },
       },
     },
-    "/add": {
+    "/addresses/add": {
       post: {
-        tags: ["Address"],
+        tags: ["Addresses"],
         summary: "Add a new user address",
         operationId: "addUserAddress",
         requestBody: {
@@ -551,9 +551,9 @@ export default {
         },
       },
     },
-    "/get": {
+    "/addresses/get": {
       get: {
-        tags: ["Address"],
+        tags: ["Addresses"],
         summary: "Get user addresses",
         operationId: "getUserAddresses",
         responses: {
@@ -566,9 +566,9 @@ export default {
         },
       },
     },
-    "/get/{addressId}": {
+    "/addresses/get/{addressId}": {
       get: {
-        tags: ["Address"],
+        tags: ["Addresses"],
         summary: "Get user address by ID",
         operationId: "getAddressById",
         parameters: [
@@ -594,9 +594,9 @@ export default {
         },
       },
     },
-    "/update": {
+    "/addresses/update": {
       put: {
-        tags: ["Address"],
+        tags: ["Addresses"],
         summary: "Update user addresses",
         operationId: "updateUserAddresses",
         requestBody: {
@@ -646,9 +646,9 @@ export default {
         },
       },
     },
-    "/delete/{addressId}": {
+    "/addresses/delete/{addressId}": {
       delete: {
-        tags: ["Address"],
+        tags: ["Addresses"],
         summary: "Delete user address by ID",
         operationId: "deleteUserAddress",
         parameters: [
