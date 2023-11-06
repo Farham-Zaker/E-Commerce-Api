@@ -26,8 +26,8 @@ router.use("/payments", isAdmin, paymentsRoute);
 import cartRoute from "./routes/carts.route";
 router.use("/carts", isAdmin, cartRoute);
 
-import userRoute from "./routes/user.route";
-router.use("/users", isAdmin, userRoute);
+import usersRoute from "./routes/users.route";
+router.use("/users", isAdmin, usersRoute);
 
 import addressRoute from "./routes/addresses.route";
 router.use("/addresses", isAdmin, addressRoute);

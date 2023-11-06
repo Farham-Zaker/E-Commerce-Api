@@ -3,7 +3,7 @@ import prismaService from "../../prisma/prismaService";
 import hashPassword from "../../util/hashPassword";
 import { UploadedFile } from "express-fileupload";
 import path from "path";
-import { UserTypes } from "../interfaces/user.interface";
+import { UserTypes } from "../interfaces/users.interface";
 
 export default new (class {
   async createUser(
