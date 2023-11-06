@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
-import { AddressTypes } from "../interfaces/address.interface";
+import { AddressTypes } from "../interfaces/addresses.interface";
 
 export default new (class {
   async createAddress(

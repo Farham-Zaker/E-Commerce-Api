@@ -1,7 +1,7 @@
 import { Router } from "express";
-import addressValidator from "../validators/address.validator";
+import addressValidator from "../validators/addresses.validator";
 import validationResults from "../../validators/validationResults";
-import addressController from "../controllers/address.controller";
+import addressController from "../controllers/addresses.controller";
 const router = Router();
 
 router.post(

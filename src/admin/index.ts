@@ -29,7 +29,7 @@ router.use("/carts", isAdmin, cartRoute);
 import userRoute from "./routes/user.route";
 router.use("/users", isAdmin, userRoute);
 
-import addressRoute from "./routes/address.route";
+import addressRoute from "./routes/addresses.route";
 router.use("/addresses", isAdmin, addressRoute);
 
 import commentRoute from "./routes/comment.route";
