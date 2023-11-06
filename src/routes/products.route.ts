@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
-import productController from "../controllers/product.controller";
-import productValidator from "../validators/product.validator";
+import productController from "../controllers/products.controller";
+import productValidator from "../validators/products.validator";
 import validationResults from "../validators/validationResults";
 
 router.get("/", productController.getAllProduct);

@@ -3,7 +3,7 @@ import prismaService from "../prisma/prismaService";
 import {
   ProductTypes,
   SearchedProductTypes,
-} from "./../interfaces/product.interface";
+} from "../interfaces/products.interface";
 import {
   getFilterProductOption,
   getOrderProductOption,

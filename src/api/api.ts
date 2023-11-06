@@ -8,7 +8,7 @@ router.use("/auth", isLogged, authRoute);
 import accountRoute from "./../routes/account.route";
 router.use("/account", isLogged, accountRoute);
 
-import productRoute from "./../routes/product.route";
+import productRoute from "../routes/products.route";
 router.use("/products", productRoute);
 
 import addressRoute from "./../routes/address.route";

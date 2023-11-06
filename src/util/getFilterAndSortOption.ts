@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { FilterProductRquestBodyTypes } from "../interfaces/product.interface";
+import { FilterProductRquestBodyTypes } from "../interfaces/products.interface";
 
 export function getOrderProductOption(
   requestBody: FilterProductRquestBodyTypes
