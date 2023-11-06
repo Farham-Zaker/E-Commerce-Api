@@ -21,7 +21,7 @@ import likesRoute from "../routes/likes.route";
 router.use("/likes", isLogged, likesRoute);
 
 import commentRoute from "../routes/comments.route";
-router.use("/comments", isLogged, commentRoute);
+router.use("/comments", commentRoute);
 
 import paymentRoute from "../routes/payment.route";
 router.use("/payment", isLogged, paymentRoute);
