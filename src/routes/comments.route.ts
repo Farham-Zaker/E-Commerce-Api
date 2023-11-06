@@ -10,7 +10,7 @@ router.post(
   validationResults,
   commentsController.addToComment
 );
-router.get("/get");
+router.get("/get", commentsController.getUserCommments);
 router.get("/get/:productId", commentsController.getCommentByProductId);
 router.put(
   "/update",

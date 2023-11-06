@@ -91,6 +91,69 @@ export default new (class {
       next(error);
     }
   }
+  async getUserCommments(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const token = req.header("token") as string;
+    const decodedToken = decodeToken(token) as {
+      userId: string;
+    };
+    try {
+      const allComments: CommentsTypes[] =
+        await prismaService.comments.findMany({
+          where: {
+            userId: decodedToken.userId,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+          select: {
+            commentId: true,
+            comment: true,
+            role: true,
+            replyId: true,
+            user: {
+              select: {
+                userId: true,
+                firstName: true,
+                lastName: true,
+                image: true,
+              },
+            },
+            createdAt: true,
+          },
+        });
+      const allReplies: RepliesTypes[] = allComments.filter((comment) => {
+        return comment.role === "reply";
+      });
+      const filteredComments: CommentsAndRepliesTypes[] = [];
+      allComments.map((c) => {
+        const filteredReplies: any = allReplies.filter((reply) => {
+          if (reply.replyId === c.commentId) {
+            return reply;
+          }
+          return null;
+        });
+        filteredComments.push({
+          commentId: c.commentId,
+          comment: c.comment,
+          role: c.role,
+          user: c.user,
+          createdAt: c.createdAt,
+          replies: filteredReplies,
+        });
+      });
+      res.status(200).json({
+        message: "Success",
+        statusCode: 200,
+        comments: filteredComments,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
   async getCommentByProductId(
     req: Request,
     res: Response,
@@ -176,7 +239,7 @@ export default new (class {
           commentId: c.commentId,
           comment: c.comment,
           role: c.role,
-          users: c.user,
+          user: c.user,
           createdAt: c.createdAt,
           replies: filteredReplies,
         });
