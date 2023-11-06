@@ -1124,6 +1124,111 @@ export default {
         },
       },
     },
+    "/payments/pay": {
+      post: {
+        summary: "Make a payment",
+        description: "Endpoint to initiate a payment process.",
+        tags: ["Payments"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            required: true,
+            description: "User authentication token.",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Payment request successful.",
+          },
+          400: {
+            description: "Payment request failed.",
+          },
+          502: {
+            description: "Payment processing issue.",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/payments/payCallback": {
+      get: {
+        summary: "Payment callback",
+        description: "Callback for handling payment status notifications.",
+        tags: ["Payments"],
+        parameters: [
+          {
+            name: "status",
+            in: "query",
+            required: true,
+            description: "Payment status (e.g., 'NOK' or 'OK').",
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "Authority",
+            in: "query",
+            required: true,
+            description: "Payment authority ID.",
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "token",
+            in: "query",
+            required: true,
+            description: "User authentication token.",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "Payment successful.",
+          },
+          400: {
+            description: "Payment failed.",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/payments/get": {
+      get: {
+        summary: "Get user payments",
+        description: "Endpoint to retrieve a user's payment history.",
+        tags: ["Payments"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            required: true,
+            description: "User authentication token.",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "User payments retrieved successfully.",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
     "/orders/cancel": {
       post: {
         summary: "Cancel an order",
