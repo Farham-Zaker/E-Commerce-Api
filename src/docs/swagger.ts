@@ -751,5 +751,186 @@ export default {
         },
       },
     },
+    "/comments/add": {
+      post: {
+        summary: "Add a comment",
+        tags: ["Comments"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        security: [{ BearerAuth: [] }],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  comment: {
+                    type: "string",
+                    description: "The comment text.",
+                  },
+                  productId: {
+                    type: "string",
+                    description: "The ID of the product.",
+                  },
+                  replyId: {
+                    type: "string",
+                    description:
+                      "The ID of the comment being replied to (optional).",
+                    nullable: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          201: {
+            description: "Comment added successfully",
+          },
+          400: {
+            description: "Bad request",
+          },
+          401: {
+            description: "Unauthorized",
+          },
+          404: {
+            description: "Product not found",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/comments/get": {
+      get: {
+        summary: "Get user comments",
+        tags: ["Comments"],
+        security: [{ BearerAuth: [] }],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: "User comments retrieved successfully",
+          },
+          401: {
+            description: "Unauthorized",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/comments/update": {
+      put: {
+        summary: "Update a comment",
+        tags: ["Comments"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        security: [{ BearerAuth: [] }],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  commentId: {
+                    type: "string",
+                    description: "The ID of the comment to be updated.",
+                  },
+                  comment: {
+                    type: "string",
+                    description: "The updated comment text.",
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Comment updated successfully",
+          },
+          401: {
+            description: "Unauthorized",
+          },
+          404: {
+            description: "Comment not found",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/comments/delete/{commentId}": {
+      delete: {
+        summary: "Delete a comment",
+        tags: ["Comments"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "commentId",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+            description: "Product ID to delete from likes",
+          },
+        ],
+        security: [{ BearerAuth: [] }],
+        responses: {
+          200: {
+            description: "Comment deleted successfully",
+          },
+          401: {
+            description: "Unauthorized",
+          },
+          404: {
+            description: "Comment not found",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
