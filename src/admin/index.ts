@@ -20,8 +20,8 @@ router.use("/orders", isAdmin, ordersRoute);
 import orderItemsRoute from "./routes/orderItems.route";
 router.use("/orderItems", isAdmin, orderItemsRoute);
 
-import paymentRoute from "./routes/payment.route";
-router.use("/payments", isAdmin, paymentRoute);
+import paymentsRoute from "./routes/payments.route";
+router.use("/payments", isAdmin, paymentsRoute);
 
 import cartRoute from "./routes/carts.route";
 router.use("/carts", isAdmin, cartRoute);

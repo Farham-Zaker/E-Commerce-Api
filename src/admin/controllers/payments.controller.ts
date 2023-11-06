@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
-import { PaymentTypes } from "../interfaces/payment.interface";
+import { PaymentTypes } from "../interfaces/payments.interface";
 
 export default new (class {
   async createPayment(

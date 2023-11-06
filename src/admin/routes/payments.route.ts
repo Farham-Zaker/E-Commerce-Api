@@ -1,6 +1,6 @@
 import { Router } from "express";
-import paymentController from "../controllers/payment.controller";
-import paymentValidator from "../validators/payment.validator";
+import paymentController from "../controllers/payments.controller";
+import paymentValidator from "../validators/payments.validator";
 import validationResults from "../../validators/validationResults";
 const router = Router();
 
