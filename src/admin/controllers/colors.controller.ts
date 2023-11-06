@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
-import { ColorsTypes } from "../interfaces/color.interface";
+import { ColorsTypes } from "../interfaces/colors.interface";
 
 export default new (class {
   async createColor(
