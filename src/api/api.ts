@@ -23,7 +23,7 @@ router.use("/likes", isLogged, likesRoute);
 import commentRoute from "../routes/comments.route";
 router.use("/comments", commentRoute);
 
-import paymentRoute from "../routes/payment.route";
+import paymentRoute from "../routes/payments.route";
 router.use("/payment", isLogged, paymentRoute);
 
 import orderRoute from "./../routes/order.route";

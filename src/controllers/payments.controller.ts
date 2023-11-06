@@ -7,7 +7,7 @@ import {
   InventoryDatasToUpdateTypes,
   OrderItemsTypes,
   PaymentTypes,
-} from "../interfaces/payment.interface";
+} from "../interfaces/payments.interface";
 import config from "../config/config";
 
 export default new (class accountController {
