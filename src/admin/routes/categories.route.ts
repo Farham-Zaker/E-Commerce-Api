@@ -1,7 +1,7 @@
 import { Router } from "express";
 import validationResults from "../../validators/validationResults";
-import categoryValidator from "../validators/category.validator";
-import categoryController from "../controllers/category.controller";
+import categoryValidator from "../validators/categories.validator";
+import categoryController from "../controllers/categories.controller";
 const router = Router();
 
 router.post(

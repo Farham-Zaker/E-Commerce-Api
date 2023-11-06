@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
-import { CategoryTypes } from "../interfaces/category.interface";
+import { CategoryTypes } from "../interfaces/categories.interface";
 
 export default new (class {
   async createProduct(

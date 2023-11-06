@@ -5,7 +5,7 @@ import productRoute from "./routes/product.route";
 
 router.use("/products", isAdmin, productRoute);
 
-import categoryRoute from "./routes/category.route";
+import categoryRoute from "./routes/categories.route";
 router.use("/categories", isAdmin, categoryRoute);
 
 import colorRoute from "./routes/color.route";
