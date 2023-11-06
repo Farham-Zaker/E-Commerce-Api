@@ -1124,5 +1124,114 @@ export default {
         },
       },
     },
+    "/orders/cancel": {
+      post: {
+        summary: "Cancel an order",
+        tags: ["Orders"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  orderId: {
+                    type: "string",
+                    description: "The ID of the order to be canceled",
+                  },
+                },
+                required: ["orderId"],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "Order canceled successfully",
+          },
+          "400": {
+            description: "Unable to cancel the order",
+          },
+          "404": {
+            description: "Order not found",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/orders/get": {
+      get: {
+        summary: "Get all orders",
+        tags: ["Orders"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "List of all orders",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/orders/get/{orderId}": {
+      get: {
+        summary: "Get an order by ID",
+        tags: ["Orders"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "orderId",
+            in: "path",
+            required: true,
+            schema: {
+              type: "string",
+            },
+            description: "The ID of the order to retrieve",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Order retrieved successfully",
+          },
+          "404": {
+            description: "Order not found",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
