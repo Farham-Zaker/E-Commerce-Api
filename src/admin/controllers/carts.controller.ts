@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import { Prisma } from "@prisma/client";
-import { CartTypes } from "../interfaces/cart.interface";
+import { CartTypes } from "../interfaces/carts.interface";
 
 export default new (class {
   async createCart(

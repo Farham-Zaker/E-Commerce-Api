@@ -1,6 +1,6 @@
 import { Router } from "express";
-import cartController from "../controllers/cart.controller";
-import cartValidator from "../validators/cart.validator";
+import cartController from "../controllers/carts.controller";
+import cartValidator from "../validators/carts.validator";
 import validationResults from "../../validators/validationResults";
 const router = Router();
 
