@@ -12,7 +12,7 @@ import productRoute from "../routes/products.route";
 router.use("/products", productRoute);
 
 import addressesRoute from "../routes/addresses.route";
-router.use("/address", isLogged, addressesRoute);
+router.use("/addresses", isLogged, addressesRoute);
 
 import cartRoute from "./../routes/cart.route";
 router.use("/cart", isLogged, cartRoute);
@@ -24,10 +24,10 @@ import commentRoute from "../routes/comments.route";
 router.use("/comments", commentRoute);
 
 import paymentRoute from "../routes/payments.route";
-router.use("/payment", isLogged, paymentRoute);
+router.use("/payments", isLogged, paymentRoute);
 
 import orderRoute from "../routes/orders.route";
-router.use("/order", isLogged, orderRoute);
+router.use("/orders", isLogged, orderRoute);
 
 import adminRoute from "./../admin/index";
 router.use("/admin", adminRoute);
