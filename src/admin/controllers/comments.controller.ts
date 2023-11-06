@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import prismaService from "../../prisma/prismaService";
 import { Prisma } from "@prisma/client";
-import { CommentAndReplyTypes } from "../interfaces/comment.interface";
+import { CommentAndReplyTypes } from "../interfaces/comments.interface";
 
 export default new (class {
   async createComment(

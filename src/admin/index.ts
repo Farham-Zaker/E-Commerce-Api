@@ -32,8 +32,8 @@ router.use("/users", isAdmin, userRoute);
 import addressRoute from "./routes/addresses.route";
 router.use("/addresses", isAdmin, addressRoute);
 
-import commentRoute from "./routes/comment.route";
-router.use("/comments", isAdmin, commentRoute);
+import commentsRoute from "./routes/comments.route";
+router.use("/comments", isAdmin, commentsRoute);
 
 import likeRoute from "./routes/likes.route";
 router.use("/likes", isAdmin, likeRoute);
