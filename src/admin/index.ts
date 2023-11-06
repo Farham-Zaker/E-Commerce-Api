@@ -5,11 +5,11 @@ import isAdmin from "../middlewares/isAdmin";
 import productsRoute from "./routes/products.route";
 router.use("/products", isAdmin, productsRoute);
 
-import categoryRoute from "./routes/categories.route";
-router.use("/categories", isAdmin, categoryRoute);
+import categoriesRoute from "./routes/categories.route";
+router.use("/categories", isAdmin, categoriesRoute);
 
-import colorRoute from "./routes/colors.route";
-router.use("/colors", isAdmin, colorRoute);
+import colorsRoute from "./routes/colors.route";
+router.use("/colors", isAdmin, colorsRoute);
 
 import inventoriesRoute from "./routes/inventories.route";
 router.use("/inventories", isAdmin, inventoriesRoute);
@@ -23,19 +23,19 @@ router.use("/orderItems", isAdmin, orderItemsRoute);
 import paymentsRoute from "./routes/payments.route";
 router.use("/payments", isAdmin, paymentsRoute);
 
-import cartRoute from "./routes/carts.route";
-router.use("/carts", isAdmin, cartRoute);
+import cartsRoute from "./routes/carts.route";
+router.use("/carts", isAdmin, cartsRoute);
 
 import usersRoute from "./routes/users.route";
 router.use("/users", isAdmin, usersRoute);
 
-import addressRoute from "./routes/addresses.route";
-router.use("/addresses", isAdmin, addressRoute);
+import addressesRoute from "./routes/addresses.route";
+router.use("/addresses", isAdmin, addressesRoute);
 
 import commentsRoute from "./routes/comments.route";
 router.use("/comments", isAdmin, commentsRoute);
 
-import likeRoute from "./routes/likes.route";
-router.use("/likes", isAdmin, likeRoute);
+import likesRoute from "./routes/likes.route";
+router.use("/likes", isAdmin, likesRoute);
 
 export default router;
