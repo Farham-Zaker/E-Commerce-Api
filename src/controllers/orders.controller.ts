@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import prismaService from "./../prisma/prismaService";
+import prismaService from "../prisma/prismaService";
 import decodeToken from "../util/decodeToekn";
 import {
   CancelOrderRouteOrderTypes,
   GetAllOrdersRouteOrdesTypes,
   GetOrderByIdRouteOrdeTypes,
-} from "../interfaces/order.interface";
+} from "../interfaces/orders.interface";
 export default new (class Controller {
   async cancelOrder(
     req: Request,
