@@ -1338,5 +1338,214 @@ export default {
         },
       },
     },
+    "/admin/addresses/create": {
+      post: {
+        summary: "Create a new address",
+        tags: ["Admin - Addresses"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                properties: {
+                  country: {
+                    type: "string",
+                    description: "The country of the address.",
+                  },
+                  state: {
+                    type: "string",
+                    description: "The state of the address.",
+                  },
+                  city: {
+                    type: "string",
+                    description: "The city of the address.",
+                  },
+                  zone: {
+                    type: "string",
+                    description: "The zone of the address (optional).",
+                  },
+                  apartmentUnit: {
+                    type: "number",
+                    description: "The apartment or unit number (optional).",
+                  },
+                  postalCode: {
+                    type: "string",
+                    description: "The postal code of the address.",
+                  },
+                  userId: {
+                    type: "string",
+                    description: "The user ID associated with the address.",
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "201": {
+            description: "Address created successfully.",
+          },
+          "400": {
+            description: "Bad request. Check the request body.",
+          },
+          "500": {
+            description: "Internal Server Error.",
+          },
+        },
+      },
+    },
+    "/admin/addresses/get": {
+      get: {
+        summary: "Get addresses",
+        tags: ["Admin - Addresses"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "query",
+            name: "searchTerm",
+            type: "string",
+            description: "Filter addresses by search term (optional).",
+          },
+          {
+            in: "query",
+            name: "user",
+            type: "string",
+            description:
+              "Filter addresses by user (optional). Should be 'true' or 'false'.",
+          },
+          {
+            in: "query",
+            name: "userId",
+            type: "string",
+            description: "Filter addresses by user ID (optional).",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Addresses retrieved successfully.",
+          },
+          "500": {
+            description: "Internal Server Error.",
+          },
+        },
+      },
+    },
+    "/admin/addresses/update": {
+      put: {
+        summary: "Update an address",
+        tags: ["Admin - Addresses"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                properties: {
+                  addressId: {
+                    type: "string",
+                    description: "The ID of the address to update.",
+                  },
+                  country: {
+                    type: "string",
+                    description: "The country of the address (optional).",
+                  },
+                  state: {
+                    type: "string",
+                    description: "The state of the address (optional).",
+                  },
+                  city: {
+                    type: "string",
+                    description: "The city of the address (optional).",
+                  },
+                  zone: {
+                    type: "string",
+                    description: "The zone of the address (optional).",
+                  },
+                  apartmentUnite: {
+                    type: "number",
+                    description: "The apartment or unit number (optional).",
+                  },
+                  postalCode: {
+                    type: "string",
+                    description: "The postal code of the address (optional).",
+                  },
+                  userId: {
+                    type: "string",
+                    description:
+                      "The user ID associated with the address (optional).",
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "Address updated successfully.",
+          },
+          "400": {
+            description: "Bad request. Check the request body.",
+          },
+          "500": {
+            description: "Internal Server Error.",
+          },
+        },
+      },
+    },
+    "/admin/addresses/delete/{addressId}": {
+      delete: {
+        summary: "Delete an address",
+        tags: ["Admin - Addresses"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Address deleted successfully.",
+          },
+          "404": {
+            description: "Address not found.",
+          },
+          "500": {
+            description: "Internal Server Error.",
+          },
+        },
+      },
+    },
   },
 };
