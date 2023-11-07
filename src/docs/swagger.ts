@@ -1547,5 +1547,178 @@ export default {
         },
       },
     },
+    "/admin/carts/create": {
+      post: {
+        summary: "Create a new cart",
+        tags: ["Admin - Carts"],
+        description: "Create a new cart for a user.",
+        parameters: [
+          {
+            in: "body",
+            name: "cart",
+            description: "The cart object to create.",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                userId: {
+                  type: "string",
+                },
+                productId: {
+                  type: "string",
+                },
+                quantity: {
+                  type: "number",
+                },
+                colorId: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Cart created successfully",
+          },
+          "400": {
+            description: "Bad request",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/carts/get": {
+      get: {
+        summary: "Get carts",
+        tags: ["Admin - Carts"],
+        description: "Retrieve a list of carts based on query parameters.",
+        parameters: [
+          {
+            in: "query",
+            name: "userId",
+            description: "The user ID to filter by (optional).",
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "query",
+            name: "productId",
+            description: "The product ID to filter by (optional).",
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "query",
+            name: "take",
+            description: "Number of records to retrieve (optional).",
+            schema: {
+              type: "integer",
+            },
+          },
+          {
+            in: "query",
+            name: "skip",
+            description: "Number of records to skip (optional).",
+            schema: {
+              type: "integer",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "List of carts retrieved successfully",
+          },
+          "400": {
+            description: "Bad request",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/carts/update": {
+      put: {
+        summary: "Update a cart",
+        tags: ["Admin - Carts"],
+        description: "Update an existing cart based on the cart ID.",
+        parameters: [
+          {
+            in: "body",
+            name: "cart",
+            description: "The cart object to update.",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                cartId: {
+                  type: "string",
+                },
+                userId: {
+                  type: "string",
+                },
+                productId: {
+                  type: "string",
+                },
+                quantity: {
+                  type: "number",
+                },
+                colorId: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Cart updated successfully",
+          },
+          "400": {
+            description: "Bad request",
+          },
+          "404": {
+            description: "Cart not found",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/carts/delete/{cartId}": {
+      delete: {
+        summary: "Delete a cart",
+        tags: ["Admin - Carts"],
+        description: "Delete a cart based on the cart ID.",
+        parameters: [
+          {
+            in: "path",
+            name: "cartId",
+            description: "The ID of the cart to delete.",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Cart deleted successfully",
+          },
+          "404": {
+            description: "Cart not found",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
