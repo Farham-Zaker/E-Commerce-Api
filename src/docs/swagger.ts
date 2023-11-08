@@ -1823,5 +1823,168 @@ export default {
         },
       },
     },
+    "/admin/colors/create": {
+      post: {
+        summary: "Create a new color",
+        tags: ["Admin - Colors"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          description: "Color data to create",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  name: {
+                    type: "string",
+                  },
+                  hexCode: {
+                    type: "string",
+                  },
+                },
+                required: ["name", "hexCode"],
+              },
+            },
+          },
+        },
+        responses: {
+          "201": {
+            description: "Color created successfully",
+          },
+          "409": {
+            description: "Color with the same name already exists",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/colors/get": {
+      get: {
+        summary: "Get all colors",
+        tags: ["Admin - Colors"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Returne all colors.",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/colors/get/{colorId}": {
+      get: {
+        summary: "Get color by ID",
+        tags: ["Admin - Colors"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "colorId",
+            required: true,
+            type: "string",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Returne color base color ID.",
+          },
+          "404": {
+            description: "Not Found - Color with the provided ID not found",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/colors/update": {
+      put: {
+        summary: "Update a color",
+        tags: ["Admin - Colors"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Color updated successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/colors/delete/{colorId}": {
+      delete: {
+        summary: "Delete a color by ID",
+        tags: ["Admin - Colors"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "colorId",
+            required: true,
+            type: "string",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Color deleted successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
