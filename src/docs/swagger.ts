@@ -1986,5 +1986,256 @@ export default {
         },
       },
     },
+    "/comments/create": {
+      post: {
+        summary: "Create a new comment",
+        tags: ["Admin - Comments"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "comment",
+            in: "body",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                comment: {
+                  type: "string",
+                },
+                role: {
+                  type: "string",
+                },
+                replyId: {
+                  type: "string",
+                  description:
+                    "This field confirms witch comment is a reply. (optional).",
+                },
+                userId: {
+                  type: "string",
+                },
+                productId: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        ],
+        responses: {
+          "201": {
+            description: "Comment created successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/comments/get": {
+      get: {
+        summary: "Get comments",
+        tags: ["Admin - Comments"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "role",
+            in: "query",
+            type: "string",
+            description:
+              "Filter comments by role (optional). Should be 'comment' or 'reply'.",
+          },
+          {
+            name: "user",
+            in: "query",
+            type: "boolean",
+            description:
+              "Show user details (optional). Should be 'true' or 'false'.",
+          },
+          {
+            name: "product",
+            in: "query",
+            type: "boolean",
+            description:
+              "Show product details (optional). Should be 'true' or 'false'.",
+          },
+          {
+            name: "reply",
+            in: "query",
+            type: "boolean",
+            description:
+              "Show replies (optional). Should be 'true' or 'false'.",
+          },
+          {
+            name: "searchTerm",
+            in: "query",
+            type: "string",
+            description: "Filter by search (optional).",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Comments retrieved successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/comments/get/{commentId}": {
+      get: {
+        summary: "Get a comment by ID",
+        tags: ["Admin - Comments"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "user",
+            in: "query",
+            type: "boolean",
+            description:
+              "Show user details (optional). Should be 'true' or 'false'.",
+          },
+          {
+            name: "product",
+            in: "query",
+            type: "boolean",
+            description:
+              "Show product details (optional). Should be 'true' or 'false'.",
+          },
+          {
+            name: "reply",
+            in: "query",
+            type: "boolean",
+            description:
+              "Show replies (optional). Should be 'true' or 'false'.",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Comment retrieved successfully",
+          },
+          "422": {
+            description: "Invalid request",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/comments/update": {
+      put: {
+        summary: "Update a comment",
+        tags: ["Admin - Comments"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "commentId",
+            in: "body",
+            required: true,
+            schema: {
+              type: "object",
+              properties: {
+                commentId: {
+                  type: "string",
+                  description: "The ID of comment.",
+                },
+                comment: {
+                  type: "string",
+                  description: "The text of comment (optional).",
+                },
+                role: {
+                  type: "string",
+                  description:
+                    "The role of comment. It must be 'comment' or 'reply' (optional).",
+                },
+                replyId: {
+                  type: "string",
+                  description:
+                    "This field confirms witch comment is a reply. (optional).",
+                },
+                userId: {
+                  type: "string",
+                  description: "The ID of user. (optional)",
+                },
+                productId: {
+                  type: "string",
+                  description: "The ID of product. (optional)",
+                },
+              },
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Comment updated successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/comments/delete/{commentId}": {
+      delete: {
+        summary: "Delete a comment",
+        tags: ["Admin - Comments"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "commentId",
+            in: "path",
+            type: "string",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Comment deleted successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
