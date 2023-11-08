@@ -1720,5 +1720,108 @@ export default {
         },
       },
     },
+    "/admin/categories/create": {
+      post: {
+        summary: "Create a new category",
+        tags: ["Admin - Categories"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          description: "Category data",
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  name: {
+                    type: "string",
+                    description: "The name of the category",
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          "201": {
+            description: "Success - Category created successfully",
+          },
+          "409": {
+            description:
+              "Conflict - Category with the same name already exists",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/categories/get": {
+      get: {
+        summary: "Get all categories",
+        tags: ["Admin - Categories"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Success - Returns all categories",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/categories/delete/{categoryId}": {
+      delete: {
+        summary: "Delete a category by ID",
+        tags: ["Admin - Categories"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "categoryId",
+            required: true,
+            description: "ID of the category to be deleted",
+            type: "string",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Success - Category deleted successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
