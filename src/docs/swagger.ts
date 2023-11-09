@@ -2237,5 +2237,203 @@ export default {
         },
       },
     },
+    "/admin/inventories/create": {
+      post: {
+        summary: "Create a new inventory",
+        tags: ["Admin - Inventories"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  productId: {
+                    type: "string",
+                    description: "Product ID (optional)",
+                  },
+                  colorId: {
+                    type: "string",
+                    description: "Color ID (optional)",
+                  },
+                  quantity: {
+                    type: "number",
+                    description: "Quantity of the inventory",
+                  },
+                },
+                required: ["productId", "colorId", "quantity"],
+              },
+            },
+          },
+        },
+        responses: {
+          "201": {
+            description: "Successfully created an inventory",
+          },
+          "400": {
+            description: "Bad request",
+          },
+          "404": {
+            description: "Not found",
+          },
+          "409": {
+            description:
+              "Conflict, inventory with the same specification already exists",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/inventories/get": {
+      get: {
+        summary: "Get inventories based on optional query parameters",
+        tags: ["Admin - Inventories"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "query",
+            name: "colorId",
+            schema: {
+              type: "string",
+            },
+            description: "Filter by Color ID",
+          },
+          {
+            in: "query",
+            name: "productId",
+            schema: {
+              type: "string",
+            },
+            description: "Filter by Product ID",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Successfully retrieved inventories",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/inventories/update": {
+      put: {
+        summary: "Update an existing inventory",
+        tags: ["Admin - Inventories"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  inventoryId: {
+                    type: "string",
+                    description: "Inventory ID",
+                  },
+                  productId: {
+                    type: "string",
+                    description: "Product ID (optional)",
+                  },
+                  colorId: {
+                    type: "string",
+                    description: "Color ID (optional)",
+                  },
+                  quantity: {
+                    type: "number",
+                    description: "Quantity of the inventory (optional)",
+                  },
+                },
+                required: ["inventoryId"],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "Successfully updated an inventory",
+          },
+          "400": {
+            description: "Bad request",
+          },
+          "404": {
+            description: "Not found",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/inventories/delete/{inventoryId}": {
+      delete: {
+        summary: "Delete an existing inventory",
+        tags: ["Admin - Inventories"],
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "inventoryId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "Inventory ID",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Successfully deleted an inventory",
+          },
+          "404": {
+            description: "Not found",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
   },
 };
