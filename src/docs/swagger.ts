@@ -2651,5 +2651,230 @@ export default {
         },
       },
     },
+    "/admin/orderItems/create": {
+      post: {
+        tags: ["Admin - Order Items"],
+        summary: "Create an order item",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  orderId: {
+                    type: "string",
+                    description: "Order ID",
+                  },
+                  productId: {
+                    type: "string",
+                    description: "Product ID",
+                  },
+                  quantity: {
+                    type: "number",
+                    description: "Quantity of order item",
+                  },
+                },
+                required: ["orderId", "productId", "quantity"],
+              },
+            },
+          },
+        },
+        responses: {
+          "201": { description: "Success" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/orderItems/get": {
+      get: {
+        tags: ["Admin - Order Items"],
+        summary: "Get all order items.",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "color",
+            in: "query",
+            type: "string",
+            description:
+              "Include color info. Should be true or false. (optional)",
+          },
+          {
+            name: "product",
+            in: "query",
+            type: "string",
+            description:
+              "Include product info. Should be true or false. (optional)",
+          },
+          {
+            name: "order",
+            in: "query",
+            type: "string",
+            description:
+              "Include order info. Should be true or false. (optional)",
+          },
+          {
+            name: "order",
+            in: "query",
+            type: "string",
+            description:
+              "Include order info. Should be true or false. (optional)",
+          },
+          {
+            name: "take",
+            in: "query",
+            type: "number",
+          },
+          {
+            name: "skip",
+            in: "query",
+            type: "number",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Success",
+            schema: {
+              type: "array",
+              items: { $ref: "#/definitions/InventoryType" },
+            },
+          },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/orderItems/get/{orderItemId}": {
+      get: {
+        tags: ["Admin - Order Items"],
+        summary: "Get all order items.",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "likeId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "Inventory ID",
+          },
+        ],
+        responses: {
+          "200": { description: "Success" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/orderItems/update": {
+      put: {
+        tags: ["Admin - Order Items"],
+        summary: "Update an existing order items",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  orderItemId: {
+                    type: "string",
+                    description: "Order Item ID",
+                  },
+                  orderId: {
+                    type: "string",
+                    description: "Order ID (optional)",
+                  },
+                  productId: {
+                    type: "string",
+                    description: "Product ID (optional)",
+                  },
+                  quantity: {
+                    type: "number",
+                    description: "Quantity of order item (optional)",
+                  },
+                },
+                required: ["orderItemId"],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "Order item updated successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/orderItems/delete/{orderItemId}": {
+      delete: {
+        tags: ["Admin - Order Items"],
+        summary: "Delete an order item by ID",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "likeId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "Order Item ID",
+          },
+        ],
+        responses: {
+          "200": { description: "Inventory deleted successfully" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
   },
 };
