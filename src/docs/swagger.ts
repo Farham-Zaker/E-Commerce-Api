@@ -2435,5 +2435,221 @@ export default {
         },
       },
     },
+    "/admin/inventories/add": {
+      post: {
+        tags: ["Admin - Likes"],
+        summary: "Add product to likes.",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  productId: {
+                    type: "string",
+                    description: "Product ID",
+                  },
+                  colorId: {
+                    type: "string",
+                    description: "Color ID",
+                  },
+                },
+                required: ["inventoryId"],
+              },
+            },
+          },
+        },
+        responses: {
+          "201": { description: "Inventory created successfully" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/likes/get": {
+      get: {
+        tags: ["Admin - Likes"],
+        summary: "Get all likes.",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "user",
+            in: "query",
+            type: "string",
+            description:
+              "Include user info. Should be true or false. (optional)",
+          },
+          {
+            name: "product",
+            in: "query",
+            type: "string",
+            description:
+              "Include product info. Should be true or false. (optional)",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Success",
+            schema: {
+              type: "array",
+              items: { $ref: "#/definitions/InventoryType" },
+            },
+          },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/likes/get/{likeId}": {
+      get: {
+        tags: ["Admin - Likes"],
+        summary: "Get like item by id.",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "user",
+            in: "query",
+            type: "string",
+            description:
+              "Include user info. Should be true or false. (optional)",
+          },
+          {
+            name: "product",
+            in: "query",
+            type: "string",
+            description:
+              "Include product info. Should be true or false. (optional)",
+          },
+          {
+            in: "path",
+            name: "likeId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "like ID",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Success",
+            schema: {
+              type: "array",
+              items: { $ref: "#/definitions/InventoryType" },
+            },
+          },
+          "404": {
+            description: "Not Found",
+          },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/likes/update": {
+      put: {
+        tags: ["Admin - Likes"],
+        summary: "Update an existing liked item",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  likeId: {
+                    type: "string",
+                    description: "Like ID",
+                  },
+                  productId: {
+                    type: "string",
+                    description: "Product ID (optional)",
+                  },
+                  userId: {
+                    type: "string",
+                    description: "User ID (optional)",
+                  },
+                },
+                required: ["likeId"],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "Inventory updated successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/likes/delete/{inventoryId}": {
+      delete: {
+        tags: ["Admin - Likes"],
+        summary: "Delete an like by ID",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "likeId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "Inventory ID",
+          },
+        ],
+        responses: {
+          "200": { description: "Inventory deleted successfully" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
   },
 };
