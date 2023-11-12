@@ -2876,5 +2876,247 @@ export default {
         },
       },
     },
+    "/admin/orders/create": {
+      post: {
+        tags: ["Admin - Orders"],
+        summary: "Create an order",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  userId: {
+                    type: "string",
+                    description: "User ID",
+                  },
+                  totalPrice: {
+                    type: "number",
+                    description: "Totlal price of order",
+                  },
+                  status: {
+                    type: "string",
+                    description: "The status of order",
+                  },
+                },
+                required: ["userId", "totalPrice", "status"],
+              },
+            },
+          },
+        },
+        responses: {
+          "201": { description: "Success" },
+          "404": { description: "Not Found" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/orders/get": {
+      get: {
+        tags: ["Admin - Orders"],
+        summary: "Get all orders",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "date",
+            in: "query",
+            type: "string",
+            description: "Filter by date",
+          },
+          {
+            name: "status",
+            in: "query",
+            type: "string",
+            description: "Filter by status",
+          },
+          {
+            name: "totalSale",
+            in: "query",
+            type: "string",
+            description:
+              "Include total sales of all order. Should be true or false. (optional)",
+          },
+          {
+            name: "orderItems",
+            in: "query",
+            type: "string",
+            description:
+              "Include order Items info. Should be true or false. (optional)",
+          },
+          {
+            name: "user",
+            in: "query",
+            type: "string",
+            description:
+              "Include user info. Should be true or false. (optional)",
+          },
+          {
+            name: "color",
+            in: "query",
+            type: "string",
+            description:
+              "Include color info. Should be true or false. (optional)",
+          },
+          {
+            name: "payment",
+            in: "query",
+            type: "string",
+            description:
+              "Include payment info. Should be true or false. (optional)",
+          },
+          {
+            name: "take",
+            in: "query",
+            type: "number",
+          },
+          {
+            name: "skip",
+            in: "query",
+            type: "number",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Success",
+            schema: {
+              type: "array",
+              items: { $ref: "#/definitions/InventoryType" },
+            },
+          },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/orders/get/{orderItemId}": {
+      get: {
+        tags: ["Admin - Orders"],
+        summary: "Get order by ID.",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "orderId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "Order ID",
+          },
+        ],
+        responses: {
+          "200": { description: "Success" },
+          "404": { description: "Not Found" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/orders/update": {
+      put: {
+        tags: ["Admin - Orders"],
+        summary: "Update an existing order",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  orderId: {
+                    type: "string",
+                    description: "Order ID",
+                  },
+                  totalPrice: {
+                    type: "number",
+                    description: "Totlal price of order",
+                  },
+                  status: {
+                    type: "string",
+                    description: "The status of order",
+                  },
+                },
+                required: ["totalPrice", "status"],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "Order item updated successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/orders/delete/{orderItemId}": {
+      delete: {
+        tags: ["Admin - Orders"],
+        summary: "Delete an order by ID",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "orderId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "Order ID",
+          },
+        ],
+        responses: {
+          "200": { description: "Order deleted successfully" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
   },
 };
