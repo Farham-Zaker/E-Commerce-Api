@@ -3118,5 +3118,195 @@ export default {
         },
       },
     },
+    "/admin/payments/create": {
+      post: {
+        tags: ["Admin - Payments"],
+        summary: "Create a payment",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  authorityId: {
+                    type: "string",
+                    description: "Authority ID of payment",
+                  },
+                  status: {
+                    type: "number",
+                    description: "Status of payment",
+                  },
+                  amount: {
+                    type: "string",
+                    description: "The amount of payment",
+                  },
+                  orderId: {
+                    type: "string",
+                    description: "Order ID",
+                  },
+                },
+                required: ["authorityId", "status", "amount", "orderId"],
+              },
+            },
+          },
+        },
+        responses: {
+          "201": { description: "Success" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/payments/get": {
+      get: {
+        tags: ["Admin - Payments"],
+        summary: "Get all payments",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": { description: "Success" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/payments/get/{paymentId}": {
+      get: {
+        tags: ["Admin - Payments"],
+        summary: "Get payment by ID.",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "paymentId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "Payment ID",
+          },
+        ],
+        responses: {
+          "200": { description: "Success" },
+          "404": { description: "Not Found" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/payments/update": {
+      put: {
+        tags: ["Admin - Payments"],
+        summary: "Update an existing order",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  paymentId: {
+                    type: "string",
+                    description: "Payment ID",
+                  },
+                  authorityId: {
+                    type: "string",
+                    description: "Authority ID of payment",
+                  },
+                  status: {
+                    type: "number",
+                    description: "Status of payment",
+                  },
+                  amount: {
+                    type: "string",
+                    description: "The amount of payment",
+                  },
+                  orderId: {
+                    type: "string",
+                    description: "Order ID",
+                  },
+                },
+                required: ["paymentId"],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "Order item updated successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/payments/delete/{paymentId}": {
+      delete: {
+        tags: ["Admin - Payments"],
+        summary: "Delete an payment by ID",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "orderId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "Order ID",
+          },
+        ],
+        responses: {
+          "200": { description: "Order deleted successfully" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
   },
 };
