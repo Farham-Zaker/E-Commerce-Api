@@ -69,15 +69,15 @@ export default new (class {
     res: Response,
     next: NextFunction
   ): Promise<Response<any, Record<string, any>> | void> {
-    const { productId, newData } = req.body;
     const {
+      productId,
       title,
       price,
       discountStatus,
       discountPercent,
       discountEndTime,
       categoryId,
-    } = newData;
+    } = req.body;
 
     try {
       const product: ProductDiscountPercentTypes | null =

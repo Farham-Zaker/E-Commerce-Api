@@ -52,14 +52,14 @@ export default new (class {
       check("productId")
         .notEmpty()
         .withMessage("'productId' can not be empty."),
-      check("newData.title")
+      check("title")
         .optional()
         .notEmpty()
         .withMessage("'title' field can not be empty.")
         .isString()
         .withMessage("'title' field must be a string."),
 
-      check("newData.price")
+      check("price")
         .optional()
         .notEmpty()
         .withMessage("'price' field can not be empty.")
@@ -71,13 +71,13 @@ export default new (class {
           }
           return true;
         }),
-      check("newData.discountStatus")
+      check("discountStatus")
         .notEmpty()
         .withMessage("'discountStatus' field can not be empty.")
         .isBoolean()
         .withMessage("'discountStatus' field must be a boolean."),
 
-      check("newData.discountPercent").custom((value, { req }) => {
+      check("discountPercent").custom((value, { req }) => {
         const { discountStatus, discountPercent } = req.body;
         return this.validateDiscountPercent(
           discountStatus,
@@ -85,7 +85,7 @@ export default new (class {
           value
         );
       }),
-      check("newData.discountEndTime").custom((value, { req }) => {
+      check("discountEndTime").custom((value, { req }) => {
         const { discountStatus, discountEndTime } = req.body.newData;
         return this.discountEndTimeValidator(
           discountStatus,
@@ -93,7 +93,7 @@ export default new (class {
           value
         );
       }),
-      check("newData.categoryId")
+      check("categoryId")
         .optional()
         .notEmpty()
         .withMessage("'categoryId' field can not be empty."),
