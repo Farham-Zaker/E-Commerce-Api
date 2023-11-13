@@ -3578,5 +3578,324 @@ export default {
         },
       },
     },
+    "/admin/users/create": {
+      post: {
+        tags: ["Admin - Users"],
+        summary: "Create a user",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  firstName: {
+                    type: "string",
+                    description: "First Name",
+                  },
+                  lastName: {
+                    type: "string",
+                    description: "Last Name",
+                  },
+                  phone: {
+                    type: "string",
+                    description: "Phone Number",
+                  },
+                  email: {
+                    type: "string",
+                    description: "Email Address",
+                  },
+                  image: {
+                    type: "string",
+                    description: "Image URL",
+                  },
+                  password: {
+                    type: "string",
+                    description: "Password",
+                  },
+                },
+                required: [
+                  "firstName",
+                  "lastName",
+                  "phone",
+                  "email",
+                  "password",
+                ],
+              },
+            },
+          },
+        },
+        responses: {
+          "201": { description: "Success" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/upload-image": {
+      post: {
+        summary: "Upload user image",
+        tags: ["Admin - Users"],
+        parameters: [
+          {
+            name: "userId",
+            in: "body",
+            required: true,
+            type: "string",
+            description: "User ID",
+          },
+          {
+            name: "image",
+            in: "formData",
+            required: true,
+            type: "file",
+            description: "Image file",
+          },
+        ],
+        consumes: ["multipart/form-data"],
+        produces: ["application/json"],
+        responses: {
+          "200": {
+            description: "Success",
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                },
+                statusCode: {
+                  type: "number",
+                },
+                response: {
+                  type: "string",
+                },
+              },
+            },
+          },
+          "400": {
+            description: "Bad Request",
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                },
+                statusCode: {
+                  type: "number",
+                },
+                response: {
+                  type: "string",
+                },
+              },
+            },
+          },
+          "404": {
+            description: "Not Found",
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                },
+                statusCode: {
+                  type: "number",
+                },
+                response: {
+                  type: "string",
+                },
+              },
+            },
+          },
+          "500": {
+            description: "Internal Server Error",
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                },
+                statusCode: {
+                  type: "number",
+                },
+                response: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/admin/users/get": {
+      get: {
+        tags: ["Admin - Users"],
+        summary: "Get all users",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            name: "searchTerm",
+            in: "query",
+            type: "string",
+            description:
+              "Search by first name, last name, email, phone amd userId.",
+          },
+          {
+            name: "orderBy",
+            in: "query",
+            type: "string",
+            description: "Should be 'firstName' and 'lastName'.",
+          },
+        ],
+        responses: {
+          "200": { description: "Success" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/users/get/{productId}": {
+      get: {
+        tags: ["Admin - Users"],
+        summary: "Get user by ID.",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "userId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "User ID",
+          },
+        ],
+        responses: {
+          "200": { description: "Success" },
+          "404": { description: "Not Found" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/users/update": {
+      put: {
+        tags: ["Admin - Users"],
+        summary: "Update an existing user",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  userId: {
+                    type: "string",
+                    description: "UserId",
+                  },
+                  firstName: {
+                    type: "string",
+                    description: "First Name",
+                  },
+                  lastName: {
+                    type: "string",
+                    description: "Last Name",
+                  },
+                  phone: {
+                    type: "string",
+                    description: "Phone Number",
+                  },
+                  email: {
+                    type: "string",
+                    description: "Email Address",
+                  },
+                  image: {
+                    type: "string",
+                    description: "Image URL",
+                  },
+                  password: {
+                    type: "string",
+                    description: "Password",
+                  },
+                },
+                required: ["userId"],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "User updated successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/users/delete/{userId}": {
+      delete: {
+        tags: ["Admin - Users"],
+        summary: "Delete an user by ID",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+          {
+            in: "path",
+            name: "userId",
+            schema: {
+              type: "string",
+            },
+            required: true,
+            description: "User ID",
+          },
+        ],
+        responses: {
+          "200": { description: "User deleted successfully" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
   },
 };
