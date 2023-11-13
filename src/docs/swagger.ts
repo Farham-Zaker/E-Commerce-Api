@@ -3308,5 +3308,275 @@ export default {
         },
       },
     },
+    "/admin/products/create": {
+      post: {
+        tags: ["Admin - Products"],
+        summary: "Create a product",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  title: {
+                    type: "string",
+                    description: "Title of product",
+                  },
+                  price: {
+                    type: "number",
+                    description: "Price of product",
+                  },
+                  discountStatus: {
+                    type: "string",
+                    description: "Discount Status",
+                  },
+                  discountPercent: {
+                    type: "number",
+                    description: "Discount Percent",
+                  },
+                  discountEndTime: {
+                    type: "string",
+                    format: "date",
+                    description: "Discount End Time",
+                  },
+                  categoryId: {
+                    type: "string",
+                    description: "Category ID",
+                  },
+                },
+                required: ["title", "price", "discountStatus", "categoryId"],
+              },
+            },
+          },
+        },
+        responses: {
+          "201": { description: "Success" },
+          "500": { description: "Internal Server Error" },
+        },
+      },
+    },
+    "/admin/products/update": {
+      put: {
+        tags: ["Admin - Products"],
+        summary: "Update an existing product",
+        parameters: [
+          {
+            name: "token",
+            in: "header",
+            description: "Authentication token",
+            required: true,
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  productId: {
+                    type: "string",
+                    description: "Product ID",
+                  },
+                  title: {
+                    type: "string",
+                    description: "Title of product",
+                  },
+                  price: {
+                    type: "number",
+                    description: "Price of product",
+                  },
+                  discountStatus: {
+                    type: "string",
+                    description: "Discount Status",
+                  },
+                  discountPercent: {
+                    type: "number",
+                    description: "Discount Percent",
+                  },
+                  discountEndTime: {
+                    type: "string",
+                    format: "date",
+                    description: "Discount End Time",
+                  },
+                  categoryId: {
+                    type: "string",
+                    description: "Category ID",
+                  },
+                },
+                required: ["productId"],
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "Order item updated successfully",
+          },
+          "500": {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
+    "/admin/products/upload-image": {
+      post: {
+        tags: ["Admin - Products"],
+        summary: "Upload product image",
+        consumes: ["multipart/form-data"],
+        parameters: [
+          {
+            name: "productId",
+            in: "formData",
+            required: true,
+            type: "string",
+            description: "Product ID",
+          },
+          {
+            name: "image",
+            in: "formData",
+            required: true,
+            type: "file",
+            description: "Image file to upload",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Success",
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                },
+                statusCode: {
+                  type: "number",
+                },
+                response: {
+                  type: "string",
+                },
+              },
+            },
+          },
+          "400": {
+            description: "Bad Request",
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                },
+                statusCode: {
+                  type: "number",
+                },
+                response: {
+                  type: "string",
+                },
+              },
+            },
+          },
+          "404": {
+            description: "Not Found",
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                },
+                statusCode: {
+                  type: "number",
+                },
+                response: {
+                  type: "string",
+                },
+              },
+            },
+          },
+          "500": {
+            description: "Internal Server Error",
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                },
+                statusCode: {
+                  type: "number",
+                },
+                response: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    "/images/delete/{imageId}": {
+      delete: {
+        tags: ["Admin - Products"],
+        summary: "Delete an image by ID",
+        parameters: [
+          {
+            name: "imageId",
+            in: "path",
+            required: true,
+            type: "string",
+            description: "Image ID",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Success",
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                },
+                statusCode: {
+                  type: "number",
+                },
+                response: {
+                  type: "string",
+                },
+              },
+            },
+          },
+          "500": {
+            description: "Internal Server Error",
+            schema: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                },
+                statusCode: {
+                  type: "number",
+                },
+                response: {
+                  type: "string",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
 };
