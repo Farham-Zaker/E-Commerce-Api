@@ -4,7 +4,7 @@
 
 
 
-### [![TypeScript](https://camo.githubusercontent.com/6f95f82ca5c1070b62cc44c815f3ae6c581158e41ac5812e70f72babcb590206/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d7473)](https://skillicons.dev/) [![Nodejs](https://camo.githubusercontent.com/15d91b1526dc4bc7312db29b376075f09479855c802b57d730a764847ee497c1/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d6e6f64656a73)](https://skillicons.dev/) [![Express](https://camo.githubusercontent.com/92a295910076b8f4b5baa465654123887e2179e74a00b91713a0122919cb7e13/68747470733a2f2f736b696c6c69636f6e732e6465762f69636f6e733f693d65787072657373)](https://skillicons.dev/)[![Express](https://skillicons.dev/icons?i=mysql&perline=3)](https://skillicons.dev)[![Prisma](https://skillicons.dev/icons?i=prisma&perline=3)](https://skillicons.dev)[![Git](https://skillicons.dev/icons?i=git&perline=3)](https://skillicons.dev)
+### [![TypeScript](https://skillicons.dev/icons?i=ts&perline=3)](https://skillicons.dev) [![Node.js](https://skillicons.dev/icons?i=nodejs&perline=3)](https://skillicons.dev) [![Express](https://skillicons.dev/icons?i=express&perline=3)](https://skillicons.dev) [![Mysql](https://skillicons.dev/icons?i=mysql&perline=3)](https://skillicons.dev) ![Prisma](https://skillicons.dev/icons?i=prisma&perline=3) [![Git](https://skillicons.dev/icons?i=git&perline=3)](https://skillicons.dev)
 
 
 
