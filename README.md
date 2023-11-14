@@ -4,7 +4,7 @@
 
 
 
-### [![TypeScript](https://skillicons.dev/icons?i=ts&perline=3)](https://skillicons.dev) [![Node.js](https://skillicons.dev/icons?i=nodejs&perline=3)](https://skillicons.dev) [![Express](https://skillicons.dev/icons?i=express&perline=3)](https://skillicons.dev) [![Mysql](https://skillicons.dev/icons?i=mysql&perline=3)](https://skillicons.dev) ![Prisma](https://skillicons.dev/icons?i=prisma&perline=3) [![Git](https://skillicons.dev/icons?i=git&perline=3)](https://skillicons.dev)
+### [![TypeScript](https://skillicons.dev/icons?i=ts&perline=3)](https://skillicons.dev) [![Node.js](https://skillicons.dev/icons?i=nodejs&perline=3)](https://skillicons.dev) [![Express](https://skillicons.dev/icons?i=express&perline=3)](https://skillicons.dev)   [![Mysql](https://skillicons.dev/icons?i=mysql&perline=3)](https://skillicons.dev)   ![Prisma](https://skillicons.dev/icons?i=prisma&perline=3)   [![Git](https://skillicons.dev/icons?i=git&perline=3)](https://skillicons.dev)
 
 
 
